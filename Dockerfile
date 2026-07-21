@@ -12,7 +12,13 @@ COPY package.json package-lock.json* ./
 RUN npm ci && npm cache clean --force
 
 FROM base AS builder
-ENV NODE_ENV=development
+# next build must run with NODE_ENV=production. With NODE_ENV=development,
+# Next compiles pages with the dev runtime (app-page.runtime.dev.js) and
+# static prerendering of client components (e.g. motion's Reveal) crashes
+# with "Cannot read properties of null (reading 'useContext')".
+# devDependencies are already installed in the deps stage; setting this
+# here does not remove them, it only controls the build mode.
+ENV NODE_ENV=production
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
