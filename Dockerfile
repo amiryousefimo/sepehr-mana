@@ -12,6 +12,8 @@ COPY package.json package-lock.json* ./
 RUN npm ci && npm cache clean --force
 
 FROM base AS builder
+ARG NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
 # next build must run with NODE_ENV=production. With NODE_ENV=development,
 # Next compiles pages with the dev runtime (app-page.runtime.dev.js) and
 # static prerendering of client components (e.g. motion's Reveal) crashes
