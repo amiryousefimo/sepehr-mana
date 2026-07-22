@@ -83,3 +83,11 @@ The initial form is presentational because no email destination, CRM, SMTP confi
 - Set `NEXT_PUBLIC_SITE_URL` to the canonical HTTPS origin.
 - Configure both `.com` and `.ir` at the DNS/CDN layer, choose one canonical origin, and redirect the other permanently.
 - Submit the generated sitemap to Google Search Console after domain verification.
+
+# Client-managed content
+
+The public site can consume published tenant-scoped content from the shared
+Payload service. Set `PAYLOAD_PUBLIC_URL` and keep `PAYLOAD_PROJECT_KEY=tgsepma`.
+The home page requests the `home` / locale record and deep-merges its
+`structuredData` over the checked-in content, so the website remains available
+if the CMS is temporarily unreachable.

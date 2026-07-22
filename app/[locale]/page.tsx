@@ -17,6 +17,7 @@ import {Reveal} from "@/components/reveal";
 import {SectionHeading} from "@/components/section-heading";
 import {SiteHeader} from "@/components/site-header";
 import {content} from "@/lib/content";
+import {getManagedContent} from "@/lib/managed-content";
 import {isLocale, site, type Locale} from "@/lib/site";
 
 export default async function HomePage({
@@ -30,7 +31,7 @@ export default async function HomePage({
   }
 
   const locale = localeValue as Locale;
-  const copy = content[locale];
+  const copy = await getManagedContent(locale, content[locale]);
   const phone = locale === "fa" ? site.phoneDisplayFa : site.phoneDisplayEn;
   const address = locale === "fa" ? site.locationFa : site.locationEn;
   const year = new Intl.DateTimeFormat(locale === "fa" ? "fa-IR" : "en", {

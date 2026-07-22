@@ -13,7 +13,11 @@ RUN npm ci && npm cache clean --force
 
 FROM base AS builder
 ARG NEXT_PUBLIC_SITE_URL
+ARG PAYLOAD_PUBLIC_URL
+ARG PAYLOAD_PROJECT_KEY=tgsepma
 ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+ENV PAYLOAD_PUBLIC_URL=${PAYLOAD_PUBLIC_URL}
+ENV PAYLOAD_PROJECT_KEY=${PAYLOAD_PROJECT_KEY}
 # next build must run with NODE_ENV=production. With NODE_ENV=development,
 # Next compiles pages with the dev runtime (app-page.runtime.dev.js) and
 # static prerendering of client components (e.g. motion's Reveal) crashes
@@ -29,6 +33,8 @@ FROM base AS runner
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
+ENV PAYLOAD_PUBLIC_URL=http://freelance-client-cms:3000
+ENV PAYLOAD_PROJECT_KEY=tgsepma
 
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/public ./public
