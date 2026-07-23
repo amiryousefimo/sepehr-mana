@@ -78,6 +78,7 @@ export type SiteContent = {
       role: string;
       education: string[];
       initials: string;
+      photoUrl?: string;
     }[];
   };
   contact: {

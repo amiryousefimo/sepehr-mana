@@ -260,8 +260,14 @@ export default async function HomePage({
               {copy.team.people.map((person, index) => (
                 <Reveal className="person-card" delay={index * 0.1} key={person.name}>
                   <div className="person-card__portrait">
-                    <span>{person.initials}</span>
-                    <small>{copy.team.photoPending}</small>
+                    {person.photoUrl ? (
+                      <img alt={person.name} src={person.photoUrl} />
+                    ) : (
+                      <>
+                        <span>{person.initials}</span>
+                        <small>{copy.team.photoPending}</small>
+                      </>
+                    )}
                   </div>
                   <div className="person-card__content">
                     <span className="person-card__role">{person.role}</span>
