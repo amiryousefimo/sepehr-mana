@@ -2005,6 +2005,42 @@ html[lang="en"] .section-heading p {
   line-height: 1.6;
 }
 
+.contact-form__honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contact-form__status {
+  min-height: 24px;
+  margin-block-start: 14px;
+}
+
+.contact-form__status p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
+.contact-form__status svg {
+  width: 17px;
+  min-width: 17px;
+}
+
+.contact-form__status--success {
+  color: #5eead4;
+}
+
+.contact-form__status--error {
+  color: #fda4af;
+}
+
 .contact-form__call {
   display: none;
   align-items: center;

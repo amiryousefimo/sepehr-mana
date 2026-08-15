@@ -35,7 +35,7 @@ The `.com` and `.ir` domains should not serve duplicate independent copies. Sele
 ## Content updates
 
 - Public content: `lib/content.ts`
-- Phone, address, and origin: `lib/site.ts`
+- Phone, contact email, and origin: `lib/site.ts`
 - Team portraits: replace the placeholders in `app/[locale]/page.tsx` after approved images are placed under `public`
 - Project requirements: `docs/tgsepma/PROJECT_BRIEF.md`
 - Roadmap: `docs/tgsepma/ROADMAP.md`
@@ -45,7 +45,16 @@ Do not publish client names or sensitive registry details from the source PDFs. 
 
 ## Contact form
 
-The launch version intentionally displays a disabled form and a direct-call fallback. Connect a validated server action, spam protection, rate limiting, and an approved delivery provider before enabling submission.
+The home-page contact form sends validated inquiries through the Resend API.
+Configure these production environment variables:
+
+```bash
+RESEND_API_KEY=re_your_api_key
+CONTACT_FROM_EMAIL=Takapoo Garan <contact@your-verified-domain.com>
+CONTACT_RECIPIENT_EMAIL=amiryousefimo@gmail.com
+```
+
+The domain used by `CONTACT_FROM_EMAIL` must be verified in Resend.
 
 ## Collaboration form email
 
@@ -56,7 +65,7 @@ environment variables:
 ```bash
 RESEND_API_KEY=re_your_api_key
 COLLABORATION_FROM_EMAIL=Takapoo Garan <collaboration@your-verified-domain.com>
-COLLABORATION_RECIPIENT_EMAIL=amirousefimo@gmail.com
+COLLABORATION_RECIPIENT_EMAIL=amiryousefimo@gmail.com
 ```
 
 The domain used by `COLLABORATION_FROM_EMAIL` must be verified in Resend. API

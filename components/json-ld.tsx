@@ -9,7 +9,6 @@ export function JsonLd({
   content: SiteContent;
 }) {
   const name = locale === "fa" ? site.nameFa : site.nameEn;
-  const address = locale === "fa" ? site.locationFa : site.locationEn;
   const data = {
     "@context": "https://schema.org",
     "@type": ["Organization", "ProfessionalService"],
@@ -20,12 +19,6 @@ export function JsonLd({
     logo: `${site.url}/brand-mark.svg`,
     description: content.meta.description,
     telephone: "+98-991-277-7691",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: address,
-      addressLocality: locale === "fa" ? "تهران" : "Tehran",
-      addressCountry: "IR"
-    },
     areaServed: {
       "@type": "Country",
       name: "Iran"

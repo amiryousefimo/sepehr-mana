@@ -11,11 +11,10 @@ export const site = {
   phoneDisplayFa: "۰۹۹۱۲۷۷۲۶۹۱",
   phoneDisplayEn: "0991 277 7691",
   phoneHref: "tel:+989912777691",
-  locationFa: "تهران، منطقه ۱۰، خیابان آزادی",
-  locationEn: "Azadi Street, District 10, Tehran",
-  email: "info@example.com",
+  contactEmail:
+    process.env.CONTACT_RECIPIENT_EMAIL || "amiryousefimo@gmail.com",
   collaborationEmail:
-    process.env.COLLABORATION_RECIPIENT_EMAIL || "amirousefimo@gmail.com"
+    process.env.COLLABORATION_RECIPIENT_EMAIL || "amiryousefimo@gmail.com"
 };
 
 export function isLocale(value: string): value is Locale {

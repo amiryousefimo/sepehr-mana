@@ -4,11 +4,11 @@ import {
   Check,
   ChevronUp,
   GraduationCap,
-  Phone,
-  Send
+  Phone
 } from "lucide-react";
 import {notFound} from "next/navigation";
 import {BrandMark} from "@/components/brand-mark";
+import {ContactForm} from "@/components/contact-form";
 import {FeatureIcon} from "@/components/icon";
 import {JsonLd} from "@/components/json-ld";
 import {NetworkVisual} from "@/components/network-visual";
@@ -307,37 +307,8 @@ export default async function HomePage({
                 </a>
               </div>
             </Reveal>
-            <Reveal className="contact-form" delay={0.12}>
-              <h3>{copy.contact.formTitle}</h3>
-              <div className="form-grid">
-                <label>
-                  <span>{copy.contact.name}</span>
-                  <input type="text" name="name" autoComplete="name" />
-                </label>
-                <label>
-                  <span>{copy.contact.organization}</span>
-                  <input type="text" name="organization" autoComplete="organization" />
-                </label>
-                <label className="form-field--wide">
-                  <span>{copy.contact.phone}</span>
-                  <input type="tel" name="phone" autoComplete="tel" />
-                </label>
-                <label className="form-field--wide">
-                  <span>{copy.contact.message}</span>
-                  <textarea name="message" rows={4} />
-                </label>
-              </div>
-              <div className="contact-form__footer">
-                <button className="button button--primary" disabled type="button">
-                  {copy.contact.submit}
-                  <Send aria-hidden="true" />
-                </button>
-                <p>{copy.contact.note}</p>
-              </div>
-              <a className="contact-form__call" href={site.phoneHref}>
-                {copy.contact.call}
-                <ArrowUpLeft aria-hidden="true" />
-              </a>
+            <Reveal delay={0.12}>
+              <ContactForm copy={copy.contact} locale={locale} phoneHref={site.phoneHref} />
             </Reveal>
           </div>
         </section>
@@ -362,7 +333,6 @@ export default async function HomePage({
           <div>
             <h2>{copy.footer.contact}</h2>
             <a href={site.phoneHref} dir="ltr">{phone}</a>
-            <span>{locale === "fa" ? site.locationFa : site.locationEn}</span>
           </div>
           <a className="footer__top" href="#top" aria-label={copy.footer.backToTop}>
             <ChevronUp aria-hidden="true" />

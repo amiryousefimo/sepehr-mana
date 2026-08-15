@@ -87,13 +87,16 @@ export type SiteContent = {
     title: string;
     description: string;
     phoneLabel: string;
-    addressLabel: string;
     formTitle: string;
     name: string;
     organization: string;
+    email: string;
     phone: string;
     message: string;
     submit: string;
+    sending: string;
+    success: string;
+    error: string;
     note: string;
     call: string;
   };
@@ -365,14 +368,17 @@ const fa: SiteContent = {
     description:
       "اگر درباره ساخت محصول، یکپارچه‌سازی، داده یا بهبود فرایند فکر می‌کنید، یک گفت‌وگوی کوتاه می‌تواند نقطه شروع مسیر باشد.",
     phoneLabel: "شماره تماس",
-    addressLabel: "نشانی",
     formTitle: "چند خط درباره نیازتان بنویسید",
     name: "نام و نام خانوادگی",
     organization: "نام سازمان",
+    email: "ایمیل",
     phone: "شماره تماس",
     message: "شرح کوتاه نیاز",
     submit: "ارسال درخواست",
-    note: "فرم آنلاین در حال اتصال است؛ در حال حاضر لطفاً مستقیم تماس بگیرید.",
+    sending: "در حال ارسال…",
+    success: "درخواست شما با موفقیت ارسال شد.",
+    error: "ارسال انجام نشد. لطفاً دوباره تلاش کنید یا مستقیماً تماس بگیرید.",
+    note: "اطلاعات این فرم فقط برای بررسی درخواست شما استفاده می‌شود.",
     call: "تماس مستقیم"
   },
   footer: {
@@ -644,14 +650,17 @@ const en: SiteContent = {
     description:
       "If you are planning a product, integration, data or process initiative, a short conversation can be the first step.",
     phoneLabel: "Phone",
-    addressLabel: "Address",
     formTitle: "Tell us briefly what you need",
     name: "Full name",
     organization: "Organization",
+    email: "Email",
     phone: "Phone number",
     message: "A short project description",
     submit: "Send inquiry",
-    note: "Online delivery is being connected. Please call us directly for now.",
+    sending: "Sending…",
+    success: "Your inquiry was sent successfully.",
+    error: "We could not send your inquiry. Please try again or call us directly.",
+    note: "The information in this form is used only to review your inquiry.",
     call: "Call directly"
   },
   footer: {
