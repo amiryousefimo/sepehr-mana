@@ -1740,15 +1740,15 @@ html[lang="en"] .section-heading p {
 
 .team__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  max-width: 950px;
+  max-width: 1180px;
   margin: 58px auto 0;
 }
 
 .person-card {
   display: grid;
-  grid-template-columns: 42% 58%;
+  grid-template-rows: 220px 1fr;
   min-height: 360px;
   overflow: hidden;
   border: 1px solid var(--border-light);
@@ -1827,6 +1827,13 @@ html[lang="en"] .section-heading p {
 .person-card h3 {
   margin-block-start: 10px;
   font-size: 1.3rem;
+}
+
+.person-card__introduction {
+  margin: 14px 0 0;
+  color: #657b8e;
+  font-size: 0.84rem;
+  line-height: 1.85;
 }
 
 .person-card li {
@@ -2278,12 +2285,12 @@ html[lang="en"] .section-heading p {
   }
 
   .team__grid {
-    grid-template-columns: 1fr;
-    max-width: 580px;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 860px;
   }
 
   .person-card {
-    grid-template-columns: 38% 62%;
+    grid-template-columns: 1fr;
   }
 
   .footer__grid {

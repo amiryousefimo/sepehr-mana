@@ -270,14 +270,17 @@ export default async function HomePage({
                   <div className="person-card__content">
                     <span className="person-card__role">{person.role}</span>
                     <h3>{person.name}</h3>
-                    <ul>
-                      {person.education.map((education) => (
-                        <li key={education}>
-                          <GraduationCap aria-hidden="true" />
-                          {education}
-                        </li>
-                      ))}
-                    </ul>
+                    <p className="person-card__introduction">{person.introduction}</p>
+                    {person.education.length > 0 && (
+                      <ul>
+                        {person.education.map((education) => (
+                          <li key={education}>
+                            <GraduationCap aria-hidden="true" />
+                            {education}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </Reveal>
               ))}

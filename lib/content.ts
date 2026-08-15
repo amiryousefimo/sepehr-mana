@@ -76,6 +76,7 @@ export type SiteContent = {
     people: {
       name: string;
       role: string;
+      introduction: string;
       education: string[];
       initials: string;
       photoUrl?: string;
@@ -329,6 +330,8 @@ const fa: SiteContent = {
       {
         name: "امیر محمد یوسفی",
         role: "مدیرعامل و عضو هیئت‌مدیره",
+        introduction:
+          "امیر محمد یوسفی با پیش‌زمینه‌ای در مدیریت و مهندسی نرم‌افزار، راهبری شرکت و جهت‌دهی به توسعه راهکارهای سازمانی را بر عهده دارد.",
         education: [
           "کارشناسی ارشد مدیریت، دانشگاه صنعتی مالک اشتر",
           "کارشناسی مهندسی نرم‌افزار"
@@ -338,11 +341,21 @@ const fa: SiteContent = {
       {
         name: "لیلا شریعتی",
         role: "رئیس هیئت‌مدیره",
+        introduction:
+          "لیلا شریعتی با ترکیب دانش مدیریت و مهندسی نرم‌افزار، در راهبری هیئت‌مدیره و هم‌راستایی تصمیم‌های سازمانی نقش دارد.",
         education: [
           "کارشناسی ارشد مدیریت، دانشگاه صنعتی مالک اشتر",
           "کارشناسی مهندسی نرم‌افزار"
         ],
         initials: "لش"
+      },
+      {
+        name: "حمید فدایی",
+        role: "عضو تیم",
+        introduction:
+          "حمید فدایی از اعضای تیم تکاپوگران سپهر مانا است و در مسیر همکاری‌های تیمی و تحقق اهداف شرکت مشارکت می‌کند.",
+        education: [],
+        initials: "حف"
       }
     ]
   },
@@ -596,6 +609,8 @@ const en: SiteContent = {
       {
         name: "Amir Mohammad Yousefi",
         role: "Chief Executive Officer & Board Member",
+        introduction:
+          "With a background in management and software engineering, Amir Mohammad Yousefi leads the company and helps guide the development of enterprise solutions.",
         education: [
           "Master’s in Management, Malek Ashtar University of Technology",
           "Bachelor’s in Software Engineering"
@@ -605,11 +620,21 @@ const en: SiteContent = {
       {
         name: "Leila Shariati",
         role: "Chair of the Board",
+        introduction:
+          "Combining management and software engineering expertise, Leila Shariati contributes to board leadership and the alignment of organizational decisions.",
         education: [
           "Master’s in Management, Malek Ashtar University of Technology",
           "Bachelor’s in Software Engineering"
         ],
         initials: "LS"
+      },
+      {
+        name: "Hamid Fadaei",
+        role: "Team Member",
+        introduction:
+          "Hamid Fadaei is a member of the Takapoo Garan Sepehr Mana team, contributing to team collaboration and the company’s shared goals.",
+        education: [],
+        initials: "HF"
       }
     ]
   },
