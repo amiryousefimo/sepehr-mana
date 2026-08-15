@@ -5,12 +5,18 @@ import type {Locale} from "@/lib/site";
 
 export function SiteHeader({
   locale,
-  content
+  content,
+  page = "home"
 }: {
   locale: Locale;
   content: SiteContent;
+  page?: "home" | "collaboration";
 }) {
   const otherLocale = locale === "fa" ? "en" : "fa";
+  const homeHref = `/${locale}`;
+  const otherLocaleHref = page === "collaboration"
+    ? `/${otherLocale}/collaboration`
+    : `/${otherLocale}`;
   const navigation = [
     ["services", content.nav.services],
     ["solutions", content.nav.solutions],
@@ -22,24 +28,28 @@ export function SiteHeader({
   return (
     <header className="site-header">
       <div className="shell site-header__inner">
-        <a className="site-header__brand" href={`/${locale}`} aria-label={content.meta.title}>
+        <a className="site-header__brand" href={homeHref} aria-label={content.meta.title}>
           <BrandMark />
         </a>
 
         <nav className="desktop-nav" aria-label={content.nav.menu}>
           {navigation.map(([id, label]) => (
-            <a href={`#${id}`} key={id}>
+            <a href={page === "home" ? `#${id}` : `${homeHref}#${id}`} key={id}>
               {label}
             </a>
           ))}
         </nav>
 
         <div className="site-header__actions">
-          <a className="language-link" href={`/${otherLocale}`} hrefLang={otherLocale}>
+          <a className="language-link" href={otherLocaleHref} hrefLang={otherLocale}>
             <Languages aria-hidden="true" />
             <span>{content.nav.language}</span>
           </a>
-          <a className="button button--small button--primary header-cta" href="#contact">
+          <a
+            className="button button--small button--primary header-cta"
+            href={`/${locale}/collaboration`}
+            aria-current={page === "collaboration" ? "page" : undefined}
+          >
             {content.nav.cta}
             <ArrowUpLeft aria-hidden="true" />
           </a>
@@ -49,14 +59,14 @@ export function SiteHeader({
             </summary>
             <nav aria-label={content.nav.menu}>
               {navigation.map(([id, label]) => (
-                <a href={`#${id}`} key={id}>
+                <a href={page === "home" ? `#${id}` : `${homeHref}#${id}`} key={id}>
                   {label}
                 </a>
               ))}
-              <a href={`/${otherLocale}`} hrefLang={otherLocale}>
+              <a href={otherLocaleHref} hrefLang={otherLocale}>
                 {content.nav.language}
               </a>
-              <a href="#contact">{content.nav.cta}</a>
+              <a href={`/${locale}/collaboration`}>{content.nav.cta}</a>
             </nav>
           </details>
         </div>

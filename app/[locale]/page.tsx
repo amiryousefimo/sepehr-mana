@@ -4,7 +4,6 @@ import {
   Check,
   ChevronUp,
   GraduationCap,
-  MapPin,
   Phone,
   Send
 } from "lucide-react";
@@ -33,7 +32,6 @@ export default async function HomePage({
   const locale = localeValue as Locale;
   const copy = await getManagedContent(locale, content[locale]);
   const phone = locale === "fa" ? site.phoneDisplayFa : site.phoneDisplayEn;
-  const address = locale === "fa" ? site.locationFa : site.locationEn;
   const year = new Intl.DateTimeFormat(locale === "fa" ? "fa-IR" : "en", {
     year: "numeric"
   }).format(new Date());
@@ -304,13 +302,6 @@ export default async function HomePage({
                     <b dir="ltr">{phone}</b>
                   </div>
                 </a>
-                <div>
-                  <span><MapPin aria-hidden="true" /></span>
-                  <div>
-                    <small>{copy.contact.addressLabel}</small>
-                    <b>{address}</b>
-                  </div>
-                </div>
               </div>
             </Reveal>
             <Reveal className="contact-form" delay={0.12}>
@@ -368,7 +359,7 @@ export default async function HomePage({
           <div>
             <h2>{copy.footer.contact}</h2>
             <a href={site.phoneHref} dir="ltr">{phone}</a>
-            <span>{address}</span>
+            <span>{locale === "fa" ? site.locationFa : site.locationEn}</span>
           </div>
           <a className="footer__top" href="#top" aria-label={copy.footer.backToTop}>
             <ChevronUp aria-hidden="true" />

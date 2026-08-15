@@ -46,3 +46,19 @@ Do not publish client names or sensitive registry details from the source PDFs. 
 ## Contact form
 
 The launch version intentionally displays a disabled form and a direct-call fallback. Connect a validated server action, spam protection, rate limiting, and an approved delivery provider before enabling submission.
+
+## Collaboration form email
+
+The collaboration page accepts a message and a PDF, DOC, or DOCX résumé up to
+5 MB. Submissions are sent through the Resend API. Configure these production
+environment variables:
+
+```bash
+RESEND_API_KEY=re_your_api_key
+COLLABORATION_FROM_EMAIL=Takapoo Garan <collaboration@your-verified-domain.com>
+COLLABORATION_RECIPIENT_EMAIL=amirousefimo@gmail.com
+```
+
+The domain used by `COLLABORATION_FROM_EMAIL` must be verified in Resend. API
+credentials are read only by the server route and must not use a
+`NEXT_PUBLIC_` prefix.

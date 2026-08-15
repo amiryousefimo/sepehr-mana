@@ -13,7 +13,9 @@ export const site = {
   phoneHref: "tel:+989912777691",
   locationFa: "تهران، منطقه ۱۰، خیابان آزادی",
   locationEn: "Azadi Street, District 10, Tehran",
-  email: "info@example.com"
+  email: "info@example.com",
+  collaborationEmail:
+    process.env.COLLABORATION_RECIPIENT_EMAIL || "amirousefimo@gmail.com"
 };
 
 export function isLocale(value: string): value is Locale {
