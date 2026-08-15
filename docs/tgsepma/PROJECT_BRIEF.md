@@ -5,7 +5,6 @@
 - Persian name: تکاپوگران سپهر مانا
 - English presentation name: Takapoo Garan Sepehr Mana
 - Legal form: private limited company
-- Public location: Tehran, District 10, Azadi Street
 - Temporary public phone: 0991277691
 
 The legal documents establish a scope covering information technology services, custom software production and support, technology consulting, IT education and research, and network marketing. The proposal adds enterprise software, data, integration, process, and infrastructure capabilities.
