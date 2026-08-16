@@ -185,6 +185,10 @@ export default async function HomePage({
                 title={copy.approach.title}
                 description={copy.approach.description}
               />
+              <p className="approach__resume-note">
+                <span>{copy.approach.resumeNote}</span>
+                <b dir="ltr">{copy.approach.resumePhone}</b>
+              </p>
             </Reveal>
             <div className="approach__track">
               {copy.approach.steps.map((step, index) => (

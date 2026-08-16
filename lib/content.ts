@@ -57,6 +57,8 @@ export type SiteContent = {
     label: string;
     title: string;
     description: string;
+    resumeNote: string;
+    resumePhone: string;
     steps: {number: string; title: string; description: string}[];
   };
   about: {
@@ -121,7 +123,10 @@ const fa: SiteContent = {
       "یکپارچه سازی سیستم ها",
       "هوش تجاری",
       "طراحی داشبورد مدیریتی",
-      "اتوماسیون فرایند"
+      "اتوماسیون فرایند",
+      "امیر محمدیوسفی",
+      "امیر محمد یوسفی",
+      "لیلا شریعتی"
     ]
   },
   nav: {
@@ -262,6 +267,8 @@ const fa: SiteContent = {
     title: "از ابهام تا یک سیستم زنده و قابل رشد",
     description:
       "هر پروژه با شناخت دقیق زمینه شروع می‌شود و با تحویل کد پایان نمی‌یابد. ما نتیجه را در چرخه کامل محصول دنبال می‌کنیم.",
+    resumeNote: "برای ارسال رزومه، لطفاً فایل خود را به این شماره ارسال کنید:",
+    resumePhone: "+989912772691",
     steps: [
       {
         number: "۰۱",
@@ -403,7 +410,9 @@ const en: SiteContent = {
       "systems integration",
       "business intelligence",
       "management dashboards",
-      "process automation"
+      "process automation",
+      "Amir Mohammad Yousefi",
+      "Leila Shariati"
     ]
   },
   nav: {
@@ -544,6 +553,8 @@ const en: SiteContent = {
     title: "From ambiguity to a living, evolving system",
     description:
       "Every engagement starts by understanding its context and continues beyond code delivery. We remain focused on outcomes throughout the product lifecycle.",
+    resumeNote: "To submit your résumé, please send the file to this number:",
+    resumePhone: "+989912772691",
     steps: [
       {
         number: "01",
