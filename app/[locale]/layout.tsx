@@ -1,7 +1,6 @@
 import type {Metadata} from "next";
 import {notFound} from "next/navigation";
-import "vazirmatn/Vazirmatn-Variable-font-face.css";
-import "../globals.css";
+import {LocaleAttributes} from "@/app/locale-attributes";
 import {content} from "@/lib/content";
 import {
   isLocale,
@@ -86,14 +85,15 @@ export default async function LocaleLayout({children, params}: LayoutProps) {
 
   const locale = localeValue as Locale;
 
+  const dir = localeDirection(locale);
+
   return (
-    <html lang={locale} dir={localeDirection(locale)}>
-      <body>
-        <a className="skip-link" href="#main">
-          {locale === "fa" ? "رفتن به محتوای اصلی" : "Skip to main content"}
-        </a>
-        {children}
-      </body>
-    </html>
+    <>
+      <LocaleAttributes locale={locale} dir={dir} />
+      <a className="skip-link" href="#main">
+        {locale === "fa" ? "رفتن به محتوای اصلی" : "Skip to main content"}
+      </a>
+      {children}
+    </>
   );
 }

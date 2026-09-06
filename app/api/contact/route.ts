@@ -1,4 +1,5 @@
 import {NextResponse} from "next/server";
+import {appendContact} from "@/lib/store";
 import {site} from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -60,60 +61,60 @@ export async function POST(request: Request) {
     return NextResponse.json({error: "Required fields are missing."}, {status: 400});
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.CONTACT_FROM_EMAIL || process.env.COLLABORATION_FROM_EMAIL;
-  if (!apiKey || !fromEmail) {
-    console.error("Contact email is not configured.");
-    return NextResponse.json({error: "Email delivery is unavailable."}, {status: 503});
+  // Save to JSON first — this is the source of truth.
+  // If the save fails we return an error; email failure is silent.
+  const record = {id: crypto.randomUUID(), ts: Date.now(), name, organization, phone, email, message, locale};
+  try {
+    await appendContact(record);
+  } catch (err) {
+    console.error("Failed to save contact submission to JSON:", err);
+    return NextResponse.json({error: "Could not save submission. Please try again."}, {status: 500});
   }
 
-  const labels = locale === "fa"
-    ? {
-        subject: "درخواست جدید از وب‌سایت",
-        name: "نام",
-        organization: "سازمان",
-        phone: "تلفن",
-        email: "ایمیل",
-        message: "شرح نیاز"
+  // Attempt email delivery — best effort, never blocks the success response.
+  try {
+    const apiKey = process.env.RESEND_API_KEY;
+    const fromEmail = process.env.CONTACT_FROM_EMAIL || process.env.COLLABORATION_FROM_EMAIL;
+
+    if (apiKey && fromEmail) {
+      const labels = locale === "fa"
+        ? {subject: "درخواست جدید از وب‌سایت", name: "نام", organization: "سازمان", phone: "تلفن", email: "ایمیل", message: "شرح نیاز"}
+        : {subject: "New website inquiry", name: "Name", organization: "Organization", phone: "Phone", email: "Email", message: "Project need"};
+
+      const body = [
+        `${labels.name}: ${name}`,
+        `${labels.organization}: ${organization || "—"}`,
+        `${labels.phone}: ${phone}`,
+        `${labels.email}: ${email}`,
+        "",
+        `${labels.message}:`,
+        message
+      ].join("\n");
+
+      const response = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+          "Idempotency-Key": `contact-${crypto.randomUUID()}`
+        },
+        body: JSON.stringify({
+          from: fromEmail,
+          to: [site.contactEmail],
+          reply_to: email,
+          subject: `${labels.subject} — ${name}`,
+          text: body
+        })
+      });
+
+      if (!response.ok) {
+        console.error(`Contact email failed with status ${response.status}.`);
       }
-    : {
-        subject: "New website inquiry",
-        name: "Name",
-        organization: "Organization",
-        phone: "Phone",
-        email: "Email",
-        message: "Project need"
-      };
-
-  const body = [
-    `${labels.name}: ${name}`,
-    `${labels.organization}: ${organization || "—"}`,
-    `${labels.phone}: ${phone}`,
-    `${labels.email}: ${email}`,
-    "",
-    `${labels.message}:`,
-    message
-  ].join("\n");
-
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "Idempotency-Key": `contact-${crypto.randomUUID()}`
-    },
-    body: JSON.stringify({
-      from: fromEmail,
-      to: [site.contactEmail],
-      reply_to: email,
-      subject: `${labels.subject} — ${name}`,
-      text: body
-    })
-  });
-
-  if (!response.ok) {
-    console.error(`Contact email failed with status ${response.status}.`);
-    return NextResponse.json({error: "Email delivery failed."}, {status: 502});
+    } else {
+      console.warn("Contact email not configured — submission saved to JSON only.");
+    }
+  } catch (err) {
+    console.error("Contact email error:", err);
   }
 
   return NextResponse.json({ok: true});

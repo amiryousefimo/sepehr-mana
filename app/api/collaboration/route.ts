@@ -1,4 +1,5 @@
 import {NextResponse} from "next/server";
+import {appendCollaboration} from "@/lib/store";
 import {site} from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -69,79 +70,69 @@ export async function POST(request: Request) {
     return NextResponse.json({error: "Unsupported resume format."}, {status: 400});
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.COLLABORATION_FROM_EMAIL;
-  if (!apiKey || !fromEmail) {
-    console.error("Collaboration email is not configured.");
-    return NextResponse.json({error: "Email delivery is unavailable."}, {status: 503});
+  // Save to JSON first — this is the source of truth.
+  // If the save fails we return an error; email failure is silent.
+  const record = {
+    id: crypto.randomUUID(), ts: Date.now(), name, organization, role, phone, email,
+    collaborationType, budget, timeline, message, locale, resumeFilename: filename
+  };
+  try {
+    await appendCollaboration(record);
+  } catch (err) {
+    console.error("Failed to save collaboration submission to JSON:", err);
+    return NextResponse.json({error: "Could not save submission. Please try again."}, {status: 500});
   }
 
-  const resumeContent = Buffer.from(await resume.arrayBuffer()).toString("base64");
-  const labels = locale === "fa"
-    ? {
-        subject: "درخواست همکاری جدید",
-        name: "نام",
-        organization: "سازمان",
-        role: "سمت",
-        phone: "تلفن",
-        email: "ایمیل",
-        type: "زمینه همکاری",
-        budget: "بودجه",
-        timeline: "زمان شروع",
-        message: "پیام"
+  // Attempt email delivery — best effort, never blocks the success response.
+  try {
+    const apiKey = process.env.RESEND_API_KEY;
+    const fromEmail = process.env.COLLABORATION_FROM_EMAIL;
+
+    if (apiKey && fromEmail) {
+      const resumeContent = Buffer.from(await resume.arrayBuffer()).toString("base64");
+      const labels = locale === "fa"
+        ? {subject: "درخواست همکاری جدید", name: "نام", organization: "سازمان", role: "سمت", phone: "تلفن", email: "ایمیل", type: "زمینه همکاری", budget: "بودجه", timeline: "زمان شروع", message: "پیام"}
+        : {subject: "New collaboration request", name: "Name", organization: "Organization", role: "Role", phone: "Phone", email: "Email", type: "Collaboration area", budget: "Budget", timeline: "Preferred start", message: "Message"};
+
+      const body = [
+        `${labels.name}: ${name}`,
+        `${labels.organization}: ${organization || "—"}`,
+        `${labels.role}: ${role || "—"}`,
+        `${labels.phone}: ${phone}`,
+        `${labels.email}: ${email}`,
+        `${labels.type}: ${collaborationType || "—"}`,
+        `${labels.budget}: ${budget || "—"}`,
+        `${labels.timeline}: ${timeline || "—"}`,
+        "",
+        `${labels.message}:`,
+        message
+      ].join("\n");
+
+      const response = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+          "Idempotency-Key": `collaboration-${crypto.randomUUID()}`
+        },
+        body: JSON.stringify({
+          from: fromEmail,
+          to: [site.collaborationEmail],
+          reply_to: email,
+          subject: `${labels.subject} — ${name}`,
+          text: body,
+          attachments: [{filename, content: resumeContent}]
+        })
+      });
+
+      if (!response.ok) {
+        console.error(`Collaboration email failed with status ${response.status}.`);
       }
-    : {
-        subject: "New collaboration request",
-        name: "Name",
-        organization: "Organization",
-        role: "Role",
-        phone: "Phone",
-        email: "Email",
-        type: "Collaboration area",
-        budget: "Budget",
-        timeline: "Preferred start",
-        message: "Message"
-      };
-
-  const body = [
-    `${labels.name}: ${name}`,
-    `${labels.organization}: ${organization || "—"}`,
-    `${labels.role}: ${role || "—"}`,
-    `${labels.phone}: ${phone}`,
-    `${labels.email}: ${email}`,
-    `${labels.type}: ${collaborationType || "—"}`,
-    `${labels.budget}: ${budget || "—"}`,
-    `${labels.timeline}: ${timeline || "—"}`,
-    "",
-    `${labels.message}:`,
-    message
-  ].join("\n");
-
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      "Idempotency-Key": `collaboration-${crypto.randomUUID()}`
-    },
-    body: JSON.stringify({
-      from: fromEmail,
-      to: [site.collaborationEmail],
-      reply_to: email,
-      subject: `${labels.subject} — ${name}`,
-      text: body,
-      attachments: [
-        {
-          filename,
-          content: resumeContent
-        }
-      ]
-    })
-  });
-
-  if (!response.ok) {
-    console.error(`Collaboration email failed with status ${response.status}.`);
-    return NextResponse.json({error: "Email delivery failed."}, {status: 502});
+    } else {
+      console.warn("Collaboration email not configured — submission saved to JSON only.");
+    }
+  } catch (err) {
+    console.error("Collaboration email error:", err);
   }
 
   return NextResponse.json({ok: true});

@@ -7,3 +7,7 @@ out
 !.env.example
 .DS_Store
 tsconfig.tsbuildinfo
+
+# JSON data — form submissions (contain user PII, do not commit)
+data/contact.jsonl
+data/collaboration.jsonl
