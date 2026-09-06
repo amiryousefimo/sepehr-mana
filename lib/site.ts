@@ -12,9 +12,9 @@ export const site = {
   phoneDisplayEn: "0991 277 7691",
   phoneHref: "tel:+989912777691",
   contactEmail:
-    process.env.CONTACT_RECIPIENT_EMAIL || "amiryousefimo@gmail.com",
+    process.env.CONTACT_RECIPIENT_EMAIL || "tgsepma@gmail.com",
   collaborationEmail:
-    process.env.COLLABORATION_RECIPIENT_EMAIL || "amiryousefimo@gmail.com"
+    process.env.COLLABORATION_RECIPIENT_EMAIL || "tgsepma@gmail.com"
 };
 
 export function isLocale(value: string): value is Locale {

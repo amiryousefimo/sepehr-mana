@@ -2,18 +2,17 @@ import {
   ArrowDown,
   ArrowUpLeft,
   Check,
-  ChevronUp,
   GraduationCap,
   Phone
 } from "lucide-react";
 import {notFound} from "next/navigation";
-import {BrandMark} from "@/components/brand-mark";
 import {ContactForm} from "@/components/contact-form";
 import {FeatureIcon} from "@/components/icon";
 import {JsonLd} from "@/components/json-ld";
 import {NetworkVisual} from "@/components/network-visual";
 import {Reveal} from "@/components/reveal";
 import {SectionHeading} from "@/components/section-heading";
+import {SiteFooter} from "@/components/site-footer";
 import {SiteHeader} from "@/components/site-header";
 import {content} from "@/lib/content";
 import {getManagedContent} from "@/lib/managed-content";
@@ -318,35 +317,14 @@ export default async function HomePage({
         </section>
       </main>
 
-      <footer className="footer">
-        <div className="shell footer__grid">
-          <div className="footer__brand">
-            <BrandMark />
-            <p>{copy.footer.summary}</p>
-          </div>
-          <div>
-            <h2>{copy.footer.navigation}</h2>
-            <nav>
-              {navigation.map(([id, label]) => (
-                <a href={`#${id}`} key={id}>
-                  {label}
-                </a>
-              ))}
-            </nav>
-          </div>
-          <div>
-            <h2>{copy.footer.contact}</h2>
-            <a href={site.phoneHref} dir="ltr">{phone}</a>
-          </div>
-          <a className="footer__top" href="#top" aria-label={copy.footer.backToTop}>
-            <ChevronUp aria-hidden="true" />
-          </a>
-        </div>
-        <div className="shell footer__bottom">
-          <span>© {year}</span>
-          <span>{copy.footer.rights}</span>
-        </div>
-      </footer>
+      <SiteFooter
+        locale={locale}
+        year={year}
+        summary={copy.footer.summary}
+        rights={copy.footer.rights}
+        backToTop={copy.footer.backToTop}
+        navigation={navigation.map(([id, label]) => ({href: `#${id}`, label}))}
+      />
     </>
   );
 }

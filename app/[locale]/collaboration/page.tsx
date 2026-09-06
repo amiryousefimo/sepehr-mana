@@ -2,13 +2,13 @@ import type {Metadata} from "next";
 import {
   ArrowLeft,
   Check,
-  ChevronUp,
   Clock3
 } from "lucide-react";
 import {notFound} from "next/navigation";
 import {BrandMark} from "@/components/brand-mark";
 import {CollaborationForm} from "@/components/collaboration-form";
 import {Reveal} from "@/components/reveal";
+import {SiteFooter} from "@/components/site-footer";
 import {SiteHeader} from "@/components/site-header";
 import {collaborationContent} from "@/lib/collaboration-content";
 import {content} from "@/lib/content";
@@ -65,6 +65,14 @@ export default async function CollaborationPage({params}: PageProps) {
   const copy = collaborationContent[locale];
   const siteCopy = content[locale];
   const phone = locale === "fa" ? site.phoneDisplayFa : site.phoneDisplayEn;
+  const navigation = [
+    ["services", siteCopy.nav.services],
+    ["solutions", siteCopy.nav.solutions],
+    ["approach", siteCopy.nav.approach],
+    ["about", siteCopy.nav.about],
+    ["team", siteCopy.nav.team],
+    ["contact", siteCopy.nav.contact]
+  ];
   const year = new Intl.DateTimeFormat(locale === "fa" ? "fa-IR" : "en", {
     year: "numeric"
   }).format(new Date());
@@ -81,12 +89,14 @@ export default async function CollaborationPage({params}: PageProps) {
         <section className="collaboration-hero" id="top">
           <div className="collaboration-hero__grid" aria-hidden="true" />
           <div className="collaboration-hero__orb" aria-hidden="true" />
+          <div className="shell collaboration-hero__nav">
+            <a className="collaboration-hero__back" href={`/${locale}`}>
+              <ArrowLeft aria-hidden="true" />
+              {copy.nav.back}
+            </a>
+          </div>
           <div className="shell collaboration-hero__inner">
             <Reveal className="collaboration-hero__copy">
-              <a className="collaboration-hero__back" href={`/${locale}`}>
-                <ArrowLeft aria-hidden="true" />
-                {copy.nav.back}
-              </a>
               <span className="hero__eyebrow">
                 <i />
                 {copy.hero.eyebrow}
@@ -179,23 +189,14 @@ export default async function CollaborationPage({params}: PageProps) {
         </section>
       </main>
 
-      <footer className="footer collaboration-footer">
-        <div className="shell collaboration-footer__inner">
-          <div className="footer__brand">
-            <a href={`/${locale}`} aria-label={copy.nav.back}>
-              <BrandMark />
-            </a>
-            <p>{copy.footer.summary}</p>
-          </div>
-          <a className="footer__top" href="#top" aria-label={siteCopy.footer.backToTop}>
-            <ChevronUp aria-hidden="true" />
-          </a>
-        </div>
-        <div className="shell footer__bottom">
-          <span>© {year}</span>
-          <span>{copy.footer.rights}</span>
-        </div>
-      </footer>
+      <SiteFooter
+        locale={locale}
+        year={year}
+        summary={copy.footer.summary}
+        rights={copy.footer.rights}
+        backToTop={siteCopy.footer.backToTop}
+        navigation={navigation.map(([id, label]) => ({href: `/${locale}#${id}`, label}))}
+      />
     </>
   );
 }
