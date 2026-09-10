@@ -218,7 +218,70 @@ export default async function ProjectPage({params}: PageProps) {
             <Reveal className="project-details__main">
               <h2>{locale === "fa" ? "شرح پروژه" : "Project Overview"}</h2>
               <p>{project.description}</p>
+              {project.features && project.features.length > 0 && (
+                <div className="project-features" style={{ marginTop: 48 }}>
+                  <h3 style={{ marginBottom: 28 }}>
+                    {locale === "fa" ? "قابلیت‌های اصلی سامانه" : "Core System Features"}
+                  </h3>
 
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+                      gap: 20,
+                    }}
+                  >
+                    {project.features.map((feature) => (
+                      <div
+                        key={feature.title}
+                        style={{
+                          padding: "22px 20px",
+                          borderRadius: 16,
+                          border: "1px solid var(--border-light)",
+                          background: "linear-gradient(145deg, #ffffff, #f5fbff)",
+                          boxShadow: "0 10px 30px rgba(7, 19, 34, 0.05)",
+                        }}
+                      >
+                        <h4
+                          style={{
+                            margin: "0 0 14px",
+                            fontSize: "1.05rem",
+                            fontWeight: 800,
+                            color: "var(--ink-900)",
+                          }}
+                        >
+                          {feature.title}
+                        </h4>
+                        <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 8 }}>
+                          {feature.items.map((item) => (
+                            <li
+                              key={item}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                                fontSize: "0.92rem",
+                                color: "#4e6679",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  width: 6,
+                                  height: 6,
+                                  borderRadius: "50%",
+                                  background: "var(--blue)",
+                                  flexShrink: 0,
+                                }}
+                              />
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
               {project.outcomes && project.outcomes.length > 0 && (
                 <div className="project-outcomes">
                   <h3>{locale === "fa" ? "نتایج و دستاوردها" : "Outcomes & Results"}</h3>
