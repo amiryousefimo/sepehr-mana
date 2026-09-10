@@ -119,6 +119,25 @@ export default async function ProjectPage({params}: PageProps) {
                 {project.category || (locale === "fa" ? "پروژه" : "Project")}
               </span>
               <h1>{project.title}</h1>
+              {project.slogan && (
+                <p
+                  style={{
+                    marginTop: 18,
+                    marginBottom: 28,
+                    padding: "14px 20px",
+                    borderRadius: 12,
+                    background: "rgba(14, 165, 233, 0.12)",
+                    border: "1px solid rgba(14, 165, 233, 0.25)",
+                    color: "#7dd3fc",
+                    fontSize: "1.05rem",
+                    fontWeight: 650,
+                    lineHeight: 1.7,
+                    maxWidth: 720,
+                  }}
+                >
+                  {project.slogan}
+                </p>
+              )}
               <p>{project.description}</p>
               <div className="project-hero__meta">
                 {project.year && (

@@ -13,6 +13,7 @@ export type Project = {
   client?: string;
   technologies?: string[];
   outcomes?: string[];
+  slogan?: string;
 };
 
 export type ProjectsContent = {
@@ -66,6 +67,27 @@ const fa: ProjectsContent = {
         "ایجاد زیرساخت مشاهده‌پذیری برای پایش لحظه‌ای سیستم",
       ]
     },
+    {
+      title: "سامانه ذهن هوشمند صدرا",
+      slug: "zehnesalem",
+      shortDescription:
+        "پلتفرم جامع مدیریت کلینیک روانپزشکی با رویکرد هوش مصنوعی در یک محیط یکپارچه.",
+      description:
+        "سامانه ذهن هوشمند صدرا یک پلتفرم جامع مدیریت کلینیک روانپزشکی است که تمام فرآیندهای اداری و بالینی کلینیک را در یک محیط یکپارچه ارائه می‌دهد. این سامانه با استفاده از هوش مصنوعی، فرآیندهای پذیرش، پرونده‌الکترونیک، نوبت‌دهی، گزارش‌گیری و تحلیل داده‌های بالینی را هوشمند و یکپارچه می‌کند.",
+      slogan: "ذهن هوشمند صدرا — هوش مصنوعی در خدمت سلامت روان",
+      thumbnail: "/projects/zehnesalem/thumbnail.jpg.svg",
+      images: [
+        "/projects/zehnesalem/banner1.png",
+        "/projects/zehnesalem/banner2.png",
+        "/projects/zehnesalem/banner3.png",
+        "/projects/zehnesalem/banner4.png",
+      ],
+      published: true,
+      year: "۱۴۰۵",
+      category: "سلامت دیجیتال",
+      client: "ذهن هوشمند صدرا",
+      technologies: ["AI / ML", "Django", "PostgreSQL", "React", "Docker"],
+    },
   ],
 };
 
@@ -108,6 +130,27 @@ const en: ProjectsContent = {
         "Implementation of integrations with external systems",
         "Real-time observability infrastructure for system monitoring",
       ]
+    },
+    {
+      title: "Sadra Smart Mind System",
+      slug: "zehnesalem",
+      shortDescription:
+        "A comprehensive psychiatry clinic management platform powered by artificial intelligence.",
+      description:
+        "Sadra Smart Mind is a complete clinic management platform that unifies all administrative and clinical processes of a psychiatric clinic in one integrated environment. Leveraging AI, it streamlines patient intake, electronic health records, appointment scheduling, reporting, and clinical data analysis.",
+      slogan: "Sadra Smart Mind — Artificial Intelligence for Mental Health",
+      thumbnail: "/projects/zehnesalem/thumbnail.jpg.svg",
+      images: [
+        "/projects/zehnesalem/banner1.png",
+        "/projects/zehnesalem/banner2.png",
+        "/projects/zehnesalem/banner3.png",
+        "/projects/zehnesalem/banner4.png",
+      ],
+      published: true,
+      year: "2026",
+      category: "Digital Health",
+      client: "Sadra Smart Mind",
+      technologies: ["AI / ML", "Django", "PostgreSQL", "React", "Docker"],
     },
   ],
 };
