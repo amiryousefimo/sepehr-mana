@@ -10,11 +10,13 @@ import {ContactForm} from "@/components/contact-form";
 import {FeatureIcon} from "@/components/icon";
 import {JsonLd} from "@/components/json-ld";
 import {NetworkVisual} from "@/components/network-visual";
+import {ProjectsSection} from "@/components/projects-section";
 import {Reveal} from "@/components/reveal";
 import {SectionHeading} from "@/components/section-heading";
 import {SiteFooter} from "@/components/site-footer";
 import {SiteHeader} from "@/components/site-header";
 import {content} from "@/lib/content";
+import {projectsContent} from "@/lib/projects";
 import {getManagedContent} from "@/lib/managed-content";
 import {isLocale, site, type Locale} from "@/lib/site";
 
@@ -290,6 +292,13 @@ export default async function HomePage({
             </div>
           </div>
         </section>
+
+        <ProjectsSection
+          copy={projectsContent[locale]}
+          locale={locale}
+          limit={3}
+          showViewAll
+        />
 
         <section className="section contact" id="contact">
           <div className="contact__mesh" aria-hidden="true" />

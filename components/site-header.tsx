@@ -10,13 +10,15 @@ export function SiteHeader({
 }: {
   locale: Locale;
   content: SiteContent;
-  page?: "home" | "collaboration";
+   page?: "home" | "collaboration" | "projects";
 }) {
   const otherLocale = locale === "fa" ? "en" : "fa";
   const homeHref = `/${locale}`;
   const otherLocaleHref = page === "collaboration"
-    ? `/${otherLocale}/collaboration`
-    : `/${otherLocale}`;
+      ? `/${otherLocale}/collaboration`
+      : page === "projects"
+        ? `/${otherLocale}`       
+        : `/${otherLocale}`;
   const navigation = [
     ["services", content.nav.services],
     ["solutions", content.nav.solutions],
