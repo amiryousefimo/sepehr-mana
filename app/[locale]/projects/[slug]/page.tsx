@@ -14,46 +14,72 @@ type PageProps = {
   params: Promise<{locale: string; slug: string}>;
 };
 
-export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{locale: string; slug: string}>;
+}): Promise<Metadata> {
   const {locale: localeValue, slug} = await params;
   if (!isLocale(localeValue)) return {};
 
   const locale = localeValue as Locale;
-  const projects = projectsContent[locale].projects;
-  const project = projects.find((p) => p.slug === slug && p.published);
+  const copy = projectsContent[locale];
+  const project = copy.projects.find((p) => p.slug === slug && p.published);
+
   if (!project) return {};
 
-  const copy = content[locale];
-  const canonical = `${site.url}/${locale}/projects/${slug}`;
+  const siteCopy = content[locale];
+  const canonical = `${site.url}/${locale}/projects/${project.slug}`;
+
+  const title =
+    locale === "fa"
+      ? `${project.title} | نمونه کار | ${site.nameFa}`
+      : `${project.title} | Case Study | ${site.nameEn}`;
+
+  const description =
+    project.shortDescription ||
+    project.description.slice(0, 160) ||
+    siteCopy.meta.description;
 
   return {
     metadataBase: new URL(site.url),
-    title: `${project.title} | ${copy.meta.title}`,
-    description: project.shortDescription,
-    keywords: [...copy.meta.keywords, project.title, project.category || "", "case study"],
+    title,
+    description,
     alternates: {
       canonical,
       languages: {
-        fa: `${site.url}/fa/projects/${slug}`,
-        en: `${site.url}/en/projects/${slug}`,
-        "x-default": `${site.url}/fa/projects/${slug}`,
+        fa: `${site.url}/fa/projects/${project.slug}`,
+        en: `${site.url}/en/projects/${project.slug}`,
+        "x-default": `${site.url}/fa/projects/${project.slug}`,
       },
     },
     openGraph: {
-      type: "website",
+      type: "article",
       locale: locale === "fa" ? "fa_IR" : "en_US",
-      alternateLocale: locale === "fa" ? ["en_US"] : ["fa_IR"],
       url: canonical,
       siteName: locale === "fa" ? site.nameFa : site.nameEn,
-      title: `${project.title} | ${copy.meta.title}`,
-      description: project.shortDescription,
-      images: [{url: project.thumbnail, width: 1200, height: 630}],
+      title,
+      description,
+      images: [
+        {
+          url: project.thumbnail.startsWith("http")
+            ? project.thumbnail
+            : `${site.url}${project.thumbnail}`,
+          width: 1200,
+          height: 630,
+          alt: project.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${project.title} | ${copy.meta.title}`,
-      description: project.shortDescription,
-      images: [project.thumbnail],
+      title,
+      description,
+      images: [
+        project.thumbnail.startsWith("http")
+          ? project.thumbnail
+          : `${site.url}${project.thumbnail}`,
+      ],
     },
   };
 }

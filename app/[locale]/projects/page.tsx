@@ -13,18 +13,33 @@ type PageProps = {
   params: Promise<{locale: string}>;
 };
 
-export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{locale: string}>;
+}): Promise<Metadata> {
   const {locale: localeValue} = await params;
   if (!isLocale(localeValue)) return {};
+
   const locale = localeValue as Locale;
   const copy = projectsContent[locale];
   const siteCopy = content[locale];
   const canonical = `${site.url}/${locale}/projects`;
 
+  const title =
+    locale === "fa"
+      ? `نمونه کارها و پروژه‌ها | ${siteCopy.meta.title}`
+      : `Projects & Case Studies | ${siteCopy.meta.title}`;
+
+  const description =
+    locale === "fa"
+      ? "نمونه کارهای واقعی تکاپوگران سپهر مانا: سوپر اپلیکیشن فرودگاهی، سامانه سلامت دیجیتال، سامانه گردش کار سازمانی و سایر پروژه‌های نرم‌افزاری."
+      : "Real projects by Takapoo Garan Sepehr Mana: Airport Super App, Digital Health Platform, Enterprise Workflow System and other software case studies.";
+
   return {
     metadataBase: new URL(site.url),
-    title: `${copy.title} | ${siteCopy.meta.title}`,
-    description: copy.description,
+    title,
+    description,
     alternates: {
       canonical,
       languages: {
@@ -32,6 +47,21 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
         en: `${site.url}/en/projects`,
         "x-default": `${site.url}/fa/projects`,
       },
+    },
+    openGraph: {
+      type: "website",
+      locale: locale === "fa" ? "fa_IR" : "en_US",
+      url: canonical,
+      siteName: locale === "fa" ? site.nameFa : site.nameEn,
+      title,
+      description,
+      images: [{url: "/opengraph-image", width: 1200, height: 630}],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
     },
   };
 }
