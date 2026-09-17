@@ -1,10 +1,11 @@
 import type {MetadataRoute} from "next";
 import {locales, site} from "@/lib/site";
+import {projectsContent} from "@/lib/projects";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
-  return locales.flatMap((locale) => [
+  const staticPages = locales.flatMap((locale) => [
     {
       url: `${site.url}/${locale}`,
       lastModified: now,
@@ -13,21 +14,52 @@ export default function sitemap(): MetadataRoute.Sitemap {
       alternates: {
         languages: {
           fa: `${site.url}/fa`,
-          en: `${site.url}/en`
-        }
-      }
+          en: `${site.url}/en`,
+        },
+      },
     },
     {
       url: `${site.url}/${locale}/collaboration`,
       lastModified: now,
       changeFrequency: "monthly" as const,
-      priority: locale === "fa" ? 0.9 : 0.8,
+      priority: 0.8,
       alternates: {
         languages: {
           fa: `${site.url}/fa/collaboration`,
-          en: `${site.url}/en/collaboration`
-        }
-      }
-    }
+          en: `${site.url}/en/collaboration`,
+        },
+      },
+    },
+    {
+      url: `${site.url}/${locale}/projects`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.85,
+      alternates: {
+        languages: {
+          fa: `${site.url}/fa/projects`,
+          en: `${site.url}/en/projects`,
+        },
+      },
+    },
   ]);
+
+  const projectPages = locales.flatMap((locale) =>
+    projectsContent[locale].projects
+      .filter((p) => p.published)
+      .map((project) => ({
+        url: `${site.url}/${locale}/projects/${project.slug}`,
+        lastModified: now,
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+        alternates: {
+          languages: {
+            fa: `${site.url}/fa/projects/${project.slug}`,
+            en: `${site.url}/en/projects/${project.slug}`,
+          },
+        },
+      }))
+  );
+
+  return [...staticPages, ...projectPages];
 }

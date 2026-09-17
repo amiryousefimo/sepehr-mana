@@ -3,33 +3,64 @@ import type {SiteContent} from "@/lib/content";
 
 export function JsonLd({
   locale,
-  content
+  content,
 }: {
   locale: Locale;
   content: SiteContent;
 }) {
   const name = locale === "fa" ? site.nameFa : site.nameEn;
-  const data = {
+  const alternateName = locale === "fa" ? site.nameEn : site.nameFa;
+
+  const organization = {
     "@context": "https://schema.org",
     "@type": ["Organization", "ProfessionalService"],
     "@id": `${site.url}/#organization`,
     name,
-    alternateName: locale === "fa" ? site.nameEn : site.nameFa,
-    url: `${site.url}/${locale}`,
-    logo: `${site.url}/brand-mark.svg`,
+    alternateName,
+    url: site.url,
+    logo: {
+      "@type": "ImageObject",
+      url: `${site.url}/icon.svg`,
+    },
     description: content.meta.description,
-    telephone: "+98-991-277-7691",
+    telephone: "+989912777691",
+    email: site.contactEmail,
     areaServed: {
       "@type": "Country",
-      name: "Iran"
+      name: "Iran",
     },
-    knowsAbout: content.meta.keywords
+    knowsAbout: content.meta.keywords,
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+989912777691",
+      contactType: "customer service",
+      availableLanguage: ["Persian", "English"],
+    },
+  };
+
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${site.url}/#website`,
+    url: site.url,
+    name,
+    alternateName,
+    inLanguage: locale === "fa" ? "fa-IR" : "en",
+    publisher: {
+      "@id": `${site.url}/#organization`,
+    },
   };
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{__html: JSON.stringify(data)}}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{__html: JSON.stringify(organization)}}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{__html: JSON.stringify(website)}}
+      />
+    </>
   );
 }
