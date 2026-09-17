@@ -255,45 +255,36 @@ export default async function HomePage({
                 description={copy.team.description}
               />
             </Reveal>
-
             <div className="team__grid">
-              {copy.team.people.map((person, index) => {
-                const slug = slugifyName(person.name);
-                return (
-                  <Reveal className="person-card" delay={index * 0.1} key={person.name}>
-                    <a
-                      href={`/${locale}/team/${slug}`}
-                      style={{ textDecoration: "none", color: "inherit", display: "block", height: "100%" }}
-                    >
-                      <div className="person-card__portrait">
-                        {person.photoUrl ? (
-                          <img alt={person.name} src={person.photoUrl} />
-                        ) : (
-                          <>
-                            <span>{person.initials}</span>
-                            <small>{copy.team.photoPending}</small>
-                          </>
-                        )}
-                      </div>
-                      <div className="person-card__content">
-                        <span className="person-card__role">{person.role}</span>
-                        <h3>{person.name}</h3>
-                        <p className="person-card__introduction">{person.introduction}</p>
-                        {person.education && person.education.length > 0 && (
-                          <ul>
-                            {person.education.map((education: string) => (
-                              <li key={education}>
-                                <GraduationCap aria-hidden="true" />
-                                {education}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                    </a>
-                  </Reveal>
-                );
-              })}
+              {copy.team.people.map((person, index) => (
+                <Reveal className="person-card" delay={index * 0.1} key={person.name}>
+                  <div className="person-card__portrait">
+                    {person.photoUrl ? (
+                      <img alt={person.name} src={person.photoUrl} />
+                    ) : (
+                      <>
+                        <span>{person.initials}</span>
+                        <small>{copy.team.photoPending}</small>
+                      </>
+                    )}
+                  </div>
+                  <div className="person-card__content">
+                    <span className="person-card__role">{person.role}</span>
+                    <h3>{person.name}</h3>
+                    <p className="person-card__introduction">{person.introduction}</p>
+                    {person.education && person.education.length > 0 && (
+                      <ul>
+                        {person.education.map((education) => (
+                          <li key={education}>
+                            <GraduationCap aria-hidden="true" />
+                            {education}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </Reveal>
+              ))}
             </div>
           </div>
         </section>
