@@ -18,7 +18,7 @@ import {SiteHeader} from "@/components/site-header";
 import {content} from "@/lib/content";
 import {projectsContent} from "@/lib/projects";
 import {getManagedContent} from "@/lib/managed-content";
-import {isLocale, site, type Locale} from "@/lib/site";
+import {isLocale, site, slugifyName, type Locale} from "@/lib/site";
 
 export default async function HomePage({
   params
@@ -255,37 +255,55 @@ export default async function HomePage({
                 description={copy.team.description}
               />
             </Reveal>
+
             <div className="team__grid">
-              {copy.team.people.map((person, index) => (
-                <Reveal className="person-card" delay={index * 0.1} key={person.name}>
-                  <div className="person-card__portrait">
-                    {person.photoUrl ? (
-                      <img alt={person.name} src={person.photoUrl} />
-                    ) : (
-                      <>
-                        <span>{person.initials}</span>
-                        <small>{copy.team.photoPending}</small>
-                      </>
-                    )}
-                  </div>
-                  <div className="person-card__content">
-                    <span className="person-card__role">{person.role}</span>
-                    <h3>{person.name}</h3>
-                    <p className="person-card__introduction">{person.introduction}</p>
-                    {person.education.length > 0 && (
-                      <ul>
-                        {person.education.map((education) => (
-                          <li key={education}>
-                            <GraduationCap aria-hidden="true" />
-                            {education}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </Reveal>
-              ))}
+              {copy.team.people.map((person, index) => {
+                const slug = slugifyName(person.name);
+                return (
+                  <Reveal className="person-card" delay={index * 0.1} key={person.name}>
+                    <a
+                      href={`/${locale}/team/${slug}`}
+                      style={{textDecoration: "none", color: "inherit", display: "block", height: "100%"}}
+                    >
+                      <div className="person-card__portrait">
+                        {person.photoUrl ? (
+                          <img alt={person.name} src={person.photoUrl} />
+                        ) : (
+                          <>
+                            <span>{person.initials}</span>
+                            <small>{copy.team.photoPending}</small>
+                          </>
+                        )}
+                      </div>
+                      <div className="person-card__content">
+                        <span className="person-card__role">{person.role}</span>
+                        <h3>{person.name}</h3>
+                        <p className="person-card__introduction">{person.introduction}</p>
+                        {person.education.length > 0 && (
+                          <ul>
+                            {person.education.map((education) => (
+                              <li key={education}>
+                                <GraduationCap aria-hidden="true" />
+                                {education}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </a>
+                  </Reveal>
+                );
+              })}
             </div>
+
+            {/* دکمه مشاهده همه تیم (اختیاری ولی بهتره داشته باشی) */}
+            <Reveal>
+              <div style={{display: "flex", justifyContent: "center", marginTop: 48}}>
+                <a href={`/${locale}/team`} className="button button--primary">
+                  {locale === "fa" ? "مشاهده همه اعضای تیم" : "View all team members"}
+                </a>
+              </div>
+            </Reveal>
           </div>
         </section>
 

@@ -1,8 +1,10 @@
 import type {MetadataRoute} from "next";
-import {locales, site} from "@/lib/site";
+import {locales, site, slugifyName} from "@/lib/site";
 import {projectsContent} from "@/lib/projects";
+import {content} from "@/lib/content";
+import {getManagedContent} from "@/lib/managed-content";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticPages = locales.flatMap((locale) => [
@@ -42,8 +44,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
       },
     },
+    {
+      url: `${site.url}/${locale}/team`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+      alternates: {
+        languages: {
+          fa: `${site.url}/fa/team`,
+          en: `${site.url}/en/team`,
+        },
+      },
+    },
   ]);
 
+  // صفحات پروژه‌ها
   const projectPages = locales.flatMap((locale) =>
     projectsContent[locale].projects
       .filter((p) => p.published)
@@ -61,5 +76,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
       }))
   );
 
-  return [...staticPages, ...projectPages];
+  // صفحات اعضای تیم (از CMS)
+  const teamPages: MetadataRoute.Sitemap = [];
+  for (const locale of locales) {
+    try {
+      const copy = await getManagedContent(locale, content[locale]);
+      const people = copy.team?.people || [];
+      for (const person of people) {
+        const slug = slugifyName(person.name);
+        teamPages.push({
+          url: `${site.url}/${locale}/team/${slug}`,
+          lastModified: now,
+          changeFrequency: "monthly",
+          priority: 0.65,
+          alternates: {
+            languages: {
+              fa: `${site.url}/fa/team/${slug}`,
+              en: `${site.url}/en/team/${slug}`,
+            },
+          },
+        });
+      }
+    } catch {
+      // اگر CMS در دسترس نبود، رد شو
+    }
+  }
+
+  return [...staticPages, ...projectPages, ...teamPages];
 }

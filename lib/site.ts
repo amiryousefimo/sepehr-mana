@@ -24,3 +24,13 @@ export function isLocale(value: string): value is Locale {
 export function localeDirection(locale: Locale) {
   return locale === "fa" ? "rtl" : "ltr";
 }
+
+export function slugifyName(name: string): string {
+  return name
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\u0600-\u06FFa-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
