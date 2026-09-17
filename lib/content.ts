@@ -115,6 +115,7 @@ const fa: SiteContent = {
     description:
       "طراحی و توسعه نرم‌افزار سفارشی، راهکارهای داده، یکپارچه‌سازی، بهبود فرایند و زیرساخت فناوری برای سازمان‌های آینده‌نگر.",
     keywords: [
+      // عمومی
       "توسعه نرم افزار سازمانی",
       "نرم افزار سفارشی",
       "مشاوره فناوری اطلاعات",
@@ -122,9 +123,26 @@ const fa: SiteContent = {
       "هوش تجاری",
       "طراحی داشبورد مدیریتی",
       "اتوماسیون فرایند",
-      "امیر محمدیوسفی",
+      "تکاپوگران سپهر مانا",
+      "سپهر مانا",
+
+      // اعضای تیم
       "امیر محمد یوسفی",
-      "لیلا شریعتی"
+      "امیر محمدیوسفی",
+      "لیلا شریعتی",
+      "حسن جاهدی",
+      "همید فدایی",
+      "محمد مهدی کاظمی",
+      "محمدمهدی کاظمی",
+
+      // پروژه‌ها
+      "سوپر اپلیکیشن فرودگاه امام خمینی",
+      "سوپر اپلیکیشن فرودگاهی",
+      "سامانه ذهن هوشمند صدرا",
+      "ذهن هوشمند صدرا",
+      "سامانه گردش کار",
+      "سامانه مدیریت فرآیند",
+      "workflow",
     ]
   },
   nav: {
@@ -400,6 +418,7 @@ const en: SiteContent = {
     description:
       "Custom software, data platforms, systems integration, process improvement and technology infrastructure for forward-looking organizations.",
     keywords: [
+      // General
       "enterprise software development",
       "custom software",
       "IT consulting Tehran",
@@ -407,8 +426,23 @@ const en: SiteContent = {
       "business intelligence",
       "management dashboards",
       "process automation",
+      "Takapoo Garan Sepehr Mana",
+      "Sepehr Mana",
+
+      // Team
       "Amir Mohammad Yousefi",
-      "Leila Shariati"
+      "Leila Shariati",
+      "Hassan Jahedi",
+      "Hamid Fadaei",
+      "Mohammad Mehdi Kazemi",
+
+      // Projects
+      "Imam Khomeini Airport Super App",
+      "Airport Super App",
+      "Sadra Smart Mind System",
+      "Sadra Smart Mind",
+      "Workflow Management System",
+      "enterprise workflow system",
     ]
   },
   nav: {
