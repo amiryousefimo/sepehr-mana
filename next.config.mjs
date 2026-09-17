@@ -2,6 +2,15 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig = {
   output: "standalone",
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cms.mhka.cloud",
+        pathname: "/api/media/**",
+      },
+    ],
+  },
   async redirects() {
     return [
       {
