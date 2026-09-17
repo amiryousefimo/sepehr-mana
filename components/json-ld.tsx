@@ -51,6 +51,34 @@ export function JsonLd({
     },
   };
 
+  // Person Schema برای اعضای تیم
+  const people = (content.team?.people || []).map((person, index) => ({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": `${site.url}/#person-${index + 1}`,
+    name: person.name,
+    jobTitle: person.role,
+    description: person.introduction,
+    worksFor: {
+      "@id": `${site.url}/#organization`,
+    },
+    ...(person.photoUrl
+      ? {
+          image: person.photoUrl.startsWith("http")
+            ? person.photoUrl
+            : `${site.url}${person.photoUrl}`,
+        }
+      : {}),
+    ...(person.education?.length
+      ? {
+          alumniOf: person.education.map((edu) => ({
+            "@type": "EducationalOrganization",
+            name: edu,
+          })),
+        }
+      : {}),
+  }));
+
   return (
     <>
       <script
@@ -61,6 +89,13 @@ export function JsonLd({
         type="application/ld+json"
         dangerouslySetInnerHTML={{__html: JSON.stringify(website)}}
       />
+      {people.map((person, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify(person)}}
+        />
+      ))}
     </>
   );
 }
