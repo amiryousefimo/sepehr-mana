@@ -263,7 +263,7 @@ export default async function HomePage({
                   <Reveal className="person-card" delay={index * 0.1} key={person.name}>
                     <a
                       href={`/${locale}/team/${slug}`}
-                      style={{textDecoration: "none", color: "inherit", display: "block", height: "100%"}}
+                      style={{ textDecoration: "none", color: "inherit", display: "block", height: "100%" }}
                     >
                       <div className="person-card__portrait">
                         {person.photoUrl ? (
@@ -279,9 +279,9 @@ export default async function HomePage({
                         <span className="person-card__role">{person.role}</span>
                         <h3>{person.name}</h3>
                         <p className="person-card__introduction">{person.introduction}</p>
-                        {person.education.length > 0 && (
+                        {person.education && person.education.length > 0 && (
                           <ul>
-                            {person.education.map((education) => (
+                            {person.education.map((education: string) => (
                               <li key={education}>
                                 <GraduationCap aria-hidden="true" />
                                 {education}
@@ -295,15 +295,6 @@ export default async function HomePage({
                 );
               })}
             </div>
-
-            {/* دکمه مشاهده همه تیم (اختیاری ولی بهتره داشته باشی) */}
-            <Reveal>
-              <div style={{display: "flex", justifyContent: "center", marginTop: 48}}>
-                <a href={`/${locale}/team`} className="button button--primary">
-                  {locale === "fa" ? "مشاهده همه اعضای تیم" : "View all team members"}
-                </a>
-              </div>
-            </Reveal>
           </div>
         </section>
 

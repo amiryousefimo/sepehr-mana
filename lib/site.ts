@@ -26,11 +26,21 @@ export function localeDirection(locale: Locale) {
 }
 
 export function slugifyName(name: string): string {
+  const map: Record<string, string> = {
+    "آ": "a", "ا": "a", "ب": "b", "پ": "p", "ت": "t", "ث": "s",
+    "ج": "j", "چ": "ch", "ح": "h", "خ": "kh", "د": "d", "ذ": "z",
+    "ر": "r", "ز": "z", "ژ": "zh", "س": "s", "ش": "sh", "ص": "s",
+    "ض": "z", "ط": "t", "ظ": "z", "ع": "a", "غ": "gh", "ف": "f",
+    "ق": "gh", "ک": "k", "گ": "g", "ل": "l", "م": "m", "ن": "n",
+    "و": "v", "ه": "h", "ی": "y", "ئ": "y", "ى": "y",
+    " ": "-",
+  };
+
   return name
     .trim()
-    .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^\u0600-\u06FFa-z0-9-]/g, "")
+    .split("")
+    .map((char) => map[char] || (/[a-z0-9]/i.test(char) ? char.toLowerCase() : ""))
+    .join("")
     .replace(/-+/g, "-")
     .replace(/^-|-$/g, "");
 }
