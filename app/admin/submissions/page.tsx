@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import {ClipboardList, Mail, RefreshCw, Send} from "lucide-react";
+import {ElderlyCareSurveyTab, type SurveyRecord} from "@/components/admin/elderly-care-survey-tab";
 
 type ContactRecord = {
   id: string; ts: number; name: string; organization: string;
@@ -12,23 +13,6 @@ type CollaborationRecord = {
   id: string; ts: number; name: string; organization: string; role: string;
   phone: string; email: string; collaborationType: string; budget: string;
   timeline: string; message: string; locale: string; resumeFilename: string;
-};
-
-type SurveyRecord = {
-  id: string;
-  ts: number;
-  locale: string;
-  followUpConsent: boolean;
-  contactPhone: string;
-  contactEmail: string;
-  needScore: number | null;
-  adoptionScore: number | null;
-  paymentScore: number | null;
-  reliabilityScore: number;
-  segment: string;
-  decisionLabel: string;
-  contradictionFlags: string[];
-  answers: Record<string, string>;
 };
 
 function formatDate(ts: number) {
@@ -132,60 +116,6 @@ function CollaborationTable({records}: {records: CollaborationRecord[]}) {
   );
 }
 
-function SurveyTable({records}: {records: SurveyRecord[]}) {
-  const [expanded, setExpanded] = useState<string | null>(null);
-  if (!records.length) return <p className="admin-empty">No survey responses yet.</p>;
-  return (
-    <div className="admin-table-wrap">
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th>Date</th><th>Segment</th><th>Decision</th>
-            <th>Need</th><th>Adoption</th><th>Payment</th><th>Reliability</th>
-            <th>Flags</th><th>Contact</th><th>Answers</th>
-          </tr>
-        </thead>
-        <tbody>
-          {records.map((r) => (
-            <>
-              <tr key={r.id} className={expanded === r.id ? "admin-table__row--active" : ""}>
-                <td dir="ltr">{formatDate(r.ts)}</td>
-                <td><span className="admin-badge">{r.segment}</span></td>
-                <td>{r.decisionLabel}</td>
-                <td>{r.needScore ?? "—"}</td>
-                <td>{r.adoptionScore ?? "—"}</td>
-                <td>{r.paymentScore ?? "—"}</td>
-                <td>{r.reliabilityScore}</td>
-                <td>{r.contradictionFlags.length ? r.contradictionFlags.join(", ") : "—"}</td>
-                <td dir="ltr">
-                  {r.followUpConsent
-                    ? [r.contactPhone, r.contactEmail].filter(Boolean).join(" · ") || "—"
-                    : "—"}
-                </td>
-                <td>
-                  <button
-                    className="admin-btn-link"
-                    onClick={() => setExpanded(expanded === r.id ? null : r.id)}
-                  >
-                    {expanded === r.id ? "Hide" : "View"}
-                  </button>
-                </td>
-              </tr>
-              {expanded === r.id && (
-                <tr key={`${r.id}-answers`} className="admin-table__expand">
-                  <td colSpan={10}>
-                    <pre>{JSON.stringify(r.answers, null, 2)}</pre>
-                  </td>
-                </tr>
-              )}
-            </>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
 export default function SubmissionsPage() {
   const [tab, setTab] = useState<"contact" | "collaboration" | "survey">("contact");
   const [contact, setContact] = useState<ContactRecord[]>([]);
@@ -251,7 +181,7 @@ export default function SubmissionsPage() {
       ) : tab === "collaboration" ? (
         <CollaborationTable records={collaboration} />
       ) : (
-        <SurveyTable records={survey} />
+        <ElderlyCareSurveyTab records={survey} />
       )}
     </div>
   );

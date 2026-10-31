@@ -3,41 +3,66 @@ import {BrandMark} from "@/components/brand-mark";
 import type {SiteContent} from "@/lib/content";
 import type {Locale} from "@/lib/site";
 
+type NavItem = {
+  id: string;
+  label: string;
+  href?: string;
+};
+
 export function SiteHeader({
   locale,
   content,
-  page = "home"
+  page = "inner"
 }: {
   locale: Locale;
   content: SiteContent;
-   page?: "home" | "collaboration" | "projects";
+  page?: "home" | "collaboration" | "projects" | "surveys" | "inner";
 }) {
   const otherLocale = locale === "fa" ? "en" : "fa";
   const homeHref = `/${locale}`;
-  const otherLocaleHref = page === "collaboration"
+  const surveysHref = `/${locale}/surveys`;
+  const overlayHeader =
+    page === "home" || page === "collaboration" || page === "projects";
+  const otherLocaleHref =
+    page === "collaboration"
       ? `/${otherLocale}/collaboration`
-      : page === "projects"
-        ? `/${otherLocale}`       
-        : `/${otherLocale}`;
-  const navigation = [
-    ["services", content.nav.services],
-    ["solutions", content.nav.solutions],
-    ["approach", content.nav.approach],
-    ["about", content.nav.about],
-    ["team", content.nav.team]
+      : page === "surveys"
+        ? `/${otherLocale}/surveys`
+        : page === "projects"
+          ? `/${otherLocale}/projects`
+          : `/${otherLocale}`;
+
+  const navigation: NavItem[] = [
+    {id: "services", label: content.nav.services},
+    {id: "solutions", label: content.nav.solutions},
+    {id: "approach", label: content.nav.approach},
+    {id: "about", label: content.nav.about},
+    {id: "team", label: content.nav.team},
+    {id: "surveys", label: content.nav.surveys, href: surveysHref}
   ];
 
+  function navHref(item: NavItem) {
+    if (item.href) return item.href;
+    return page === "home" ? `#${item.id}` : `${homeHref}#${item.id}`;
+  }
+
   return (
-    <header className="site-header">
+    <header
+      className={`site-header${overlayHeader ? "" : " site-header--solid"}`}
+    >
       <div className="shell site-header__inner">
         <a className="site-header__brand" href={homeHref} aria-label={content.meta.title}>
           <BrandMark />
         </a>
 
         <nav className="desktop-nav" aria-label={content.nav.menu}>
-          {navigation.map(([id, label]) => (
-            <a href={page === "home" ? `#${id}` : `${homeHref}#${id}`} key={id}>
-              {label}
+          {navigation.map((item) => (
+            <a
+              href={navHref(item)}
+              key={item.id}
+              aria-current={page === "surveys" && item.id === "surveys" ? "page" : undefined}
+            >
+              {item.label}
             </a>
           ))}
         </nav>
@@ -60,9 +85,9 @@ export function SiteHeader({
               <Menu aria-hidden="true" />
             </summary>
             <nav aria-label={content.nav.menu}>
-              {navigation.map(([id, label]) => (
-                <a href={page === "home" ? `#${id}` : `${homeHref}#${id}`} key={id}>
-                  {label}
+              {navigation.map((item) => (
+                <a href={navHref(item)} key={item.id}>
+                  {item.label}
                 </a>
               ))}
               <a href={otherLocaleHref} hrefLang={otherLocale}>

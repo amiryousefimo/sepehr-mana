@@ -57,6 +57,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       },
     },
     {
+      url: `${site.url}/${locale}/surveys`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.78,
+      alternates: {
+        languages: {
+          fa: `${site.url}/fa/surveys`,
+          en: `${site.url}/en/surveys`,
+        },
+      },
+    },
+    {
       url: `${site.url}/${locale}/survey/elderly-care`,
       lastModified: now,
       changeFrequency: "monthly" as const,

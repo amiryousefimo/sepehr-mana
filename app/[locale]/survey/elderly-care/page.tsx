@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
-import {ArrowLeft} from "lucide-react";
 import {notFound} from "next/navigation";
 import {ElderlyCareSurveyForm} from "@/components/elderly-care-survey-form";
+import {PageBackLink} from "@/components/page-back-link";
 import {Reveal} from "@/components/reveal";
 import {SiteFooter} from "@/components/site-footer";
 import {SiteHeader} from "@/components/site-header";
@@ -50,16 +50,10 @@ export default async function ElderlyCareSurveyPage({params}: PageProps) {
 
   return (
     <>
-      <SiteHeader locale={locale} content={siteCopy} page="home" />
+      <SiteHeader locale={locale} content={siteCopy} page="surveys" />
 
       <main id="main" className="survey-page">
         <section className="survey-hero">
-          <div className="shell survey-hero__nav">
-            <a className="collaboration-hero__back" href={`/${locale}`}>
-              <ArrowLeft aria-hidden="true" />
-              {copy.nav.back}
-            </a>
-          </div>
           <div className="shell survey-hero__inner">
             <Reveal className="survey-hero__copy">
               <span className="hero__eyebrow">
@@ -77,6 +71,7 @@ export default async function ElderlyCareSurveyPage({params}: PageProps) {
 
         <section className="survey-body">
           <div className="shell">
+            <PageBackLink href={`/${locale}`} locale={locale} label={copy.nav.back} />
             <Reveal className="survey-card">
               <ElderlyCareSurveyForm copy={copy.form} intro={copy.intro} locale={locale} />
             </Reveal>

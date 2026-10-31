@@ -1,4 +1,4 @@
-import {ArrowUp, Mail, MapPin, Phone} from "lucide-react";
+import {ArrowUp, Mail, Phone} from "lucide-react";
 import {BrandMark} from "@/components/brand-mark";
 import {site, type Locale} from "@/lib/site";
 
@@ -25,8 +25,8 @@ const footerCopy = {
     socialTitle: "شبکه‌های اجتماعی",
     phone: "تلفن",
     email: "ایمیل",
-    address: "موقعیت / آدرس",
-    // Address provided below in rendered content
+    // address: "موقعیت / آدرس",
+    registration: "شماره ثبت شرکت",
     home: "صفحه اصلی",
     collaboration: "درخواست همکاری",
     contact: "تماس با ما"
@@ -39,8 +39,8 @@ const footerCopy = {
     socialTitle: "Social channels",
     phone: "Phone",
     email: "Email",
-    address: "Location / address",
-    // Address provided below in rendered content
+    // address: "Location / address",
+    registration: "Company registration no.",
     home: "Home",
     collaboration: "Collaboration request",
     contact: "Contact us"
@@ -126,6 +126,7 @@ export function SiteFooter({
                 <b dir="ltr">{site.contactEmail}</b>
               </div>
             </a>
+            {/* Address temporarily hidden from the site
             <div className="footer__contact-item">
               <span><MapPin aria-hidden="true" /></span>
               <div>
@@ -133,6 +134,7 @@ export function SiteFooter({
                 <b>ایران، تهران، تهران، استان تهران، شهرستان تهران، بخش مرکزی، شهر تهران، زنجان جنوبی، کوچه شهید جهانگیر ابراهیم، خیابان شهید نادر ایرانخواه، پلاک 33، طبقه 3، واحد 10</b>
               </div>
             </div>
+            */}
           </div>
         </section>
 
@@ -158,6 +160,9 @@ export function SiteFooter({
       <div className="shell footer__bottom">
         <span>© {year}</span>
         <span>{rights}</span>
+        <span className="footer__registration" dir="ltr">
+          {copy.registration}: 676183
+        </span>
         <a className="footer__top" href="#top" aria-label={backToTop}>
           <ArrowUp aria-hidden="true" />
         </a>

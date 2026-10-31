@@ -1,12 +1,12 @@
 import type {Metadata} from "next";
 import {
-  ArrowLeft,
   Check,
   Clock3
 } from "lucide-react";
 import {notFound} from "next/navigation";
 import {BrandMark} from "@/components/brand-mark";
 import {CollaborationForm} from "@/components/collaboration-form";
+import {PageBackLink} from "@/components/page-back-link";
 import {Reveal} from "@/components/reveal";
 import {SiteFooter} from "@/components/site-footer";
 import {SiteHeader} from "@/components/site-header";
@@ -89,12 +89,6 @@ export default async function CollaborationPage({params}: PageProps) {
         <section className="collaboration-hero" id="top">
           <div className="collaboration-hero__grid" aria-hidden="true" />
           <div className="collaboration-hero__orb" aria-hidden="true" />
-          <div className="shell collaboration-hero__nav">
-            <a className="collaboration-hero__back" href={`/${locale}`}>
-              <ArrowLeft aria-hidden="true" />
-              {copy.nav.back}
-            </a>
-          </div>
           <div className="shell collaboration-hero__inner">
             <Reveal className="collaboration-hero__copy">
               <span className="hero__eyebrow">
@@ -132,7 +126,9 @@ export default async function CollaborationPage({params}: PageProps) {
         </section>
 
         <section className="collaboration-body">
-          <div className="shell collaboration-body__grid">
+          <div className="shell">
+            <PageBackLink href={`/${locale}`} locale={locale} label={copy.nav.back} />
+            <div className="collaboration-body__grid">
             <Reveal className="collaboration-form-card">
               <div className="collaboration-form-card__heading">
                 <span className="section-kicker">
@@ -185,6 +181,7 @@ export default async function CollaborationPage({params}: PageProps) {
                 </ul>
               </Reveal>
             </aside>
+            </div>
           </div>
         </section>
       </main>

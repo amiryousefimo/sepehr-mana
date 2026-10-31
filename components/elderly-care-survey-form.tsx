@@ -243,7 +243,7 @@ export function ElderlyCareSurveyForm({
           )}
 
           <div className="survey-form__nav">
-            <button className="button button--ghost" type="button" onClick={goPrevSection}>
+            <button className="button button--secondary survey-form__back" type="button" onClick={goPrevSection}>
               <ChevronRight aria-hidden="true" />
               {copy.previous}
             </button>
@@ -314,7 +314,7 @@ export function ElderlyCareSurveyForm({
           )}
 
           <div className="survey-form__nav">
-            <button className="button button--ghost" type="button" onClick={goPrevSection}>
+            <button className="button button--secondary survey-form__back" type="button" onClick={goPrevSection}>
               <ChevronRight aria-hidden="true" />
               {copy.previous}
             </button>

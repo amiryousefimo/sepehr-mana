@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
 import {notFound} from "next/navigation";
 import Image from "next/image";
-import {ArrowLeft} from "lucide-react";
+import {PageBackLink} from "@/components/page-back-link";
 import {Reveal} from "@/components/reveal";
 import {SectionHeading} from "@/components/section-heading";
 import {SiteFooter} from "@/components/site-footer";
@@ -72,18 +72,10 @@ export default async function TeamPage({params}: PageProps) {
     <>
       <SiteHeader locale={locale} content={copy} />
       <main id="main">
-        <section className="section" style={{paddingTop: 140, paddingBottom: 80}}>
+        <section className="section inner-page-section">
           <div className="shell">
+            <PageBackLink href={`/${locale}`} locale={locale} />
             <Reveal>
-              <a
-                href={`/${locale}`}
-                className="button button--ghost"
-                style={{marginBottom: 40, display: "inline-flex"}}
-              >
-                <ArrowLeft size={18} />
-                {locale === "fa" ? "بازگشت به صفحه اصلی" : "Back to home"}
-              </a>
-
               <SectionHeading
                 label={copy.team.label}
                 title={copy.team.title}
