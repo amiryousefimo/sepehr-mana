@@ -45,6 +45,25 @@ export type TeamMember = {
   photoUrl?: string;
 };
 
+export type ElderlyCareSurveyRecord = {
+  id: string;
+  ts: number;
+  locale: string;
+  answers: Record<string, string>;
+  followUpConsent: boolean;
+  contactPhone: string;
+  contactEmail: string;
+  needScore: number | null;
+  adoptionScore: number | null;
+  paymentScore: number | null;
+  reliabilityScore: number;
+  segment: string;
+  decision: string;
+  decisionLabel: string;
+  contradictionFlags: string[];
+  contradictionLabels: string[];
+};
+
 // ─── Contact ─────────────────────────────────────────────────────────────────
 
 export async function appendContact(record: ContactRecord): Promise<void> {
@@ -91,6 +110,32 @@ export async function readCollaborationSubmissions(): Promise<CollaborationRecor
       .split("\n")
       .filter(Boolean)
       .map((l) => JSON.parse(l) as CollaborationRecord)
+      .reverse();
+  } catch {
+    return [];
+  }
+}
+
+// ─── Elderly care market research survey ─────────────────────────────────────
+
+export async function appendElderlyCareSurvey(record: ElderlyCareSurveyRecord): Promise<void> {
+  await ensureDataDir();
+  await appendFile(
+    path.join(DATA_DIR, "elderly-care-survey.jsonl"),
+    JSON.stringify(record) + "\n",
+    "utf-8"
+  );
+}
+
+export async function readElderlyCareSurveySubmissions(): Promise<ElderlyCareSurveyRecord[]> {
+  await ensureDataDir();
+  try {
+    const text = await readFile(path.join(DATA_DIR, "elderly-care-survey.jsonl"), "utf-8");
+    return text
+      .trim()
+      .split("\n")
+      .filter(Boolean)
+      .map((l) => JSON.parse(l) as ElderlyCareSurveyRecord)
       .reverse();
   } catch {
     return [];

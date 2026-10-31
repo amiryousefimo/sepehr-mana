@@ -1,7 +1,8 @@
 import type {Metadata} from "next";
 import {notFound} from "next/navigation";
 import Image from "next/image";
-import {ArrowLeft, GraduationCap} from "lucide-react";
+import {GraduationCap} from "lucide-react";
+import {PageBackLink} from "@/components/page-back-link";
 import {Reveal} from "@/components/reveal";
 import {SiteFooter} from "@/components/site-footer";
 import {SiteHeader} from "@/components/site-header";
@@ -101,19 +102,13 @@ export default async function TeamMemberPage({params}: PageProps) {
     <>
       <SiteHeader locale={locale} content={copy} />
       <main id="main">
-        <section className="section" style={{paddingTop: 140, paddingBottom: 100}}>
+        <section className="section inner-page-section">
           <div className="shell" style={{maxWidth: 900}}>
-            <Reveal>
-              <a
-                href={`/${locale}/team`}
-                className="button button--ghost"
-                style={{marginBottom: 40, display: "inline-flex"}}
-              >
-                <ArrowLeft size={18} />
-                {locale === "fa" ? "بازگشت به تیم" : "Back to team"}
-              </a>
-            </Reveal>
-
+            <PageBackLink
+              href={`/${locale}/team`}
+              locale={locale}
+              label={locale === "fa" ? "بازگشت به تیم" : "Back to team"}
+            />
             <div
               style={{
                 display: "grid",

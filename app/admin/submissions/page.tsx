@@ -1,7 +1,8 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {Mail, RefreshCw, Send} from "lucide-react";
+import {ClipboardList, Mail, RefreshCw, Send} from "lucide-react";
+import {ElderlyCareSurveyTab, type SurveyRecord} from "@/components/admin/elderly-care-survey-tab";
 
 type ContactRecord = {
   id: string; ts: number; name: string; organization: string;
@@ -116,19 +117,22 @@ function CollaborationTable({records}: {records: CollaborationRecord[]}) {
 }
 
 export default function SubmissionsPage() {
-  const [tab, setTab] = useState<"contact" | "collaboration">("contact");
+  const [tab, setTab] = useState<"contact" | "collaboration" | "survey">("contact");
   const [contact, setContact] = useState<ContactRecord[]>([]);
   const [collaboration, setCollaboration] = useState<CollaborationRecord[]>([]);
+  const [survey, setSurvey] = useState<SurveyRecord[]>([]);
   const [loading, setLoading] = useState(true);
 
   async function load() {
     setLoading(true);
-    const [cr, colr] = await Promise.all([
+    const [cr, colr, sr] = await Promise.all([
       fetch("/api/admin/submissions?type=contact").then(r => r.json()) as Promise<{submissions: ContactRecord[]}>,
-      fetch("/api/admin/submissions?type=collaboration").then(r => r.json()) as Promise<{submissions: CollaborationRecord[]}>
+      fetch("/api/admin/submissions?type=collaboration").then(r => r.json()) as Promise<{submissions: CollaborationRecord[]}>,
+      fetch("/api/admin/submissions?type=elderly-care-survey").then(r => r.json()) as Promise<{submissions: SurveyRecord[]}>
     ]);
     setContact(cr.submissions ?? []);
     setCollaboration(colr.submissions ?? []);
+    setSurvey(sr.submissions ?? []);
     setLoading(false);
   }
 
@@ -160,14 +164,24 @@ export default function SubmissionsPage() {
           Collaboration
           {collaboration.length > 0 && <span className="admin-count">{collaboration.length}</span>}
         </button>
+        <button
+          className={`admin-tab ${tab === "survey" ? "admin-tab--active" : ""}`}
+          onClick={() => setTab("survey")}
+        >
+          <ClipboardList aria-hidden="true" />
+          Elderly care survey
+          {survey.length > 0 && <span className="admin-count">{survey.length}</span>}
+        </button>
       </div>
 
       {loading ? (
         <div className="admin-loading">Loading…</div>
       ) : tab === "contact" ? (
         <ContactTable records={contact} />
-      ) : (
+      ) : tab === "collaboration" ? (
         <CollaborationTable records={collaboration} />
+      ) : (
+        <ElderlyCareSurveyTab records={survey} />
       )}
     </div>
   );

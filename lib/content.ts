@@ -32,7 +32,7 @@ export type Solution = {
 export type SiteContent = {
   meta: {title: string; description: string; keywords: string[]};
   nav: Record<
-    "services" | "solutions" | "approach" | "about" | "team" | "contact" | "cta" | "language" | "menu",
+    "services" | "solutions" | "approach" | "about" | "team" | "surveys" | "contact" | "cta" | "language" | "menu",
     string
   >;
   hero: {
@@ -100,6 +100,13 @@ export type SiteContent = {
     note: string;
     call: string;
   };
+  surveys: {
+    label: string;
+    title: string;
+    description: string;
+    cta: string;
+    cardAction: string;
+  };
   footer: {
     summary: string;
     navigation: string;
@@ -151,6 +158,7 @@ const fa: SiteContent = {
     approach: "روش همکاری",
     about: "درباره ما",
     team: "تیم",
+    surveys: "پرسشنامه‌ها",
     contact: "تماس",
     cta: "شروع گفتگو",
     language: "English",
@@ -383,6 +391,14 @@ const fa: SiteContent = {
       }
     ]
   },
+  surveys: {
+    label: "مشارکت در تحقیق",
+    title: "پرسشنامه‌های ما را تکمیل کنید",
+    description:
+      "با پاسخ به پرسشنامه‌های تحقیق محصول، به طراحی راهکارهای واقعی‌تر برای خانواده‌ها و سازمان‌ها کمک می‌کنید. پاسخ‌ها ناشناس تحلیل می‌شوند.",
+    cta: "مشاهده همه پرسشنامه‌ها",
+    cardAction: "شروع پرسشنامه"
+  },
   contact: {
     label: "شروع یک همکاری",
     title: "برای مسئله بعدی سازمان شما آماده‌ایم.",
@@ -451,6 +467,7 @@ const en: SiteContent = {
     approach: "Approach",
     about: "About",
     team: "Team",
+    surveys: "Surveys",
     contact: "Contact",
     cta: "Start a conversation",
     language: "فارسی",
@@ -682,6 +699,14 @@ const en: SiteContent = {
         initials: "HF"
       }
     ]
+  },
+  surveys: {
+    label: "Research participation",
+    title: "Take our surveys",
+    description:
+      "Help shape better products by completing our research questionnaires. Responses are analyzed anonymously.",
+    cta: "View all surveys",
+    cardAction: "Start survey"
   },
   contact: {
     label: "Start a partnership",

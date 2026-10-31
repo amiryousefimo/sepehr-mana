@@ -2,6 +2,8 @@ import {
   ArrowDown,
   ArrowUpLeft,
   Check,
+  ClipboardList,
+  Clock3,
   GraduationCap,
   Phone
 } from "lucide-react";
@@ -18,6 +20,7 @@ import {SiteHeader} from "@/components/site-header";
 import {content} from "@/lib/content";
 import {projectsContent} from "@/lib/projects";
 import {getManagedContent} from "@/lib/managed-content";
+import {publicSurveys} from "@/lib/surveys-catalog";
 import {isLocale, site, slugifyName, type Locale} from "@/lib/site";
 
 export default async function HomePage({
@@ -43,13 +46,15 @@ export default async function HomePage({
     ["approach", copy.nav.approach],
     ["about", copy.nav.about],
     ["team", copy.nav.team],
+    ["surveys", copy.nav.surveys],
     ["contact", copy.nav.contact]
   ];
+  const featuredSurvey = publicSurveys.find((s) => s.active && s.id === "elderly-care");
 
   return (
     <>
       <JsonLd locale={locale} content={copy} />
-      <SiteHeader locale={locale} content={copy} />
+      <SiteHeader locale={locale} content={copy} page="home" />
       <main id="main">
         <section className="hero" id="top">
           <div className="hero__ambient" aria-hidden="true" />
@@ -301,6 +306,47 @@ export default async function HomePage({
           showViewAll
         />
 
+        <section className="section home-surveys" id="surveys">
+          <div className="shell">
+            <Reveal>
+              <SectionHeading
+                align="center"
+                label={copy.surveys.label}
+                title={copy.surveys.title}
+                description={copy.surveys.description}
+              />
+            </Reveal>
+            <div className="home-surveys__grid">
+              {featuredSurvey && (
+                <Reveal className="home-survey-card" delay={0.06}>
+                  <span className="home-survey-card__icon">
+                    <ClipboardList aria-hidden="true" />
+                  </span>
+                  <h3>{featuredSurvey.title[locale]}</h3>
+                  <p>{featuredSurvey.description[locale]}</p>
+                  <ul>
+                    <li>
+                      <Clock3 aria-hidden="true" />
+                      {featuredSurvey.duration[locale]}
+                    </li>
+                  </ul>
+                  <a className="button button--primary" href={featuredSurvey.href(locale)}>
+                    {copy.surveys.cardAction}
+                    <ArrowUpLeft aria-hidden="true" />
+                  </a>
+                </Reveal>
+              )}
+              <Reveal className="home-surveys__aside" delay={0.12}>
+                <p>{locale === "fa" ? "پرسشنامه‌های بیشتر به‌زودی اضافه می‌شوند." : "More surveys will be listed here soon."}</p>
+                <a className="button button--secondary home-surveys__all" href={`/${locale}/surveys`}>
+                  {copy.surveys.cta}
+                  <ArrowUpLeft aria-hidden="true" />
+                </a>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
         <section className="section contact" id="contact">
           <div className="contact__mesh" aria-hidden="true" />
           <div className="shell contact__grid">
@@ -333,7 +379,10 @@ export default async function HomePage({
         summary={copy.footer.summary}
         rights={copy.footer.rights}
         backToTop={copy.footer.backToTop}
-        navigation={navigation.map(([id, label]) => ({href: `#${id}`, label}))}
+        navigation={navigation.map(([id, label]) => ({
+          href: id === "surveys" ? `/${locale}/surveys` : `#${id}`,
+          label
+        }))}
       />
     </>
   );
