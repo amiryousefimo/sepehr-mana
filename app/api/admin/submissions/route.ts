@@ -1,6 +1,6 @@
 import {NextResponse} from "next/server";
 import {cookies} from "next/headers";
-import {readContactSubmissions, readCollaborationSubmissions} from "@/lib/store";
+import {readContactSubmissions, readCollaborationSubmissions, readElderlyCareSurveySubmissions} from "@/lib/store";
 
 export const runtime = "nodejs";
 
@@ -28,5 +28,10 @@ export async function GET(request: Request) {
     return NextResponse.json({submissions});
   }
 
-  return NextResponse.json({error: "Invalid type. Use ?type=contact or ?type=collaboration"}, {status: 400});
+  if (type === "elderly-care-survey") {
+    const submissions = await readElderlyCareSurveySubmissions();
+    return NextResponse.json({submissions});
+  }
+
+  return NextResponse.json({error: "Invalid type. Use ?type=contact, ?type=collaboration, or ?type=elderly-care-survey"}, {status: 400});
 }

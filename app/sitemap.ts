@@ -56,6 +56,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
       },
     },
+    {
+      url: `${site.url}/${locale}/survey/elderly-care`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+      alternates: {
+        languages: {
+          fa: `${site.url}/fa/survey/elderly-care`,
+          en: `${site.url}/en/survey/elderly-care`,
+        },
+      },
+    },
   ]);
 
   // صفحات پروژه‌ها
