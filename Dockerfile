@@ -30,6 +30,11 @@ COPY . .
 RUN npm run build
 
 FROM base AS runner
+RUN apt-get update && apt-get install -y --no-install-recommends python3-venv \
+  && python3 -m venv /opt/didban-venv \
+  && rm -rf /var/lib/apt/lists/*
+COPY didban/requirements.lock.txt /tmp/didban-requirements.txt
+RUN /opt/didban-venv/bin/pip install --no-cache-dir -r /tmp/didban-requirements.txt
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
@@ -40,6 +45,8 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/package.json ./package.json
+COPY didban ./didban
+COPY scripts/start-services.mjs ./scripts/start-services.mjs
 
 EXPOSE 3000
-CMD ["node", "server.js"]
+CMD ["node", "scripts/start-services.mjs"]

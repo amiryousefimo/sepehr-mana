@@ -12,3 +12,7 @@ tsconfig.tsbuildinfo
 data/contact.jsonl
 data/collaboration.jsonl
 data/elderly-care-survey.jsonl
+data/didban/
+didban/data/
+**/__pycache__/
+*.sqlite3*
