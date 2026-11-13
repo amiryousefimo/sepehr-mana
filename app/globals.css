@@ -5649,3 +5649,5 @@ html[dir="rtl"] .page-back-link svg {
     grid-template-columns: 1fr;
   }
 }
+
+.didban-report{max-width:1300px;margin:auto;line-height:1.9}.didban-report section{margin:32px 0}.didban-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin:24px 0}.didban-stats article,.didban-card{background:#fff;border:1px solid #dbe4e0;border-radius:16px;padding:20px;margin:12px 0;color:#183d39}.didban-stats article{display:flex;flex-direction:column}.didban-stats strong{font-size:30px}.didban-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}.didban-actions button,.didban-actions a,.didban-actions select,.didban-actions input:not([type=checkbox]){border:1px solid #b8cbc3;border-radius:9px;padding:10px 16px;font:inherit;background:#fff;color:#193d39}.didban-note{padding:18px;background:#eff4e7;border-radius:12px;margin:20px 0}.didban-report summary{cursor:pointer;padding:8px}.didban-report dl>div{padding:10px;border-bottom:1px solid #e7ece9}.didban-report dt{font-weight:bold}.didban-report dd{white-space:pre-wrap;overflow-wrap:anywhere;margin:0}

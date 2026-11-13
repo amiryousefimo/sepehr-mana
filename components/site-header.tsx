@@ -33,6 +33,7 @@ export function SiteHeader({
           : `/${otherLocale}`;
 
   const navigation: NavItem[] = [
+    {id: "analysis", label: locale === "fa" ? "تحلیل و طراحی" : "Analysis & design", href: `/${locale}/analysis-and-design`},
     {id: "services", label: content.nav.services},
     {id: "solutions", label: content.nav.solutions},
     {id: "approach", label: content.nav.approach},

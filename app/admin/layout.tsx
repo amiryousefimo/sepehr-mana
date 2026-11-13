@@ -18,6 +18,10 @@ export default function AdminLayout({children}: {children: ReactNode}) {
           <small>{site.nameEn}</small>
         </div>
         <nav className="admin__nav">
+          <Link href="/admin/didban" className="admin__nav-link">
+            <LayoutDashboard aria-hidden="true" />
+            گزارش‌های دیدبان
+          </Link>
           <Link href="/admin" className="admin__nav-link">
             <LayoutDashboard aria-hidden="true" />
             Dashboard
