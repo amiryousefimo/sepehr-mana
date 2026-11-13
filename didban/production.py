@@ -1,6 +1,7 @@
 """Loopback-only worker, reached through the site's scoped proxy."""
-import json, os
+import json, os, sys
 from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parent/'vendor'))
 from werkzeug.middleware.proxy_fix import ProxyFix
 from app import app, initialize
 from waitress import serve

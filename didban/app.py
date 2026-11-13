@@ -48,6 +48,11 @@ def close_db(error=None):
 
 def digest(s): return hashlib.sha256(s.encode()).hexdigest()
 def now(): return time.time()
+def bridge_authorized(purpose):
+    secret=os.environ.get('ADMIN_SECRET','')
+    expected=hmac.new(secret.encode(),purpose.encode(),hashlib.sha256).hexdigest()
+    return bool(secret) and request.remote_addr in ('127.0.0.1','::1') and secrets.compare_digest(request.headers.get('X-Didban-Bridge',''),expected)
+
 def audit(uid,action,detail):
     db().execute('INSERT INTO audit(user_id,action,details,created) VALUES(?,?,?,?)',(uid,action,json.dumps(detail,ensure_ascii=False),now()))
 
@@ -88,6 +93,9 @@ def security():
         origin=request.headers.get('Origin')
         if origin and origin!=request.host_url.rstrip('/'): return jsonify(error='درخواست از مبدأ دیگری پذیرفته نمی‌شود.'),403
         if not request.is_json: return jsonify(error='قالب درخواست باید JSON باشد.'),415
+        if request.path=='/api/internal/provision':
+            if not bridge_authorized('didban-provision-v1'):return jsonify(error='دسترسی مجاز نیست.'),403
+            return
         if request.path not in ('/api/login','/api/register','/api/local-login'):
             if not g.user: return jsonify(error='برای ادامه وارد حساب شوید.'),401
             if not secrets.compare_digest(request.headers.get('X-CSRF-Token',''),g.csrf or ''): return jsonify(error='نشست تغییر کرده است؛ صفحه را تازه کنید.'),403
@@ -292,11 +300,22 @@ def save_analysis():
 
 @app.get('/api/internal/report')
 def internal_report():
-    secret=os.environ.get('ADMIN_SECRET','')
-    expected=hmac.new(secret.encode(),b'didban-report-v1',hashlib.sha256).hexdigest()
-    if not secret or request.remote_addr not in ('127.0.0.1','::1') or not secrets.compare_digest(request.headers.get('X-Didban-Bridge',''),expected):
+    if not bridge_authorized('didban-report-v1'):
         return fail('دسترسی مجاز نیست.',403)
     return jsonify(project_report())
+
+@app.post('/api/internal/provision')
+def internal_provision():
+    passwords=request.get_json()
+    if not isinstance(passwords,dict) or set(passwords)!={'admin','test','monir.sadat'}:
+        return fail('نام سه حساب معتبر نیست.')
+    if any(not isinstance(value,str) or not 8<=len(value)<=128 for value in passwords.values()):
+        return fail('رمز هر حساب باید بین ۸ تا ۱۲۸ نویسه باشد.')
+    from provision_users import provision
+    created=provision(passwords['monir.sadat'],passwords)
+    audit(None,'accounts_provisioned',{'created':created,'usernames':list(passwords)})
+    db().commit()
+    return jsonify(ok=True,created=created)
 
 def project_report():
     data=aggregate()
