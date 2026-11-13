@@ -1,8 +1,10 @@
 import {createHmac} from "node:crypto";
+import {ensureDidbanWorker} from "./didban-worker";
 
 export async function readDidbanReport() {
   const secret = process.env.ADMIN_SECRET;
   if (!secret) throw new Error("Admin configuration is missing");
+  await ensureDidbanWorker();
   const response = await fetch(`http://127.0.0.1:${process.env.WORKBENCH_PORT || "8877"}/api/internal/report`, {
     cache: "no-store", signal: AbortSignal.timeout(10_000),
     headers: {"X-Didban-Bridge": createHmac("sha256", secret).update("didban-report-v1").digest("hex")}

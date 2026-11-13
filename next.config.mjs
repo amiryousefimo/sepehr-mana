@@ -1,7 +1,15 @@
 import createNextIntlPlugin from "next-intl/plugin";
 
+const didbanFiles = ["./didban/*.py", "./didban/bank.json", "./didban/static/**/*", "./didban/vendor/**/*"];
 const nextConfig = {
   output: "standalone",
+  experimental: {
+    outputFileTracingIncludes: {
+      "/didban/**": didbanFiles,
+      "/api/admin/didban": didbanFiles,
+      "/api/admin/didban/**": didbanFiles,
+    },
+  },
   images: {
     remotePatterns: [
       {

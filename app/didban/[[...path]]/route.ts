@@ -1,4 +1,5 @@
 import {NextRequest} from "next/server";
+import {ensureDidbanWorker} from "@/lib/didban-worker";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,6 +22,7 @@ async function relay(request: NextRequest, {params}: {params: {path?: string[]}}
   headers.set("x-forwarded-prefix", "/didban");
   headers.set("x-forwarded-for", request.headers.get("x-real-ip") ?? "unknown");
   try {
+    await ensureDidbanWorker();
     const response = await fetch(target, {
       method: request.method, headers, cache: "no-store", redirect: "manual",
       body: ["GET", "HEAD"].includes(request.method) ? undefined : await request.arrayBuffer(),
