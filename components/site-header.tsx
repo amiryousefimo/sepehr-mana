@@ -16,7 +16,7 @@ export function SiteHeader({
 }: {
   locale: Locale;
   content: SiteContent;
-  page?: "home" | "collaboration" | "projects" | "surveys" | "inner";
+  page?: "home" | "collaboration" | "projects" | "surveys" | "dashboards" | "inner";
 }) {
   const otherLocale = locale === "fa" ? "en" : "fa";
   const homeHref = `/${locale}`;
@@ -24,7 +24,9 @@ export function SiteHeader({
   const overlayHeader =
     page === "home" || page === "collaboration" || page === "projects";
   const otherLocaleHref =
-    page === "collaboration"
+    page === "dashboards"
+      ? `/${otherLocale}/dashboards`
+      : page === "collaboration"
       ? `/${otherLocale}/collaboration`
       : page === "surveys"
         ? `/${otherLocale}/surveys`
@@ -33,6 +35,7 @@ export function SiteHeader({
           : `/${otherLocale}`;
 
   const navigation: NavItem[] = [
+    {id: "dashboards", label: locale === "fa" ? "داشبوردها" : "Dashboards", href: `/${locale}/dashboards`},
     {id: "analysis", label: locale === "fa" ? "تحلیل و طراحی" : "Analysis & design", href: `/${locale}/analysis-and-design`},
     {id: "services", label: content.nav.services},
     {id: "solutions", label: content.nav.solutions},
@@ -61,7 +64,7 @@ export function SiteHeader({
             <a
               href={navHref(item)}
               key={item.id}
-              aria-current={page === "surveys" && item.id === "surveys" ? "page" : undefined}
+              aria-current={(page === "surveys" && item.id === "surveys") || (page === "dashboards" && item.id === "dashboards") ? "page" : undefined}
             >
               {item.label}
             </a>
