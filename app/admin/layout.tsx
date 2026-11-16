@@ -3,6 +3,7 @@ import Link from "next/link";
 import {LayoutDashboard, Mail, Users} from "lucide-react";
 import {SignOutButton} from "@/app/admin/sign-out-button";
 import {site} from "@/lib/site";
+import {BrandMark} from "@/components/brand-mark";
 
 export const metadata = {
   title: "Admin — " + site.nameEn,
@@ -13,10 +14,7 @@ export default function AdminLayout({children}: {children: ReactNode}) {
   return (
     <div className="admin">
       <aside className="admin__sidebar">
-        <div className="admin__brand">
-          <span>CMS</span>
-          <small>{site.nameEn}</small>
-        </div>
+        <BrandMark className="admin__brand" />
         <nav className="admin__nav">
           <Link href="/admin/didban" className="admin__nav-link">
             <LayoutDashboard aria-hidden="true" />

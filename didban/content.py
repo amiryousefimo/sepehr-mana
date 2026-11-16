@@ -75,13 +75,16 @@ PARENT_QUESTIONS = [
 
 
 REPORT_REVIEW = {
-    'id': 'sample-report-v1',
+    'id': 'sample-report-v2',
     'title': 'کارنامهٔ نمونهٔ والدین',
     'ratings': [
         {'key': 'clarity', 'label': 'فهم عددها و نمودارها'},
-        {'key': 'interpretability', 'label': 'روشن بودن معنای نتیجه‌ها'},
-        {'key': 'parent_usefulness', 'label': 'کاربردی بودن برای والد'},
-        {'key': 'caution', 'label': 'پرهیز از نتیجه‌گیری قطعی یا تشخیصی'},
-        {'key': 'context_balance', 'label': 'نمایش اثر سابقهٔ آموزش و آمادگی روز آزمون'},
+        {'key': 'numeric_transparency', 'label': 'شفافیت صورت، مخرج و تعداد پاسخ‌ها'},
+        {'key': 'method_clarity', 'label': 'قابل‌فهم بودن روش محاسبه و تفسیر'},
+        {'key': 'uncertainty', 'label': 'نمایش محدودیت، کمبود داده و عدم‌قطعیت'},
+        {'key': 'context_balance', 'label': 'نمایش سابقهٔ آموزش و اختیاری/اجباری بودن آن'},
+        {'key': 'day_readiness', 'label': 'توجه به حال و آمادگی روز آزمون'},
+        {'key': 'non_diagnostic', 'label': 'پرهیز از برچسب‌زنی و نتیجه‌گیری تشخیصی'},
+        {'key': 'parent_usefulness', 'label': 'روشن و کاربردی بودن پیشنهادها برای والد'},
     ],
 }

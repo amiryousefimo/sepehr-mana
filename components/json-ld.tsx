@@ -20,7 +20,7 @@ export function JsonLd({
     url: site.url,
     logo: {
       "@type": "ImageObject",
-      url: `${site.url}/icon.svg`,
+      url: `${site.url}/company-logo.jpeg`,
     },
     description: content.meta.description,
     telephone: "+989912777691",

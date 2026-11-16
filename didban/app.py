@@ -199,7 +199,7 @@ def target_version(kind,target):
     if kind=='item' and target in ITEMS:return str(ITEMS[target]['version'])+':'+BANK['version']
     if kind=='decision' and target in {x['id'] for x in DECISIONS}:return '1'
     if kind=='case' and target in {x['id'] for x in CASES}:return '1'
-    if kind=='parent_question' and target in {x['id'] for x in PARENT_QUESTIONS}:return '1'
+    if kind=='parent_question' and target in {x['id'] for x in PARENT_QUESTIONS}:return '2'
     if kind=='report_review' and target==REPORT_REVIEW['id']:return '1'
     raise ValueError('موضوع بررسی پیدا نشد.')
 
@@ -236,11 +236,12 @@ def validate_review(kind,target,p,status):
             scores=p.get('ratings',{})
             if not isinstance(scores,dict):raise ValueError('امتیازهای کارنامه معتبر نیستند.')
             clean['ratings']={}
-            for key in ('clarity','interpretability','parent_usefulness','caution','context_balance'):
+            for criterion in REPORT_REVIEW['ratings']:
+                key=criterion['key']
                 value=scores.get(key)
                 if value not in (None,'',1,2,3,4,5,'1','2','3','4','5'):raise ValueError('امتیاز هر معیار باید از ۱ تا ۵ باشد یا نامشخص بماند.')
                 clean['ratings'][key]=int(value) if value not in (None,'') else None
-            if status=='submitted' and clean['verdict']!='outside' and any(v is None for v in clean['ratings'].values()):raise ValueError('برای ثبت نهایی، هر پنج معیار را امتیاز دهید؛ اگر شواهد کافی نیست، امتیاز ۱ یا ۲ و دلیل را ثبت کنید.')
+            if status=='submitted' and clean['verdict']!='outside' and any(v is None for v in clean['ratings'].values()):raise ValueError('برای ثبت نهایی، هر هشت معیار را امتیاز دهید؛ اگر موردی قابل ارزیابی نیست، «خارج از تخصص» را انتخاب و توضیح دهید.')
             if status=='submitted' and (not clean['verdict'] or len(clean['answer'])<8):raise ValueError('برای ثبت نهایی، نظر و توضیح کوتاه لازم است.')
             if status=='submitted' and clean['verdict'] in ('revise','disagree') and len(clean['evidence'])<8:raise ValueError('برای پیشنهاد اصلاح، دلیل یا نمونهٔ دقیق بنویسید.')
         if kind=='decision' and g.user['role']!='lead':
@@ -346,10 +347,10 @@ def internal_provision():
 
 def project_report():
     data=aggregate()
-    data.update(format='it-project-expert-review',format_version=1,exported_at=datetime.now(timezone.utc).isoformat(),not_child_data=True)
+    data.update(format='it-project-expert-review',format_version=2,exported_at=datetime.now(timezone.utc).isoformat(),not_child_data=True)
     data['bank_version']=BANK['version']
     data['bank']=BANK
-    data['decisions_catalog']=DECISIONS+[REPORT_REVIEW];data['cases_catalog']=CASES
+    data['decisions_catalog']=DECISIONS+[REPORT_REVIEW];data['cases_catalog']=CASES;data['parent_questions_catalog']=PARENT_QUESTIONS;data['report_review_catalog']=REPORT_REVIEW
     data['history']=[{**dict(r),'payload':json.loads(r['payload'])} for r in db().execute('SELECT h.*,r.user_id,r.kind,r.target,r.target_version FROM review_history h JOIN reviews r ON r.id=h.review_id ORDER BY h.id')]
     data['activity']=[{**dict(r),'details':json.loads(r['details'])} for r in db().execute('SELECT * FROM audit ORDER BY id DESC')]
     data['resolution_history']=[dict(r) for r in db().execute('SELECT * FROM resolution_history ORDER BY id DESC')]
