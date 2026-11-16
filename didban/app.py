@@ -7,7 +7,7 @@ from functools import wraps
 from pathlib import Path
 from flask import Flask, request, jsonify, g, send_file, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
-from content import ROLES, AGES, DIMENSIONS, RATINGS, DECISIONS, CASES, SOURCES
+from content import ROLES, AGES, DIMENSIONS, RATINGS, DECISIONS, CASES, SOURCES, PARENT_QUESTIONS, REPORT_REVIEW
 from phase_one import plan
 
 ROOT=Path(__file__).resolve().parent
@@ -193,12 +193,14 @@ def bootstrap():
     if not g.user:return jsonify(user=None)
     rows=db().execute('SELECT kind,target,target_version,payload,status,revision,updated FROM reviews WHERE user_id=?',(g.user['id'],)).fetchall()
     reviews=[{**dict(r),'payload':json.loads(r['payload'])} for r in rows]
-    return jsonify(user=user_public(g.user),csrf=g.csrf,roles=ROLES,ages=AGES,dimensions=DIMENSIONS,ratings=RATINGS,decisions=DECISIONS,cases=CASES,sources=SOURCES,bank=BANK,reviews=reviews,phase_one=plan(BANK,DECISIONS,CASES))
+    return jsonify(user=user_public(g.user),csrf=g.csrf,roles=ROLES,ages=AGES,dimensions=DIMENSIONS,ratings=RATINGS,decisions=DECISIONS,cases=CASES,parent_questions=PARENT_QUESTIONS,report_review=REPORT_REVIEW,sources=SOURCES,bank=BANK,reviews=reviews,phase_one=plan(BANK,DECISIONS,CASES))
 
 def target_version(kind,target):
     if kind=='item' and target in ITEMS:return str(ITEMS[target]['version'])+':'+BANK['version']
     if kind=='decision' and target in {x['id'] for x in DECISIONS}:return '1'
     if kind=='case' and target in {x['id'] for x in CASES}:return '1'
+    if kind=='parent_question' and target in {x['id'] for x in PARENT_QUESTIONS}:return '1'
+    if kind=='report_review' and target==REPORT_REVIEW['id']:return '1'
     raise ValueError('موضوع بررسی پیدا نشد.')
 
 def validate_review(kind,target,p,status):
@@ -228,6 +230,19 @@ def validate_review(kind,target,p,status):
         if clean['verdict'] not in ('','agree','revise','disagree','outside'):raise ValueError('نظر انتخاب‌شده معتبر نیست.')
         if clean['confidence'] not in ('','low','medium','high'):raise ValueError('اطمینان نامعتبر است.')
         if status=='submitted' and (not clean['verdict'] or len(clean['answer'])<8):raise ValueError('نظر و توضیح کوتاه خود را وارد کنید؛ اگر خارج از تخصص است همان را توضیح دهید.')
+        if kind=='parent_question' and g.user['role'] not in ('psychologist','psychometrician'):raise ValueError('این پرسش برای نظر روان‌شناس کودک یا روان‌سنج تعریف شده است.')
+        if kind=='report_review':
+            if g.user['role'] not in ('psychologist','psychometrician'):raise ValueError('داوری کارنامه برای روان‌شناس و روان‌سنج است.')
+            scores=p.get('ratings',{})
+            if not isinstance(scores,dict):raise ValueError('امتیازهای کارنامه معتبر نیستند.')
+            clean['ratings']={}
+            for key in ('clarity','interpretability','parent_usefulness','caution','context_balance'):
+                value=scores.get(key)
+                if value not in (None,'',1,2,3,4,5,'1','2','3','4','5'):raise ValueError('امتیاز هر معیار باید از ۱ تا ۵ باشد یا نامشخص بماند.')
+                clean['ratings'][key]=int(value) if value not in (None,'') else None
+            if status=='submitted' and clean['verdict']!='outside' and any(v is None for v in clean['ratings'].values()):raise ValueError('برای ثبت نهایی، هر پنج معیار را امتیاز دهید؛ اگر شواهد کافی نیست، امتیاز ۱ یا ۲ و دلیل را ثبت کنید.')
+            if status=='submitted' and (not clean['verdict'] or len(clean['answer'])<8):raise ValueError('برای ثبت نهایی، نظر و توضیح کوتاه لازم است.')
+            if status=='submitted' and clean['verdict'] in ('revise','disagree') and len(clean['evidence'])<8:raise ValueError('برای پیشنهاد اصلاح، دلیل یا نمونهٔ دقیق بنویسید.')
         if kind=='decision' and g.user['role']!='lead':
             d=next(d for d in DECISIONS if d['id']==target)
             if g.user['role'] not in d['role']:raise ValueError('این موضوع برای تخصص دیگری تعریف شده است.')
@@ -260,6 +275,18 @@ def save_review(kind,target):
 @auth(lead=True)
 def admin():return jsonify(aggregate())
 
+@app.get('/api/admin/selection-engine')
+@auth(lead=True)
+def admin_selection_engine():
+    return send_file(ROOT/'adaptive_selection.py',as_attachment=True,download_name='didban-adaptive-selection.py',mimetype='text/x-python')
+
+@app.get('/api/admin/question-bank')
+@auth(lead=True)
+def admin_question_bank():
+    export=ROOT/'question_bank_phase2.json'
+    if not export.is_file():return fail('فایل بانک نسخهٔ تحویل پیدا نشد؛ آن را از مشخصات فاز دوم بسازید.',404)
+    return send_file(export,as_attachment=True,download_name='didban-question-bank-phase2.json',mimetype='application/json')
+
 def aggregate():
     users=[dict(r) for r in db().execute("SELECT id,username,name,role,active,created,is_test FROM users WHERE role!='lead'")]
     all_rows=[{**dict(r),'payload':json.loads(r['payload'])} for r in db().execute('SELECT r.*,u.name,u.role,u.is_test FROM reviews r JOIN users u ON r.user_id=u.id ORDER BY r.updated DESC')]
@@ -280,11 +307,11 @@ def aggregate():
         priority='critical' if critical else 'disagreement' if disputed else 'reviewed' if in_scope else 'unreviewed'
         summaries.append({'id':item['id'],'n':len(in_scope),'outside_n':len(reviews)-len(in_scope),'priority':priority,'actions':dict(actions),'relevance_n':len(scores),'relevance_agree':sum(s>=3 for s in scores),'i_cvi':round(sum(s>=3 for s in scores)/len(scores),3) if scores else None})
     decisions=[]
-    for kind,entries in [('decision',DECISIONS),('case',CASES)]:
+    for kind,entries in [('decision',DECISIONS),('case',CASES),('parent_question',PARENT_QUESTIONS),('report_review',[REPORT_REVIEW])]:
         for x in entries:
             rs=by[(kind,x['id'])]; vals=Counter(r['payload'].get('verdict') for r in rs if r['payload'].get('verdict')!='outside')
             decisions.append({'kind':kind,'id':x['id'],'title':x['title'],'n':sum(vals.values()),'verdicts':dict(vals),'needs_attention':len(vals)>1 or bool(vals.get('disagree') or vals.get('revise'))})
-    return {'users':users,'reviews':rows,'test_reviews':[r for r in all_rows if r['is_test']],'analysis_log':[dict(r) for r in db().execute('SELECT * FROM analysis_log ORDER BY id DESC')],'phase_one':plan(BANK,DECISIONS,CASES),'items':summaries,'decisions':decisions,'resolutions':[dict(r) for r in db().execute('SELECT * FROM resolutions')],'invites':[dict(r) for r in db().execute('SELECT id,label,role,expires,used_by,created FROM invites ORDER BY created DESC')], 'stats':{'submitted':sum(r['status']=='submitted' for r in rows),'draft':sum(r['status']=='draft' for r in rows),'reviewed_items':sum(i['n']>0 for i in summaries),'critical':sum(i['priority']=='critical' for i in summaries),'disagreements':sum(i['priority']=='disagreement' for i in summaries)},'network_urls':app.config.get('NETWORK_URLS',[])}
+    return {'users':users,'reviews':rows,'test_reviews':[r for r in all_rows if r['is_test']],'analysis_log':[dict(r) for r in db().execute('SELECT * FROM analysis_log ORDER BY id DESC')],'phase_one':plan(BANK,DECISIONS,CASES),'items':summaries,'decisions':decisions,'parent_questions':PARENT_QUESTIONS,'resolutions':[dict(r) for r in db().execute('SELECT * FROM resolutions')],'invites':[dict(r) for r in db().execute('SELECT id,label,role,expires,used_by,created FROM invites ORDER BY created DESC')], 'stats':{'submitted':sum(r['status']=='submitted' for r in rows),'draft':sum(r['status']=='draft' for r in rows),'reviewed_items':sum(i['n']>0 for i in summaries),'critical':sum(i['priority']=='critical' for i in summaries),'disagreements':sum(i['priority']=='disagreement' for i in summaries)},'network_urls':app.config.get('NETWORK_URLS',[])}
 
 @app.post('/api/admin/analysis')
 @auth(lead=True)
@@ -322,7 +349,7 @@ def project_report():
     data.update(format='it-project-expert-review',format_version=1,exported_at=datetime.now(timezone.utc).isoformat(),not_child_data=True)
     data['bank_version']=BANK['version']
     data['bank']=BANK
-    data['decisions_catalog']=DECISIONS;data['cases_catalog']=CASES
+    data['decisions_catalog']=DECISIONS+[REPORT_REVIEW];data['cases_catalog']=CASES
     data['history']=[{**dict(r),'payload':json.loads(r['payload'])} for r in db().execute('SELECT h.*,r.user_id,r.kind,r.target,r.target_version FROM review_history h JOIN reviews r ON r.id=h.review_id ORDER BY h.id')]
     data['activity']=[{**dict(r),'details':json.loads(r['details'])} for r in db().execute('SELECT * FROM audit ORDER BY id DESC')]
     data['resolution_history']=[dict(r) for r in db().execute('SELECT * FROM resolution_history ORDER BY id DESC')]

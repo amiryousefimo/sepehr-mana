@@ -1,0 +1,5767 @@
+{
+  "schema_version": "didban-context-review/2.0",
+  "source_bank_version": "review-2026.11.12.1",
+  "generated_by": "handoff/phase_two_review.py",
+  "method": "Transparent keyword screen; analyst triage only, not psychometric evidence or human validation.",
+  "totals": {
+    "primary_items": 184,
+    "linked_transfer_tasks": 184,
+    "key_issues_found": 0,
+    "risk_counts": {
+      "high": 33,
+      "moderate": 131,
+      "low_by_text_screen_only": 20
+    },
+    "by_band_and_risk": {
+      "A/high": 9,
+      "A/moderate": 45,
+      "B/high": 10,
+      "B/low_by_text_screen_only": 9,
+      "B/moderate": 46,
+      "C/high": 14,
+      "C/low_by_text_screen_only": 11,
+      "C/moderate": 40
+    }
+  },
+  "key_issues": [],
+  "items": [
+    {
+      "id": "A-NEW-SEQUENCE-11",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_SEQUENCE",
+      "family": "A-SEQ-CARDS",
+      "title": "قدم‌های روی کارت",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "بخوان",
+            "راست به چپ"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "2 گام"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "A-NEW-SEQUENCE-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "A-NEW-LOOP-11",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_LOOP",
+      "family": "A-LOOP-1",
+      "title": "دورهای تکرار",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "چند بار"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "A-NEW-LOOP-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "A-NEW-PATTERN-11",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PATTERN",
+      "family": "A-PATTERN-1",
+      "title": "قاعدهٔ دنباله",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار",
+            "دنباله",
+            "قاعده"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "A-NEW-PATTERN-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "A-NEW-CONDITION-11",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_CONDITION",
+      "family": "A-COND-ELSE",
+      "title": "اگر و وگرنه",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط",
+            "قانون"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "A-NEW-CONDITION-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "A-NEW-DEBUG-11",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_DEBUG",
+      "family": "A-DEBUG-MISSING",
+      "title": "یک حرکت کم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "A-NEW-DEBUG-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "A-NEW-PLAN-11",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PLAN",
+      "family": "A-PLAN-PREREQUISITE",
+      "title": "پیش‌نیاز روشن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "قانون"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "A-NEW-PLAN-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "A-NEW-SEQUENCE-21",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_SEQUENCE",
+      "family": "A-SEQ-ORDER",
+      "title": "دستور را به همان ترتیب اجرا کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "A-NEW-SEQUENCE-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "A-NEW-LOOP-21",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_LOOP",
+      "family": "A-LOOP-2",
+      "title": "دورهای تکرار",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "چند بار"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "A-NEW-LOOP-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "A-NEW-PATTERN-21",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PATTERN",
+      "family": "A-PATTERN-2",
+      "title": "قاعدهٔ دنباله",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار",
+            "دنباله",
+            "قاعده"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "A-NEW-PATTERN-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "A-NEW-CONDITION-21",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_CONDITION",
+      "family": "A-COND-BOUNDARY",
+      "title": "مرز تصویری",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "A-NEW-CONDITION-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "A-NEW-DEBUG-21",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_DEBUG",
+      "family": "A-DEBUG-ORDER",
+      "title": "ترتیب خراب",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "A-NEW-DEBUG-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "A-NEW-PLAN-21",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PLAN",
+      "family": "A-PLAN-SPLIT",
+      "title": "دسته‌بندی کارها",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "A-NEW-PLAN-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "A-NEW-SEQUENCE-31",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_SEQUENCE",
+      "family": "A-SEQ-REVERSE",
+      "title": "رفت و برگشت روی خط",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-SEQUENCE-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-LOOP-31",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_LOOP",
+      "family": "A-LOOP-3",
+      "title": "دورهای تکرار",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "چند بار"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-LOOP-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-PATTERN-31",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PATTERN",
+      "family": "A-PATTERN-3",
+      "title": "قاعدهٔ دنباله",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار",
+            "دنباله",
+            "قاعده"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-PATTERN-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-CONDITION-31",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_CONDITION",
+      "family": "A-COND-CHAIN",
+      "title": "دو قانون پشت سر هم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط",
+            "قانون"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-CONDITION-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-DEBUG-31",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_DEBUG",
+      "family": "A-DEBUG-RESET",
+      "title": "هر بار از نو",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-DEBUG-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-PLAN-31",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PLAN",
+      "family": "A-PLAN-PARTIAL",
+      "title": "دو مسیر مستقل",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "قانون",
+            "مسیر"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-PLAN-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-SEQUENCE-12",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_SEQUENCE",
+      "family": "A-SEQ-CARDS",
+      "title": "قدم‌های روی کارت",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "بخوان",
+            "راست به چپ"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "3 گام"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "A-NEW-SEQUENCE-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "A-NEW-LOOP-12",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_LOOP",
+      "family": "A-LOOP-1",
+      "title": "دورهای تکرار",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "چند بار"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "A-NEW-LOOP-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "A-NEW-PATTERN-12",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PATTERN",
+      "family": "A-PATTERN-1",
+      "title": "قاعدهٔ دنباله",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار",
+            "دنباله",
+            "قاعده"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "A-NEW-PATTERN-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "A-NEW-CONDITION-12",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_CONDITION",
+      "family": "A-COND-ELSE",
+      "title": "اگر و وگرنه",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط",
+            "قانون"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "A-NEW-CONDITION-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "A-NEW-DEBUG-12",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_DEBUG",
+      "family": "A-DEBUG-MISSING",
+      "title": "یک حرکت کم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "A-NEW-DEBUG-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "A-NEW-PLAN-12",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PLAN",
+      "family": "A-PLAN-PREREQUISITE",
+      "title": "پیش‌نیاز روشن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "قانون"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "A-NEW-PLAN-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "A-NEW-SEQUENCE-22",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_SEQUENCE",
+      "family": "A-SEQ-ORDER",
+      "title": "دستور را به همان ترتیب اجرا کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-SEQUENCE-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-LOOP-22",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_LOOP",
+      "family": "A-LOOP-2",
+      "title": "دورهای تکرار",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "چند بار"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-LOOP-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-PATTERN-22",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PATTERN",
+      "family": "A-PATTERN-2",
+      "title": "قاعدهٔ دنباله",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار",
+            "دنباله",
+            "قاعده"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-PATTERN-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-CONDITION-22",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_CONDITION",
+      "family": "A-COND-BOUNDARY",
+      "title": "مرز تصویری",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-CONDITION-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-DEBUG-22",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_DEBUG",
+      "family": "A-DEBUG-ORDER",
+      "title": "ترتیب خراب",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-DEBUG-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-PLAN-22",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PLAN",
+      "family": "A-PLAN-SPLIT",
+      "title": "دسته‌بندی کارها",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-PLAN-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-SEQUENCE-32",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_SEQUENCE",
+      "family": "A-SEQ-REVERSE",
+      "title": "رفت و برگشت روی خط",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "A-NEW-SEQUENCE-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "A-NEW-LOOP-32",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_LOOP",
+      "family": "A-LOOP-3",
+      "title": "دورهای تکرار",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "چند بار"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "A-NEW-LOOP-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "A-NEW-PATTERN-32",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PATTERN",
+      "family": "A-PATTERN-3",
+      "title": "قاعدهٔ دنباله",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار",
+            "دنباله",
+            "قاعده"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "A-NEW-PATTERN-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "A-NEW-CONDITION-32",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_CONDITION",
+      "family": "A-COND-CHAIN",
+      "title": "دو قانون پشت سر هم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط",
+            "قانون"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "A-NEW-CONDITION-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "A-NEW-DEBUG-32",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_DEBUG",
+      "family": "A-DEBUG-RESET",
+      "title": "هر بار از نو",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "A-NEW-DEBUG-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "A-NEW-PLAN-32",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PLAN",
+      "family": "A-PLAN-PARTIAL",
+      "title": "دو مسیر مستقل",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "قانون",
+            "مسیر"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "A-NEW-PLAN-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "A-NEW-SEQUENCE-13",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_SEQUENCE",
+      "family": "A-SEQ-CARDS",
+      "title": "قدم‌های روی کارت",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "بخوان",
+            "راست به چپ"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "4 گام"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-SEQUENCE-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-LOOP-13",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_LOOP",
+      "family": "A-LOOP-1",
+      "title": "دورهای تکرار",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "چند بار"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-LOOP-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-PATTERN-13",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PATTERN",
+      "family": "A-PATTERN-1",
+      "title": "قاعدهٔ دنباله",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار",
+            "دنباله",
+            "قاعده"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-PATTERN-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-CONDITION-13",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_CONDITION",
+      "family": "A-COND-ELSE",
+      "title": "اگر و وگرنه",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط",
+            "قانون"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-CONDITION-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-DEBUG-13",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_DEBUG",
+      "family": "A-DEBUG-MISSING",
+      "title": "یک حرکت کم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-DEBUG-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-PLAN-13",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PLAN",
+      "family": "A-PLAN-PREREQUISITE",
+      "title": "پیش‌نیاز روشن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "قانون"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "A-NEW-PLAN-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "A-NEW-SEQUENCE-23",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_SEQUENCE",
+      "family": "A-SEQ-ORDER",
+      "title": "دستور را به همان ترتیب اجرا کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "A-NEW-SEQUENCE-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "A-NEW-LOOP-23",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_LOOP",
+      "family": "A-LOOP-2",
+      "title": "دورهای تکرار",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "چند بار"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "A-NEW-LOOP-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "A-NEW-PATTERN-23",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PATTERN",
+      "family": "A-PATTERN-2",
+      "title": "قاعدهٔ دنباله",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار",
+            "دنباله",
+            "قاعده"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "A-NEW-PATTERN-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "A-NEW-CONDITION-23",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_CONDITION",
+      "family": "A-COND-BOUNDARY",
+      "title": "مرز تصویری",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "A-NEW-CONDITION-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "A-NEW-DEBUG-23",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_DEBUG",
+      "family": "A-DEBUG-ORDER",
+      "title": "ترتیب خراب",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "A-NEW-DEBUG-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "A-NEW-PLAN-23",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PLAN",
+      "family": "A-PLAN-SPLIT",
+      "title": "دسته‌بندی کارها",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "A-NEW-PLAN-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "A-NEW-SEQUENCE-33",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_SEQUENCE",
+      "family": "A-SEQ-REVERSE",
+      "title": "رفت و برگشت روی خط",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "A-NEW-SEQUENCE-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "A-NEW-LOOP-33",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_LOOP",
+      "family": "A-LOOP-3",
+      "title": "دورهای تکرار",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "چند بار"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "A-NEW-LOOP-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "A-NEW-PATTERN-33",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PATTERN",
+      "family": "A-PATTERN-3",
+      "title": "قاعدهٔ دنباله",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار",
+            "دنباله",
+            "قاعده"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "A-NEW-PATTERN-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "A-NEW-CONDITION-33",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_CONDITION",
+      "family": "A-COND-CHAIN",
+      "title": "دو قانون پشت سر هم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط",
+            "قانون"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "A-NEW-CONDITION-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "A-NEW-DEBUG-33",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_DEBUG",
+      "family": "A-DEBUG-RESET",
+      "title": "هر بار از نو",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "A-NEW-DEBUG-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "A-NEW-PLAN-33",
+      "version": 1,
+      "band": "A",
+      "dimension": "A_PLAN",
+      "family": "A-PLAN-PARTIAL",
+      "title": "دو مسیر مستقل",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "قانون",
+            "مسیر"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "A-NEW-PLAN-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-NEW-COND_READ-11",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_READ",
+      "family": "B-READ-1",
+      "title": "کدام شاخه اجرا می‌شود؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-NEW-COND_READ-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-NEW-COND_SELECT-11",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_SELECT",
+      "family": "B-SELECT-1",
+      "title": "هدف را به شرط تبدیل کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-NEW-COND_SELECT-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-NEW-COND_BOUNDARY-11",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_BOUNDARY",
+      "family": "B-BOUNDARY-1",
+      "title": "خودِ مرز را بررسی کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-NEW-COND_BOUNDARY-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-NEW-DEBUG_LOCALIZE-11",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_LOCALIZE",
+      "family": "B-LOCALIZE-1",
+      "title": "محل خطا را مشخص کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-NEW-DEBUG_LOCALIZE-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-NEW-DEBUG_REPAIR-11",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_REPAIR",
+      "family": "B-REPAIR-1",
+      "title": "کمترین اصلاح مؤثر",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-NEW-DEBUG_REPAIR-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-NEW-DEBUG_TEST-11",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_TEST",
+      "family": "B-TEST-1",
+      "title": "آزمونی که اطلاعات می‌دهد",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-NEW-DEBUG_TEST-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-NEW-COND_READ-21",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_READ",
+      "family": "B-READ-2",
+      "title": "کدام شاخه اجرا می‌شود؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-NEW-COND_READ-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-NEW-COND_SELECT-21",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_SELECT",
+      "family": "B-SELECT-2",
+      "title": "هدف را به شرط تبدیل کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-NEW-COND_SELECT-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-NEW-COND_BOUNDARY-21",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_BOUNDARY",
+      "family": "B-BOUNDARY-2",
+      "title": "خودِ مرز را بررسی کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-NEW-COND_BOUNDARY-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-NEW-DEBUG_LOCALIZE-21",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_LOCALIZE",
+      "family": "B-LOCALIZE-2",
+      "title": "محل خطا را مشخص کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-NEW-DEBUG_LOCALIZE-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-NEW-DEBUG_REPAIR-21",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_REPAIR",
+      "family": "B-REPAIR-2",
+      "title": "کمترین اصلاح مؤثر",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-NEW-DEBUG_REPAIR-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-NEW-DEBUG_TEST-21",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_TEST",
+      "family": "B-TEST-2",
+      "title": "آزمونی که اطلاعات می‌دهد",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-NEW-DEBUG_TEST-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-NEW-COND_READ-31",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_READ",
+      "family": "B-READ-3",
+      "title": "کدام شاخه اجرا می‌شود؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-COND_READ-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-COND_SELECT-31",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_SELECT",
+      "family": "B-SELECT-3",
+      "title": "هدف را به شرط تبدیل کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-COND_SELECT-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-COND_BOUNDARY-31",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_BOUNDARY",
+      "family": "B-BOUNDARY-3",
+      "title": "خودِ مرز را بررسی کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-COND_BOUNDARY-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-DEBUG_LOCALIZE-31",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_LOCALIZE",
+      "family": "B-LOCALIZE-3",
+      "title": "محل خطا را مشخص کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-DEBUG_LOCALIZE-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-DEBUG_REPAIR-31",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_REPAIR",
+      "family": "B-REPAIR-3",
+      "title": "کمترین اصلاح مؤثر",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-DEBUG_REPAIR-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-DEBUG_TEST-31",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_TEST",
+      "family": "B-TEST-3",
+      "title": "آزمونی که اطلاعات می‌دهد",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-DEBUG_TEST-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-COND_READ-12",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_READ",
+      "family": "B-READ-1",
+      "title": "کدام شاخه اجرا می‌شود؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-NEW-COND_READ-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-NEW-COND_SELECT-12",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_SELECT",
+      "family": "B-SELECT-1",
+      "title": "هدف را به شرط تبدیل کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-NEW-COND_SELECT-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-NEW-COND_BOUNDARY-12",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_BOUNDARY",
+      "family": "B-BOUNDARY-1",
+      "title": "خودِ مرز را بررسی کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-NEW-COND_BOUNDARY-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-NEW-DEBUG_LOCALIZE-12",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_LOCALIZE",
+      "family": "B-LOCALIZE-1",
+      "title": "محل خطا را مشخص کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-NEW-DEBUG_LOCALIZE-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-NEW-DEBUG_REPAIR-12",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_REPAIR",
+      "family": "B-REPAIR-1",
+      "title": "کمترین اصلاح مؤثر",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-NEW-DEBUG_REPAIR-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-NEW-DEBUG_TEST-12",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_TEST",
+      "family": "B-TEST-1",
+      "title": "آزمونی که اطلاعات می‌دهد",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-NEW-DEBUG_TEST-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-NEW-COND_READ-22",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_READ",
+      "family": "B-READ-2",
+      "title": "کدام شاخه اجرا می‌شود؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-COND_READ-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-COND_SELECT-22",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_SELECT",
+      "family": "B-SELECT-2",
+      "title": "هدف را به شرط تبدیل کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-COND_SELECT-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-COND_BOUNDARY-22",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_BOUNDARY",
+      "family": "B-BOUNDARY-2",
+      "title": "خودِ مرز را بررسی کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-COND_BOUNDARY-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-DEBUG_LOCALIZE-22",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_LOCALIZE",
+      "family": "B-LOCALIZE-2",
+      "title": "محل خطا را مشخص کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-DEBUG_LOCALIZE-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-DEBUG_REPAIR-22",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_REPAIR",
+      "family": "B-REPAIR-2",
+      "title": "کمترین اصلاح مؤثر",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-DEBUG_REPAIR-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-DEBUG_TEST-22",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_TEST",
+      "family": "B-TEST-2",
+      "title": "آزمونی که اطلاعات می‌دهد",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-DEBUG_TEST-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-COND_READ-32",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_READ",
+      "family": "B-READ-3",
+      "title": "کدام شاخه اجرا می‌شود؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-NEW-COND_READ-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-NEW-COND_SELECT-32",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_SELECT",
+      "family": "B-SELECT-3",
+      "title": "هدف را به شرط تبدیل کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-NEW-COND_SELECT-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-NEW-COND_BOUNDARY-32",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_BOUNDARY",
+      "family": "B-BOUNDARY-3",
+      "title": "خودِ مرز را بررسی کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-NEW-COND_BOUNDARY-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-NEW-DEBUG_LOCALIZE-32",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_LOCALIZE",
+      "family": "B-LOCALIZE-3",
+      "title": "محل خطا را مشخص کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-NEW-DEBUG_LOCALIZE-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-NEW-DEBUG_REPAIR-32",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_REPAIR",
+      "family": "B-REPAIR-3",
+      "title": "کمترین اصلاح مؤثر",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-NEW-DEBUG_REPAIR-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-NEW-DEBUG_TEST-32",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_TEST",
+      "family": "B-TEST-3",
+      "title": "آزمونی که اطلاعات می‌دهد",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-NEW-DEBUG_TEST-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-NEW-COND_READ-13",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_READ",
+      "family": "B-READ-1",
+      "title": "کدام شاخه اجرا می‌شود؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-COND_READ-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-COND_SELECT-13",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_SELECT",
+      "family": "B-SELECT-1",
+      "title": "هدف را به شرط تبدیل کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-COND_SELECT-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-COND_BOUNDARY-13",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_BOUNDARY",
+      "family": "B-BOUNDARY-1",
+      "title": "خودِ مرز را بررسی کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-COND_BOUNDARY-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-DEBUG_LOCALIZE-13",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_LOCALIZE",
+      "family": "B-LOCALIZE-1",
+      "title": "محل خطا را مشخص کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-DEBUG_LOCALIZE-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-DEBUG_REPAIR-13",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_REPAIR",
+      "family": "B-REPAIR-1",
+      "title": "کمترین اصلاح مؤثر",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-DEBUG_REPAIR-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-DEBUG_TEST-13",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_TEST",
+      "family": "B-TEST-1",
+      "title": "آزمونی که اطلاعات می‌دهد",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-NEW-DEBUG_TEST-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-NEW-COND_READ-23",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_READ",
+      "family": "B-READ-2",
+      "title": "کدام شاخه اجرا می‌شود؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-NEW-COND_READ-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-NEW-COND_SELECT-23",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_SELECT",
+      "family": "B-SELECT-2",
+      "title": "هدف را به شرط تبدیل کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-NEW-COND_SELECT-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-NEW-COND_BOUNDARY-23",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_BOUNDARY",
+      "family": "B-BOUNDARY-2",
+      "title": "خودِ مرز را بررسی کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-NEW-COND_BOUNDARY-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-NEW-DEBUG_LOCALIZE-23",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_LOCALIZE",
+      "family": "B-LOCALIZE-2",
+      "title": "محل خطا را مشخص کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-NEW-DEBUG_LOCALIZE-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-NEW-DEBUG_REPAIR-23",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_REPAIR",
+      "family": "B-REPAIR-2",
+      "title": "کمترین اصلاح مؤثر",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-NEW-DEBUG_REPAIR-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-NEW-DEBUG_TEST-23",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_TEST",
+      "family": "B-TEST-2",
+      "title": "آزمونی که اطلاعات می‌دهد",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-NEW-DEBUG_TEST-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-NEW-COND_READ-33",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_READ",
+      "family": "B-READ-3",
+      "title": "کدام شاخه اجرا می‌شود؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-NEW-COND_READ-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-NEW-COND_SELECT-33",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_SELECT",
+      "family": "B-SELECT-3",
+      "title": "هدف را به شرط تبدیل کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-NEW-COND_SELECT-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-NEW-COND_BOUNDARY-33",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_BOUNDARY",
+      "family": "B-BOUNDARY-3",
+      "title": "خودِ مرز را بررسی کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-NEW-COND_BOUNDARY-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-NEW-DEBUG_LOCALIZE-33",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_LOCALIZE",
+      "family": "B-LOCALIZE-3",
+      "title": "محل خطا را مشخص کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-NEW-DEBUG_LOCALIZE-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-NEW-DEBUG_REPAIR-33",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_REPAIR",
+      "family": "B-REPAIR-3",
+      "title": "کمترین اصلاح مؤثر",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-NEW-DEBUG_REPAIR-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-NEW-DEBUG_TEST-33",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_TEST",
+      "family": "B-TEST-3",
+      "title": "آزمونی که اطلاعات می‌دهد",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-NEW-DEBUG_TEST-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-NEW-BOOL_EVAL-11",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EVAL",
+      "family": "C-EVAL-1",
+      "title": "ارزش عبارت منطقی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-NEW-BOOL_EVAL-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-NEW-BOOL_PRECEDENCE-11",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_PRECEDENCE",
+      "family": "C-PRECEDENCE-1",
+      "title": "پرانتز و تقدم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "مرحله‌به‌مرحله"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-NEW-BOOL_PRECEDENCE-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-NEW-BOOL_EQUIV-11",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EQUIV",
+      "family": "C-EQUIV-1",
+      "title": "برابری در همهٔ حالت‌ها",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-NEW-BOOL_EQUIV-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-NEW-TRACE_ASSIGN-11",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_ASSIGN",
+      "family": "C-ASSIGN-1",
+      "title": "مقدار تازه را دنبال کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور",
+            "چپ به راست"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-NEW-TRACE_ASSIGN-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-NEW-TRACE_BRANCH-11",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_BRANCH",
+      "family": "C-BRANCH-1",
+      "title": "شرط مستقل یا وگرنه؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر x<3 آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-NEW-TRACE_BRANCH-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-NEW-DEBUG_BOOL-11",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_DEBUG_BOOL",
+      "family": "C-DEBUG-1",
+      "title": "شرط را مطابق هدف اصلاح کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-NEW-DEBUG_BOOL-11-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-NEW-BOOL_EVAL-21",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EVAL",
+      "family": "C-EVAL-2",
+      "title": "ارزش عبارت منطقی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-NEW-BOOL_EVAL-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-NEW-BOOL_PRECEDENCE-21",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_PRECEDENCE",
+      "family": "C-PRECEDENCE-2",
+      "title": "پرانتز و تقدم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "مرحله‌به‌مرحله"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-NEW-BOOL_PRECEDENCE-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-NEW-BOOL_EQUIV-21",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EQUIV",
+      "family": "C-EQUIV-2",
+      "title": "برابری در همهٔ حالت‌ها",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-NEW-BOOL_EQUIV-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-NEW-TRACE_ASSIGN-21",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_ASSIGN",
+      "family": "C-ASSIGN-2",
+      "title": "مقدار تازه را دنبال کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور",
+            "چپ به راست"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-NEW-TRACE_ASSIGN-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-NEW-TRACE_BRANCH-21",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_BRANCH",
+      "family": "C-BRANCH-2",
+      "title": "شرط مستقل یا وگرنه؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر x<3 آنگاه x=x+2; اگر x>3 آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-NEW-TRACE_BRANCH-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-NEW-DEBUG_BOOL-21",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_DEBUG_BOOL",
+      "family": "C-DEBUG-2",
+      "title": "شرط را مطابق هدف اصلاح کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-NEW-DEBUG_BOOL-21-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-NEW-BOOL_EVAL-31",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EVAL",
+      "family": "C-EVAL-3",
+      "title": "ارزش عبارت منطقی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-BOOL_EVAL-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-BOOL_PRECEDENCE-31",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_PRECEDENCE",
+      "family": "C-PRECEDENCE-3",
+      "title": "پرانتز و تقدم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "مرحله‌به‌مرحله"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-BOOL_PRECEDENCE-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-BOOL_EQUIV-31",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EQUIV",
+      "family": "C-EQUIV-3",
+      "title": "برابری در همهٔ حالت‌ها",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-BOOL_EQUIV-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-TRACE_ASSIGN-31",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_ASSIGN",
+      "family": "C-ASSIGN-3",
+      "title": "مقدار تازه را دنبال کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور",
+            "چپ به راست"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-TRACE_ASSIGN-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-TRACE_BRANCH-31",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_BRANCH",
+      "family": "C-BRANCH-3",
+      "title": "شرط مستقل یا وگرنه؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر x<3 آنگاه x=x+2; وگرنه اگر x>3 آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-TRACE_BRANCH-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-DEBUG_BOOL-31",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_DEBUG_BOOL",
+      "family": "C-DEBUG-3",
+      "title": "شرط را مطابق هدف اصلاح کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-DEBUG_BOOL-31-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-BOOL_EVAL-12",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EVAL",
+      "family": "C-EVAL-1",
+      "title": "ارزش عبارت منطقی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-NEW-BOOL_EVAL-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-NEW-BOOL_PRECEDENCE-12",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_PRECEDENCE",
+      "family": "C-PRECEDENCE-1",
+      "title": "پرانتز و تقدم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "مرحله‌به‌مرحله"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-NEW-BOOL_PRECEDENCE-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-NEW-BOOL_EQUIV-12",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EQUIV",
+      "family": "C-EQUIV-1",
+      "title": "برابری در همهٔ حالت‌ها",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-NEW-BOOL_EQUIV-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-NEW-TRACE_ASSIGN-12",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_ASSIGN",
+      "family": "C-ASSIGN-1",
+      "title": "مقدار تازه را دنبال کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور",
+            "چپ به راست"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-NEW-TRACE_ASSIGN-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-NEW-TRACE_BRANCH-12",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_BRANCH",
+      "family": "C-BRANCH-1",
+      "title": "شرط مستقل یا وگرنه؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر x<4 آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-NEW-TRACE_BRANCH-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-NEW-DEBUG_BOOL-12",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_DEBUG_BOOL",
+      "family": "C-DEBUG-1",
+      "title": "شرط را مطابق هدف اصلاح کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-NEW-DEBUG_BOOL-12-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-NEW-BOOL_EVAL-22",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EVAL",
+      "family": "C-EVAL-2",
+      "title": "ارزش عبارت منطقی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-BOOL_EVAL-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-BOOL_PRECEDENCE-22",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_PRECEDENCE",
+      "family": "C-PRECEDENCE-2",
+      "title": "پرانتز و تقدم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "مرحله‌به‌مرحله"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-BOOL_PRECEDENCE-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-BOOL_EQUIV-22",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EQUIV",
+      "family": "C-EQUIV-2",
+      "title": "برابری در همهٔ حالت‌ها",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-BOOL_EQUIV-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-TRACE_ASSIGN-22",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_ASSIGN",
+      "family": "C-ASSIGN-2",
+      "title": "مقدار تازه را دنبال کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور",
+            "چپ به راست"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-TRACE_ASSIGN-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-TRACE_BRANCH-22",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_BRANCH",
+      "family": "C-BRANCH-2",
+      "title": "شرط مستقل یا وگرنه؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر x<4 آنگاه x=x+2; اگر x>4 آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-TRACE_BRANCH-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-DEBUG_BOOL-22",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_DEBUG_BOOL",
+      "family": "C-DEBUG-2",
+      "title": "شرط را مطابق هدف اصلاح کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-DEBUG_BOOL-22-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-BOOL_EVAL-32",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EVAL",
+      "family": "C-EVAL-3",
+      "title": "ارزش عبارت منطقی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-NEW-BOOL_EVAL-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-NEW-BOOL_PRECEDENCE-32",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_PRECEDENCE",
+      "family": "C-PRECEDENCE-3",
+      "title": "پرانتز و تقدم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "مرحله‌به‌مرحله"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-NEW-BOOL_PRECEDENCE-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-NEW-BOOL_EQUIV-32",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EQUIV",
+      "family": "C-EQUIV-3",
+      "title": "برابری در همهٔ حالت‌ها",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-NEW-BOOL_EQUIV-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-NEW-TRACE_ASSIGN-32",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_ASSIGN",
+      "family": "C-ASSIGN-3",
+      "title": "مقدار تازه را دنبال کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور",
+            "چپ به راست"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-NEW-TRACE_ASSIGN-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-NEW-TRACE_BRANCH-32",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_BRANCH",
+      "family": "C-BRANCH-3",
+      "title": "شرط مستقل یا وگرنه؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر x<4 آنگاه x=x+2; وگرنه اگر x>4 آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-NEW-TRACE_BRANCH-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-NEW-DEBUG_BOOL-32",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_DEBUG_BOOL",
+      "family": "C-DEBUG-3",
+      "title": "شرط را مطابق هدف اصلاح کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-NEW-DEBUG_BOOL-32-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-NEW-BOOL_EVAL-13",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EVAL",
+      "family": "C-EVAL-1",
+      "title": "ارزش عبارت منطقی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-BOOL_EVAL-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-BOOL_PRECEDENCE-13",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_PRECEDENCE",
+      "family": "C-PRECEDENCE-1",
+      "title": "پرانتز و تقدم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "مرحله‌به‌مرحله"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-BOOL_PRECEDENCE-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-BOOL_EQUIV-13",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EQUIV",
+      "family": "C-EQUIV-1",
+      "title": "برابری در همهٔ حالت‌ها",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-BOOL_EQUIV-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-TRACE_ASSIGN-13",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_ASSIGN",
+      "family": "C-ASSIGN-1",
+      "title": "مقدار تازه را دنبال کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور",
+            "چپ به راست"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-TRACE_ASSIGN-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-TRACE_BRANCH-13",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_BRANCH",
+      "family": "C-BRANCH-1",
+      "title": "شرط مستقل یا وگرنه؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر x<5 آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-TRACE_BRANCH-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-DEBUG_BOOL-13",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_DEBUG_BOOL",
+      "family": "C-DEBUG-1",
+      "title": "شرط را مطابق هدف اصلاح کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-NEW-DEBUG_BOOL-13-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-NEW-BOOL_EVAL-23",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EVAL",
+      "family": "C-EVAL-2",
+      "title": "ارزش عبارت منطقی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-NEW-BOOL_EVAL-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-NEW-BOOL_PRECEDENCE-23",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_PRECEDENCE",
+      "family": "C-PRECEDENCE-2",
+      "title": "پرانتز و تقدم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "مرحله‌به‌مرحله"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-NEW-BOOL_PRECEDENCE-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-NEW-BOOL_EQUIV-23",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EQUIV",
+      "family": "C-EQUIV-2",
+      "title": "برابری در همهٔ حالت‌ها",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-NEW-BOOL_EQUIV-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-NEW-TRACE_ASSIGN-23",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_ASSIGN",
+      "family": "C-ASSIGN-2",
+      "title": "مقدار تازه را دنبال کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور",
+            "چپ به راست"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-NEW-TRACE_ASSIGN-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-NEW-TRACE_BRANCH-23",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_BRANCH",
+      "family": "C-BRANCH-2",
+      "title": "شرط مستقل یا وگرنه؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر x<5 آنگاه x=x+2; اگر x>5 آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-NEW-TRACE_BRANCH-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-NEW-DEBUG_BOOL-23",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_DEBUG_BOOL",
+      "family": "C-DEBUG-2",
+      "title": "شرط را مطابق هدف اصلاح کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-NEW-DEBUG_BOOL-23-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-NEW-BOOL_EVAL-33",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EVAL",
+      "family": "C-EVAL-3",
+      "title": "ارزش عبارت منطقی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-NEW-BOOL_EVAL-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-NEW-BOOL_PRECEDENCE-33",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_PRECEDENCE",
+      "family": "C-PRECEDENCE-3",
+      "title": "پرانتز و تقدم",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "مرحله‌به‌مرحله"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-NEW-BOOL_PRECEDENCE-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-NEW-BOOL_EQUIV-33",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EQUIV",
+      "family": "C-EQUIV-3",
+      "title": "برابری در همهٔ حالت‌ها",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-NEW-BOOL_EQUIV-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-NEW-TRACE_ASSIGN-33",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_ASSIGN",
+      "family": "C-ASSIGN-3",
+      "title": "مقدار تازه را دنبال کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور",
+            "چپ به راست"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-NEW-TRACE_ASSIGN-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-NEW-TRACE_BRANCH-33",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_BRANCH",
+      "family": "C-BRANCH-3",
+      "title": "شرط مستقل یا وگرنه؟",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر x<5 آنگاه x=x+2; وگرنه اگر x>5 آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-NEW-TRACE_BRANCH-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-NEW-DEBUG_BOOL-33",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_DEBUG_BOOL",
+      "family": "C-DEBUG-3",
+      "title": "شرط را مطابق هدف اصلاح کن",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-NEW-DEBUG_BOOL-33-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-COND-01",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_READ",
+      "family": "LEGACY-B_COND_READ",
+      "title": "خواندن شرط — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-COND-01-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-COND-02",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_BOUNDARY",
+      "family": "LEGACY-B_COND_BOUNDARY",
+      "title": "مرز شرط — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-COND-02-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-COND-03",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_SELECT",
+      "family": "LEGACY-B_COND_SELECT",
+      "title": "انتخاب شرط — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-COND-03-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-COND-04",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_READ",
+      "family": "LEGACY-B_COND_READ",
+      "title": "خواندن شرط — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "بخوان"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-COND-04-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-COND-05",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_COND_BOUNDARY",
+      "family": "LEGACY-B_COND_BOUNDARY",
+      "title": "مرز شرط — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-COND-05-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-DEBUG-01",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_LOCALIZE",
+      "family": "LEGACY-B_DEBUG_LOCALIZE",
+      "title": "پیداکردن محل خطا — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر امتیاز < 10 آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-DEBUG-01-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "B-DEBUG-02",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_REPAIR",
+      "family": "LEGACY-B_DEBUG_REPAIR",
+      "title": "اصلاح خطا — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "تکرار"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از",
+            "دو بار"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-DEBUG-02-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-DEBUG-03",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_TEST",
+      "family": "LEGACY-B_DEBUG_TEST",
+      "title": "انتخاب آزمون مناسب — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "برنامه",
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "B-DEBUG-03-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "B-DEBUG-04",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_LOCALIZE",
+      "family": "LEGACY-B_DEBUG_LOCALIZE",
+      "title": "پیداکردن محل خطا — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "«کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "B-DEBUG-04-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "B-DEBUG-05",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_REPAIR",
+      "family": "LEGACY-B_DEBUG_REPAIR",
+      "title": "اصلاح خطا — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "«کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط",
+            "گام"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر دما > 30 آنگاه",
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "B-DEBUG-05-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "B-DEBUG-06",
+      "version": 1,
+      "band": "B",
+      "dimension": "B_DEBUG_TEST",
+      "family": "LEGACY-B_DEBUG_TEST",
+      "title": "انتخاب آزمون مناسب — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "B-DEBUG-06-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-BOOL-01",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EVAL",
+      "family": "LEGACY-C_BOOL_EVAL",
+      "title": "منطق و/یا/نقیض — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط",
+            "قاعده"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-BOOL-01-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-BOOL-02",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EVAL",
+      "family": "LEGACY-C_BOOL_EVAL",
+      "title": "منطق و/یا/نقیض — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-BOOL-02-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-BOOL-03",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EVAL",
+      "family": "LEGACY-C_BOOL_EVAL",
+      "title": "منطق و/یا/نقیض — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-BOOL-03-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-BOOL-04",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_PRECEDENCE",
+      "family": "LEGACY-C_BOOL_PRECEDENCE",
+      "title": "پرانتز و ترتیب منطق — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-BOOL-04-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-BOOL-05",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_BOOL_EQUIV",
+      "family": "LEGACY-C_BOOL_EQUIV",
+      "title": "هم‌ارزی منطقی — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "low_by_text_screen_only",
+      "context_flags": [
+        {
+          "tag": "prior_learning_still_possible",
+          "risk": "always_consider",
+          "matched_terms": [],
+          "note": "این برچسب فقط نبود واژهٔ هشدار در متن است؛ نبود اثر آموزش را ثابت نمی‌کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-BOOL-05-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-TRACE-01",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_ASSIGN",
+      "family": "LEGACY-C_TRACE_ASSIGN",
+      "title": "ردگیری مقدارها — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-TRACE-01-T1",
+      "transfer_correct_key": "B"
+    },
+    {
+      "id": "C-TRACE-02",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_BRANCH",
+      "family": "LEGACY-C_TRACE_BRANCH",
+      "title": "ردگیری شرط‌های پیاپی — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "moderate",
+      "context_flags": [
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر score >= 8 آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-TRACE-02-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-TRACE-03",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_BRANCH",
+      "family": "LEGACY-C_TRACE_BRANCH",
+      "title": "ردگیری شرط‌های پیاپی — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر a < b آنگاه",
+            "اگر a == b آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "C",
+      "transfer_id": "C-TRACE-03-T1",
+      "transfer_correct_key": "C"
+    },
+    {
+      "id": "C-TRACE-04",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_ASSIGN",
+      "family": "LEGACY-C_TRACE_ASSIGN",
+      "title": "ردگیری مقدارها — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "متغیر"
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "دستور"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "بعد از"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "B",
+      "transfer_id": "C-TRACE-04-T1",
+      "transfer_correct_key": "D"
+    },
+    {
+      "id": "C-DEBUG-05",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_DEBUG_BOOL",
+      "family": "LEGACY-C_DEBUG_BOOL",
+      "title": "اصلاح منطق ترکیبی — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            " کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط",
+            "قانون"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "A",
+      "transfer_id": "C-DEBUG-05-T1",
+      "transfer_correct_key": "A"
+    },
+    {
+      "id": "C-TRACE-06",
+      "version": 1,
+      "band": "C",
+      "dimension": "C_TRACE_BRANCH",
+      "family": "LEGACY-C_TRACE_BRANCH",
+      "title": "ردگیری شرط‌های پیاپی — نمونهٔ قبلی",
+      "status": "DRAFT",
+      "active": false,
+      "calibrated": false,
+      "exposure_risk": "high",
+      "context_flags": [
+        {
+          "tag": "code_syntax",
+          "risk": "high",
+          "matched_terms": [
+            "«کد "
+          ],
+          "note": "آشنایی مستقیم با زبان/محیط کدنویسی می‌تواند به پاسخ کمک کند."
+        },
+        {
+          "tag": "algorithmic_exposure",
+          "risk": "moderate",
+          "matched_terms": [
+            "شرط"
+          ],
+          "note": "آموزش منطق، رباتیک یا بازی‌های الگوریتمی ممکن است تجربهٔ مرتبط ایجاد کند."
+        },
+        {
+          "tag": "reading_language",
+          "risk": "review",
+          "matched_terms": [
+            "توضیح"
+          ],
+          "note": "بار خواندن/زبان می‌تواند با سازهٔ هدف مخلوط شود؛ نسخهٔ تصویری/خوانش یکسان بررسی شود."
+        },
+        {
+          "tag": "working_memory",
+          "risk": "review",
+          "matched_terms": [
+            "اگر x < 7 آنگاه",
+            "اگر x > 5 آنگاه"
+          ],
+          "note": "تعداد گام‌ها و نگه‌داشتن دستور در ذهن جداگانه ثبت شود."
+        }
+      ],
+      "review_status": "ANALYST_RULE_SCREEN_PENDING_HUMAN_CONTENT_REVIEW",
+      "primary_correct_key": "D",
+      "transfer_id": "C-TRACE-06-T1",
+      "transfer_correct_key": "B"
+    }
+  ],
+  "interpretation_policy": {
+    "compulsory_classes_are_not_talent_or_interest": "Attendance, course duration, or parent expectation never become evidence of aptitude or child interest.",
+    "score_handling": "Do not subtract exposure or alter a child's raw response score. Report observed performance separately from prior-exposure context and child-reported interest.",
+    "deployment": "Use context for item-family sensitivity, stratification, and later differential-item-functioning analysis only after the design and sample are approved; do not invent correction weights now."
+  }
+}
