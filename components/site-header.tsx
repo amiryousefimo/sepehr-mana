@@ -36,6 +36,7 @@ export function SiteHeader({
 
   const navigation: NavItem[] = [
     {id: "dashboards", label: locale === "fa" ? "داشبوردها" : "Dashboards", href: `/${locale}/dashboards`},
+    {id: "hackaton", label: locale === "fa" ? "رویداد هکاتون" : "Hackathon", href: "/hackaton"},
     {id: "analysis", label: locale === "fa" ? "تحلیل و طراحی" : "Analysis & design", href: `/${locale}/analysis-and-design`},
     {id: "services", label: content.nav.services},
     {id: "solutions", label: content.nav.solutions},

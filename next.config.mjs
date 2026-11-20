@@ -28,6 +28,18 @@ const nextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        source: "/hackaton",
+        destination: "/hackaton/index.html",
+      },
+      {
+        source: "/hackaton/",
+        destination: "/hackaton/index.html",
+      },
+    ];
+  },
 };
 
 const withNextIntl = createNextIntlPlugin();
