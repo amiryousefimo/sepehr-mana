@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Sahel Font Face Definitions (Local WOFF2 from rastikerdar/sahel-font)
+   ========================================================================== */
+
+/* Sahel Regular (400) */
+@font-face {
+  font-family: 'Sahel';
+  src: url('./assets/fonts/sahel/Sahel.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sahel SemiBold (600) */
+@font-face {
+  font-family: 'Sahel';
+  src: url('./assets/fonts/sahel/Sahel-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sahel Bold (700) */
+@font-face {
+  font-family: 'Sahel';
+  src: url('./assets/fonts/sahel/Sahel-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sahel Black (800 / 900) */
+@font-face {
+  font-family: 'Sahel';
+  src: url('./assets/fonts/sahel/Sahel-Black.woff2') format('woff2');
+  font-weight: 800 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sahel Light (300) */
+@font-face {
+  font-family: 'Sahel';
+  src: url('./assets/fonts/sahel/Sahel-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sahel Variable Font */
+@font-face {
+  font-family: 'Sahel VF';
+  src: url('./assets/fonts/sahel/Sahel-VF.woff2') format('woff2-variations'),
+       url('./assets/fonts/sahel/Sahel-VF.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sahel Farsi Digits (FD) */
+@font-face {
+  font-family: 'Sahel FD';
+  src: url('./assets/fonts/sahel/fd/Sahel-FD.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sahel FD';
+  src: url('./assets/fonts/sahel/fd/Sahel-SemiBold-FD.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sahel FD';
+  src: url('./assets/fonts/sahel/fd/Sahel-Bold-FD.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   Global Typography System & CSS Variables
+   ========================================================================== */
+
+:root {
+  --font-family-primary: 'Sahel', 'Sahel VF', system-ui, -apple-system, sans-serif;
+  --font-family-digits: 'Sahel FD', 'Sahel', system-ui, sans-serif;
+
+  /* Typography Scale */
+  --text-display: 1.75rem;    /* 28px */
+  --text-h1: 1.5rem;          /* 24px */
+  --text-h2: 1.25rem;         /* 20px */
+  --text-h3: 1.125rem;        /* 18px */
+  --text-subtitle: 0.9375rem; /* 15px */
+  --text-body: 0.875rem;      /* 14px */
+  --text-caption: 0.75rem;    /* 12px */
+  --text-micro: 0.6875rem;    /* 11px */
+
+  /* Line Heights for Persian readability */
+  --lh-tight: 1.35;
+  --lh-snug: 1.5;
+  --lh-normal: 1.65;
+  --lh-relaxed: 1.8;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-family-primary);
+    direction: rtl;
+    line-height: var(--lh-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    letter-spacing: normal;
+  }
+
+  body {
+    font-family: var(--font-family-primary);
+    background-color: #F1EEE5;
+    color: #252D29;
+    overflow-x: hidden;
+    letter-spacing: normal;
+  }
+
+  * {
+    letter-spacing: normal !important;
+  }
+
+  /* Headings Weight Mapping */
+  h1, .text-heading-1 {
+    font-weight: 700;
+    line-height: var(--lh-tight);
+  }
+
+  h2, .text-heading-2 {
+    font-weight: 700;
+    line-height: var(--lh-snug);
+  }
+
+  h3, .text-heading-3 {
+    font-weight: 600;
+    line-height: var(--lh-snug);
+  }
+
+  h4, .text-heading-4 {
+    font-weight: 600;
+    line-height: var(--lh-normal);
+  }
+
+  /* Buttons & Nav Controls Weight Mapping (SemiBold 600) */
+  button, input, select, textarea, .btn, nav a {
+    font-family: inherit;
+  }
+
+  button {
+    font-weight: 600;
+  }
+
+  /* Form Elements Font & Padding */
+  input, select, textarea {
+    font-family: inherit;
+    font-size: 0.75rem;
+    line-height: var(--lh-normal);
+  }
+}
+
+/* ==========================================================================
+   Leaflet & Third-Party UI Typography Overrides
+   ========================================================================== */
+
+.leaflet-container {
+  font-family: var(--font-family-primary) !important;
+  direction: ltr !important;
+  background: #EAE7DC !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #FAF9F5 !important;
+  color: #252D29 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #DEDCD3 !important;
+  padding: 2px !important;
+  font-family: var(--font-family-primary) !important;
+}
+
+.leaflet-popup-content {
+  margin: 10px 12px !important;
+  line-height: var(--lh-normal) !important;
+  direction: rtl !important;
+  font-family: var(--font-family-primary) !important;
+}
+
+.leaflet-popup-tip {
+  background: #FAF9F5 !important;
+  border: 1px solid #DEDCD3 !important;
+}
+
+.custom-leaflet-marker {
+  background: transparent !important;
+  border: none !important;
+  font-family: var(--font-family-primary) !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F1EEE5;
+}
+::-webkit-scrollbar-thumb {
+  background: #DEDCD3;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #75847B;
+}
+
+/* Pulse animation helper */
+@keyframes softPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+}
+
+.animate-soft-pulse {
+  animation: softPulse 2s infinite ease-in-out;
+}
