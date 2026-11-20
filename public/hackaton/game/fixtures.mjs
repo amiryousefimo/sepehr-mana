@@ -120,6 +120,16 @@ export function createInitialSeed() {
         status: 'approved', // خطای ساختگی اپراتور برای ممیزی
         createdAt: 'امروز ۱۱:۳۰',
       },
+      // مشاهده ارسالی شهروند در صف بررسی اپراتور (تمرین برای ثبت تصمیم و ارسال به ممیزی)
+      {
+        ...OBSERVATION_OPTIONS.repeat,
+        id: 'seed-pending-repeat-entry',
+        caseId: CASE_IDS.practice,
+        profileId: 'citizen-seed-4',
+        choice: 'repeat',
+        status: 'submitted',
+        createdAt: 'امروز ۱۲:۲۰',
+      },
     ],
     reviews: [
       // دو بررسی صحیح قبلی در دور برای پیشرفت نشان اپراتور
