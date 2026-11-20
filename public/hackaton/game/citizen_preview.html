@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>شهرآگاه | سامانه مشارکت شهروندی و باشگاه خدمات محله</title>
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="stylesheet" href="./citizen.css" />
+  <style>
+    :root {
+      --font-family-primary: 'Sahel', 'Sahel FD', system-ui, -apple-system, sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #F1EEE5;
+      font-family: var(--font-family-primary);
+      color: #252D29;
+      -webkit-font-smoothing: antialiased;
+    }
+    /* هدر رسمی بالایی مطابق سیستم طراحی شهرآگاه */
+    .shahragah-global-header {
+      background-color: #203B35;
+      color: #FFFFFF;
+      border-bottom: 1px solid #172D29;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    .shahragah-header-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .shahragah-brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .shahragah-brand-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin: 0;
+      line-height: 1.2;
+    }
+    .shahragah-brand-sub {
+      font-size: 0.6875rem;
+      color: rgba(255, 255, 255, 0.75);
+      margin-top: 2px;
+    }
+    .shahragah-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .header-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.785rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      background: rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .header-link-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .company-pill {
+      font-size: 0.6875rem;
+      background: rgba(213, 170, 89, 0.2);
+      color: #FDF9EE;
+      border: 1px solid rgba(213, 170, 89, 0.35);
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- نوار هدر سراسری شهرآگاه -->
+  <header class="shahragah-global-header" dir="rtl">
+    <div class="shahragah-header-inner">
+      <div class="shahragah-brand-wrap">
+        <div>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <h1 class="shahragah-brand-title">شــهـــرآگـــاه</h1>
+            <span class="company-pill">
+              <svg style="width:10px; height:10px; stroke-width:2; stroke:currentColor; fill:none;" viewBox="0 0 24 24"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+              <span>تکاپوگران سپهر مانا</span>
+            </span>
+          </div>
+          <div class="shahragah-brand-sub">سامانه هوشمند پایش و تحلیل مسائل شهری</div>
+        </div>
+      </div>
+
+      <div class="shahragah-header-actions">
+        <a href="/hackaton/" class="header-link-btn" title="بازگشت به مرکز پایش و نقشه">
+          <svg style="width:14px; height:14px; stroke-width:2; stroke:currentColor; fill:none;" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+          <span>بازگشت به مرکز پایش شهرآگاه</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- محل سوار شدن ماژول شهروند -->
+  <main id="citizen-app-root"></main>
+
+  <script type="module">
+    import { mountCitizen } from './citizen.mjs';
+    const root = document.getElementById('citizen-app-root');
+    mountCitizen(root);
+  </script>
+</body>
+</html>
