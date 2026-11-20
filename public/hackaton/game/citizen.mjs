@@ -13,6 +13,22 @@ export function toFarsiDigits(val) {
   return String(val).replace(/[0-9]/g, d => farsiDigits[+d]);
 }
 
+// سطح شهروند بر اساس موجودی کوشانه محاسبه می‌شود.
+export const CITIZEN_LEVELS = [
+  { title: 'شهر خواب', min: 0 },
+  { title: 'کم یار', min: 10 },
+  { title: 'همیار', min: 20 },
+  { title: 'آبادگر', min: 60 },
+];
+
+export function getCitizenLevel(xp) {
+  const score = Math.max(0, Number(xp) || 0);
+  const index = CITIZEN_LEVELS.findLastIndex(level => score >= level.min);
+  const level = CITIZEN_LEVELS[index];
+  const next = CITIZEN_LEVELS[index + 1] || null;
+  return { level, next, score, index, progress: next ? Math.min(100, Math.round(score / next.min * 100)) : 100 };
+}
+
 // تزریق فایل استایل به صفحه در صورت عدم وجود
 function ensureCitizenStyles() {
   const STYLE_ID = 'shahragah-citizen-styles';
@@ -245,14 +261,13 @@ export function createMockCitizenApi() {
 
             const alreadyRewarded = state.ledger.some(l => l.caseId === caseId && l.type === 'mission_reward');
             if (!alreadyRewarded) {
-              balance.xp += 20;
               balance.credits += 10;
               state.ledger.unshift({
                 id: 'led-' + Date.now(),
                 caseId,
                 profileId,
                 type: 'mission_reward',
-                xpChange: 20,
+                xpChange: 0,
                 creditsChange: 10,
                 description: 'تأیید شاهد میدانی موثر بر پرونده صادقیه (همیار دسترسی معابر)',
                 date: 'امروز'
@@ -417,7 +432,7 @@ export function mountCitizen(root, externalApi = null) {
   function getErrorMessage(code) {
     switch (code) {
       case 'INSUFFICIENT':
-        return 'اعتبار شما برای دریافت این تسهیلات کافی نیست.';
+        return 'کوشانه شما برای دریافت این تسهیلات کافی نیست.';
       case 'SOLD_OUT':
         return 'سهمیه این تسهیلات در دوره جاری تکمیل شده است.';
       case 'PERSON_LIMIT':
@@ -484,33 +499,18 @@ export function mountCitizen(root, externalApi = null) {
             </div>
           </div>
 
-          <!-- تفکیک شاخص‌ها: امتیاز تجربه (مهارت) در برابر اعتبار خدمات شهری -->
+          <!-- موجودی کوشانه و شاخص‌های مشارکت -->
           <div class="citizen-kpi-grid">
-            
             <div class="citizen-kpi-card">
               <div class="citizen-kpi-header">
-                <span>امتیاز تجربه مشارکت (XP)</span>
-                <span class="citizen-kpi-tag" style="background:rgba(255,255,255,0.15); color:#FFFFFF;">
-                  سوابق مهارت
-                </span>
-              </div>
-              <div class="citizen-kpi-value-row">
-                <span class="citizen-kpi-number">${toFarsiDigits(balance.xp)}</span>
-                <span class="citizen-kpi-unit">XP</span>
-              </div>
-              <div class="citizen-kpi-footnote">غیرقابل‌خرج؛ نمایانگر مهارت و اعتبار داده‌های ارسالی</div>
-            </div>
-
-            <div class="citizen-kpi-card">
-              <div class="citizen-kpi-header">
-                <span>اعتبار خدمات شهری</span>
+                <span>موجودی کوشانه</span>
                 <span class="citizen-kpi-tag" style="background:#22C55E; color:#052E16;">
                   کیف خدمات
                 </span>
               </div>
               <div class="citizen-kpi-value-row">
                 <span class="citizen-kpi-number">${toFarsiDigits(balance.credits)}</span>
-                <span class="citizen-kpi-unit">اعتبار</span>
+                <span class="citizen-kpi-unit">کوشانه</span>
               </div>
               <div class="citizen-kpi-footnote">قابل تخصیص به تسهیلات و خدمات باشگاه محله</div>
             </div>
@@ -573,6 +573,10 @@ export function mountCitizen(root, externalApi = null) {
 
         <!-- تب‌های ناوبری اصلی -->
         <nav class="citizen-tabs-bar" role="tablist">
+          <button class="citizen-tab-item ${activeTab === 'profile' ? 'active' : ''}" data-tab="profile" role="tab" aria-selected="${activeTab === 'profile'}">
+            ${ICONS.award}
+            <span>پروفایل و رتبه‌بندی</span>
+          </button>
           <button class="citizen-tab-item ${activeTab === 'mission' ? 'active' : ''}" data-tab="mission" role="tab" aria-selected="${activeTab === 'mission'}">
             ${ICONS.cloudRain}
             <span>پرونده و مأموریت صادقیه</span>
@@ -603,7 +607,7 @@ export function mountCitizen(root, externalApi = null) {
             <span style="color:var(--c-forest); margin-top:2px;">${ICONS.shieldCheck}</span>
             <div>
               <strong>سامانه تجمیع مکانی و رتبه‌بندی کیفی شهرآگاه:</strong>
-              تخصیص امتیاز و اعتبارات صرفاً بر اساس دقت فنی و ارزش عملیاتی اطلاعات در کاهش دوباره‌کاری اکیپ‌های خدمات شهری صورت می‌پذیرد و رویه رسیدگی اضطراری به حوادث وابسته به امتیاز افراد نیست.
+              تخصیص کوشانه بر اساس دقت فنی و ارزش عملیاتی اطلاعات صورت می‌پذیرد و رسیدگی اضطراری به حوادث وابسته به کوشانه افراد نیست.
             </div>
           </div>
         </footer>
@@ -618,7 +622,9 @@ export function mountCitizen(root, externalApi = null) {
   }
 
   function renderTabContent(state, balance, currentEntry, latestReview, hasAccessibilityBadge, myVouchers) {
-    if (activeTab === 'mission') {
+    if (activeTab === 'profile') {
+      return renderProfileTab(balance);
+    } else if (activeTab === 'mission') {
       return renderMissionTab(state, balance, currentEntry, latestReview, hasAccessibilityBadge);
     } else if (activeTab === 'club') {
       return renderClubTab(state, balance);
@@ -628,6 +634,39 @@ export function mountCitizen(root, externalApi = null) {
       return renderHistoryTab(state);
     }
     return '';
+  }
+
+  function renderProfileTab(balance) {
+    const { level, next, score, index, progress } = getCitizenLevel(balance.credits);
+    const leaderboard = [
+      { name: 'علی محبیان', xp: 95 },
+      { name: 'مریم رضایی', xp: 78 },
+      { name: 'محمد صادقی', xp: 65 },
+      { name: 'زهرا احمدی', xp: 52 },
+      { name: 'امیرحسین کریمی', xp: 42 },
+      { name: 'نرگس موسوی', xp: 32 },
+      { name: 'سارا حسینی', xp: 18 },
+      { name: 'رضا مرادی', xp: 12 },
+      { name: 'فاطمه عباسی', xp: 6 },
+      { name: 'شما', xp: score, current: true },
+    ].sort((a, b) => b.xp - a.xp || Number(b.current) - Number(a.current));
+    return `
+      <div class="citizen-profile-grid">
+        <section class="citizen-content-card citizen-profile-level" aria-label="پیشرفت شهروند">
+          <div class="content-card-header"><h2 class="content-card-title">${ICONS.award}<span>مسیر پیشرفت شما</span></h2></div>
+          <p class="citizen-profile-caption">سطح فعلی شما</p>
+          <div class="citizen-profile-title">${level.title}</div>
+          <p class="citizen-profile-score">${toFarsiDigits(score)} کوشانه</p>
+          <div class="progress-track" role="progressbar" aria-label="پیشرفت تا سطح بعد" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progress}"><div class="progress-fill" style="width:${progress}%;"></div></div>
+          <p class="citizen-profile-caption">${next ? `${toFarsiDigits(score)} از ${toFarsiDigits(next.min)} کوشانه برای سطح ${next.title} — ${toFarsiDigits(next.min - score)} کوشانه باقی مانده` : 'شما به بالاترین سطح رسیده‌اید.'}</p>
+          <div class="citizen-levels">${CITIZEN_LEVELS.map((item, i) => `<div class="citizen-level ${i === index ? 'is-current' : ''}"><strong>${item.title}</strong><span>از ${toFarsiDigits(item.min)} کوشانه</span></div>`).join('')}</div>
+        </section>
+        <section class="citizen-content-card citizen-leaderboard" aria-label="جدول رتبه‌بندی شهروندان">
+          <div class="content-card-header"><h2 class="content-card-title">${ICONS.trendingUp}<span>جدول رتبه‌بندی شهروندان</span></h2></div>
+          <p class="citizen-profile-caption">رقبا داده‌های نمونه‌اند؛ جایگاه شما با کوشانه فعلی محاسبه می‌شود.</p>
+          <ol class="citizen-leaderboard-list">${leaderboard.map((person, i) => `<li class="${person.current ? 'is-current' : ''}"><span class="citizen-leaderboard-rank">${toFarsiDigits(i + 1)}</span><span class="citizen-leaderboard-name"><strong>${person.name}</strong><small>${getCitizenLevel(person.xp).level.title}</small></span><strong>${toFarsiDigits(person.xp)} کوشانه</strong></li>`).join('')}</ol>
+        </section>
+      </div>`;
   }
 
   // تب ۱: پرونده صادقیه و مشاهدات
@@ -696,7 +735,7 @@ export function mountCitizen(root, externalApi = null) {
                     </div>
                     <div><strong>علت بازگشت:</strong> ${getReturnReasonText(latestReview.reason)}</div>
                     <div>${latestReview.comment || ''}</div>
-                    <div style="font-size:0.75rem; margin-top:2px;">پاداش ثبت: ۰ XP و ۰ اعتبار. لطفاً جزئیات دقیق و موانع فیزیکی را قید فرمایید.</div>
+                    <div style="font-size:0.75rem; margin-top:2px;">پاداش ثبت: ۰ کوشانه. لطفاً جزئیات دقیق و موانع فیزیکی را قید فرمایید.</div>
                   </div>
                 ` : ''}
 
@@ -733,7 +772,7 @@ export function mountCitizen(root, externalApi = null) {
                     </div>
                     <div><strong>علت بازگشت:</strong> ${getReturnReasonText(latestReview.reason)}</div>
                     <div>${latestReview.comment || ''}</div>
-                    <div style="font-size:0.75rem; margin-top:2px;">پاداش ثبت: ۰ XP و ۰ اعتبار. داده‌های بدون رصد میدانی مبنای تصمیم قرار نمی‌گیرند.</div>
+                    <div style="font-size:0.75rem; margin-top:2px;">پاداش ثبت: ۰ کوشانه. داده‌های بدون رصد میدانی مبنای تصمیم قرار نمی‌گیرند.</div>
                   </div>
                 ` : ''}
 
@@ -770,7 +809,7 @@ export function mountCitizen(root, externalApi = null) {
                     </div>
                     <div><strong>شرح ارزیابی:</strong> ${latestReview ? getReturnReasonText(latestReview.reason) : 'شاهد معتبر مکمل همراه با مشخصات دقیق زمان، محل و مانع تردد.'}</div>
                     <div style="margin-top:2px; font-weight:700;">
-                      تخصیص دستاورد: +۲۰ XP مهارت مشارکت | +۱۰ اعتبار خدمات شهری | اعطای نشان خدمت «همیار دسترسی معابر»
+                      تخصیص دستاورد: +۱۰ کوشانه | اعطای نشان خدمت «همیار دسترسی معابر»
                     </div>
                   </div>
                 ` : ''}
@@ -862,12 +901,12 @@ export function mountCitizen(root, externalApi = null) {
               <span>تسهیلات و خدمات باشگاه شهروندی</span>
             </h2>
             <div style="font-size:0.875rem; font-weight:700; color:var(--c-forest);">
-              مانده اعتبار شما: ${toFarsiDigits(balance.credits)} اعتبار
+              موجودی کوشانه شما: ${toFarsiDigits(balance.credits)} کوشانه
             </div>
           </div>
 
           <p style="font-size:0.825rem; color:var(--c-text-muted); margin:0;">
-            اعتبارات کسب‌شده صرفاً برای دریافت خدمات اجتماعی زیر قابل استفاده است. سقف مجاز دریافت هر عنوان برای هر شهروند، یک عدد در هر دوره می‌باشد.
+            کوشانه‌های کسب‌شده صرفاً برای دریافت خدمات اجتماعی زیر قابل استفاده است. سقف مجاز دریافت هر عنوان برای هر شهروند، یک عدد در هر دوره می‌باشد.
           </p>
 
           <div class="rewards-grid">
@@ -887,7 +926,7 @@ export function mountCitizen(root, externalApi = null) {
                 buttonLabel = 'اتمام سهمیه دوره';
                 isDisabled = true;
               } else if (!isAffordable) {
-                buttonLabel = `اعتبار ناکافی (${toFarsiDigits(distance)} اعتبار دیگر)`;
+                buttonLabel = `کوشانه ناکافی (${toFarsiDigits(distance)} کوشانه دیگر)`;
                 isDisabled = true;
               }
 
@@ -902,7 +941,7 @@ export function mountCitizen(root, externalApi = null) {
                       </div>
                       <div class="reward-price-tag">
                         <span>${toFarsiDigits(item.cost)}</span>
-                        <span class="reward-price-unit">اعتبار</span>
+                        <span class="reward-price-unit">کوشانه</span>
                       </div>
                     </div>
 
@@ -923,7 +962,7 @@ export function mountCitizen(root, externalApi = null) {
                       ${!isAffordable && !alreadyClaimed ? `
                         <div class="reward-deficit-alert">
                           ${ICONS.alertTriangle}
-                          <span>فاصله تا دریافت: ${toFarsiDigits(distance)} اعتبار</span>
+                          <span>فاصله تا دریافت: ${toFarsiDigits(distance)} کوشانه</span>
                         </div>
                       ` : ''}
                     </div>
@@ -953,7 +992,7 @@ export function mountCitizen(root, externalApi = null) {
             </div>
             <strong style="font-size:0.95rem; color:var(--c-forest);">هنوز تسهیلاتی برای این حساب ثبت نشده است</strong>
             <span style="font-size:0.825rem; max-width:420px; line-height:1.6;">
-              با ارسال شواهد موثر در پرونده‌های باز محله و کسب اعتبارات، می‌توانید تسهیلات باشگاه شهروندی را دریافت فرمایید.
+              با ارسال شواهد موثر در پرونده‌های باز محله و کسب کوشانه، می‌توانید تسهیلات باشگاه شهروندی را دریافت فرمایید.
             </span>
           </div>
         </section>
@@ -990,7 +1029,7 @@ export function mountCitizen(root, externalApi = null) {
                 </div>
 
                 <div style="font-size:0.775rem; color:var(--c-text-muted); display:flex; justify-content:space-between;">
-                  <span>ارزش خدمت: ${toFarsiDigits(v.cost)} اعتبار</span>
+                  <span>ارزش خدمت: ${toFarsiDigits(v.cost)} کوشانه</span>
                   <span>${isUsed ? `${v.usedAt || 'مصرف شده'}` : `صدور: ${v.issuedAt || 'امروز'}`}</span>
                 </div>
 
@@ -1009,14 +1048,14 @@ export function mountCitizen(root, externalApi = null) {
 
   // تب ۴: دفتر ثبت مشارکت‌ها (Ledger)
   function renderHistoryTab(state) {
-    const ledger = state.ledger || [];
+    const ledger = (state.ledger || []).filter(item => item.profileId === (state.profileId || 'citizen-1'));
 
     return `
       <section class="citizen-content-card">
         <div class="content-card-header">
           <h2 class="content-card-title">
             ${ICONS.fileText}
-            <span>دفتر ثبت مشارکت‌ها و تراکنش‌های اعتباری</span>
+            <span>دفتر ثبت مشارکت‌ها و تراکنش‌های کوشانه</span>
           </h2>
           <span style="font-size:0.75rem; color:var(--c-text-muted);">
             رویدادهای قطعی و تغییرات تراز حساب شهروندی
@@ -1044,12 +1083,7 @@ export function mountCitizen(root, externalApi = null) {
                   <div style="display:flex; gap:0.85rem; align-items:center;">
                     ${item.creditsChange !== 0 ? `
                       <span class="ledger-amount-credits ${isCreditsPositive ? 'plus' : 'minus'}">
-                        ${isCreditsPositive ? `+${toFarsiDigits(item.creditsChange)}` : toFarsiDigits(item.creditsChange)} اعتبار
-                      </span>
-                    ` : ''}
-                    ${item.xpChange > 0 ? `
-                      <span class="ledger-amount-xp">
-                        +${toFarsiDigits(item.xpChange)} XP
+                        ${isCreditsPositive ? `+${toFarsiDigits(item.creditsChange)}` : toFarsiDigits(item.creditsChange)} کوشانه
                       </span>
                     ` : ''}
                   </div>
@@ -1075,26 +1109,26 @@ export function mountCitizen(root, externalApi = null) {
           
           <div style="font-size:0.875rem; line-height:1.6; color:var(--c-dark-text);">
             <p style="margin:0 0 0.75rem 0;">
-              درخواست صدور <strong>«${item.title}»</strong> با کسر <strong>${toFarsiDigits(item.cost)} اعتبار</strong> از حساب مشارکت شهروندی شما:
+              درخواست صدور <strong>«${item.title}»</strong> با کسر <strong>${toFarsiDigits(item.cost)} کوشانه</strong> از حساب مشارکت شهروندی شما:
             </p>
             
             <div style="background:#FAF8F2; padding:0.85rem 1rem; border-radius:8px; border:1px solid var(--c-border); font-size:0.8125rem; display:flex; flex-direction:column; gap:0.4rem;">
               <div style="display:flex; justify-content:space-between;">
-                <span>موجودی اعتبار فعلی:</span>
-                <strong>${toFarsiDigits(balance.credits)} اعتبار</strong>
+                <span>موجودی کوشانه فعلی:</span>
+                <strong>${toFarsiDigits(balance.credits)} کوشانه</strong>
               </div>
               <div style="display:flex; justify-content:space-between; color:var(--c-terracotta);">
                 <span>هزینه تخصیص خدمت:</span>
-                <strong>-${toFarsiDigits(item.cost)} اعتبار</strong>
+                <strong>-${toFarsiDigits(item.cost)} کوشانه</strong>
               </div>
               <div style="border-top:1px dashed var(--c-border); padding-top:0.4rem; display:flex; justify-content:space-between; font-weight:700;">
-                <span>مانده اعتبار پس از دریافت:</span>
-                <strong>${toFarsiDigits(remainingCredits)} اعتبار</strong>
+                <span>مانده کوشانه پس از دریافت:</span>
+                <strong>${toFarsiDigits(remainingCredits)} کوشانه</strong>
               </div>
             </div>
 
             <p style="font-size:0.75rem; color:var(--c-text-muted); margin:0.75rem 0 0 0; line-height:1.5;">
-              * این تخصیص صرفاً از محل اعتبار خرج‌شدنی انجام شده و هیچ‌گونه کاهشی در امتیاز تجربه (XP) و رتبه محله شما ایجاد نمی‌کند.
+              * با دریافت خدمت، کوشانه از موجودی شما کسر می‌شود و سطح و جایگاه شما متناسب با موجودی جدید تغییر می‌کند.
             </p>
           </div>
 
@@ -1138,7 +1172,7 @@ export function mountCitizen(root, externalApi = null) {
 
         if (result && result.ok) {
           if (choice === 'access') {
-            showToast('شاهد معتبر با موفقیت تأیید گردید (+۲۰ XP مهارت و +۱۰ اعتبار)', 'success');
+            showToast('شاهد معتبر با موفقیت تأیید گردید (+۱۰ کوشانه)', 'success');
           } else {
             showToast('گزارش ارسال شد؛ به دلیل عدم احراز شواهد مکانی نیازمند اصلاح تشخیص داده شد.', 'error');
           }
@@ -1221,13 +1255,18 @@ export function mountCitizen(root, externalApi = null) {
     const btnQuickAccess = appEl.querySelector('#btn-quick-demo-access');
     if (btnQuickAccess) {
       btnQuickAccess.addEventListener('click', () => {
-        api.dispatch({
+        const result = api.dispatch({
           type: 'submit',
           caseId: 'rain-sadeghiyeh',
           choice: 'access'
         });
-        showToast('شاهد معتبر ثبت و تأیید شد (+۲۰ XP و +۱۰ اعتبار).', 'success');
-        activeTab = 'club';
+        if (result && result.ok) {
+          showToast('شاهد معتبر ثبت و تأیید شد؛ در صورت نخستین تأیید پرونده، ۱۰ کوشانه دریافت می‌کنید.', 'success');
+          activeTab = 'club';
+          render();
+        } else {
+          showToast(getErrorMessage(result?.code), 'error');
+        }
       });
     }
 

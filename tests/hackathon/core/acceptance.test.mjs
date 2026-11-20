@@ -9,13 +9,12 @@ import assert from 'node:assert/strict';
 import { createGameStore } from '../../../public/hackaton/game/core.mjs';
 import { PERSON_IDS, CASE_IDS } from '../../../public/hackaton/game/fixtures.mjs';
 
-test('1. وضعیت اولیه Seed: ۱۰ اعتبار و ۲۰ XP شهروند، صادقیه ۸/۱۰، سهمیه کوپن ۱۲', () => {
+test('1. وضعیت اولیه Seed: ۱۰ کوشانه شهروند، صادقیه ۸/۱۰، سهمیه کوپن ۱۲', () => {
   const store = createGameStore();
   const state = store.getState();
 
   assert.equal(state.role, 'citizen');
   assert.equal(state.balances[PERSON_IDS.citizen].credits, 10);
-  assert.equal(state.balances[PERSON_IDS.citizen].xp, 20);
 
   const sadeghiyeh = state.teams.find(t => t.id === 'sadeghiyeh');
   assert.equal(sadeghiyeh.done, 8);
@@ -44,7 +43,6 @@ test('2. ثبت مشاهده تکراری یا شنیداری: برگشت بدو
   const entry = state.entries.find(e => e.caseId === CASE_IDS.rain);
   assert.equal(entry.status, 'returned');
   assert.equal(state.balances[PERSON_IDS.citizen].credits, 10);
-  assert.equal(state.balances[PERSON_IDS.citizen].xp, 20);
 
   const sadeghiyeh = state.teams.find(t => t.id === 'sadeghiyeh');
   assert.equal(sadeghiyeh.done, 8);
@@ -53,7 +51,7 @@ test('2. ثبت مشاهده تکراری یا شنیداری: برگشت بدو
   assert.ok(!rainCase.attachments.includes(entry.id));
 });
 
-test('3. ثبت شاهد معتبر: تأیید → ۲۰ اعتبار، ۴۰ XP، صادقیه ۹/۱۰، نشان همیار دسترسی', () => {
+test('3. ثبت شاهد معتبر: تأیید → ۲۰ کوشانه، صادقیه ۹/۱۰، نشان همیار دسترسی', () => {
   const store = createGameStore();
 
   const res = store.dispatch({
@@ -66,7 +64,6 @@ test('3. ثبت شاهد معتبر: تأیید → ۲۰ اعتبار، ۴۰ XP�
   const state = store.getState();
 
   assert.equal(state.balances[PERSON_IDS.citizen].credits, 20);
-  assert.equal(state.balances[PERSON_IDS.citizen].xp, 40);
 
   const sadeghiyeh = state.teams.find(t => t.id === 'sadeghiyeh');
   assert.equal(sadeghiyeh.done, 9);
@@ -83,15 +80,14 @@ test('3. ثبت شاهد معتبر: تأیید → ۲۰ اعتبار، ۴۰ XP�
   });
   const state2 = store.getState();
   assert.equal(state2.balances[PERSON_IDS.citizen].credits, 20);
-  assert.equal(state2.balances[PERSON_IDS.citizen].xp, 40);
 });
 
-test('4. فرآیند ممیزی: ۸ XP به اپراتور، ۱۲ XP به مدیر، جلوگیری از پاداش تکراری', () => {
+test('4. فرآیند ممیزی: ۸ کوشانه به اپراتور، ۱۲ کوشانه به مدیر، جلوگیری از پاداش تکراری', () => {
   const store = createGameStore();
 
-  // در حالت اولیه، اپراتور ۱۶ XP (۲ بررسی پیشین) و مدیر صفر دارد
-  assert.equal(store.getState().balances[PERSON_IDS.operator].xp, 16);
-  assert.equal(store.getState().balances[PERSON_IDS.manager].xp, 0);
+  // در حالت اولیه، اپراتور ۱۶ کوشانه (۲ بررسی پیشین) و مدیر صفر دارد
+  assert.equal(store.getState().balances[PERSON_IDS.operator].credits, 16);
+  assert.equal(store.getState().balances[PERSON_IDS.manager].credits, 0);
 
   // مدیر نمونه صحیح را ممیزی می‌کند
   store.dispatch({ type: 'switchRole', role: 'manager' });
@@ -103,8 +99,8 @@ test('4. فرآیند ممیزی: ۸ XP به اپراتور، ۱۲ XP به مد�
   });
 
   assert.equal(auditRes.ok, true);
-  assert.equal(store.getState().balances[PERSON_IDS.operator].xp, 24);
-  assert.equal(store.getState().balances[PERSON_IDS.manager].xp, 12);
+  assert.equal(store.getState().balances[PERSON_IDS.operator].credits, 24);
+  assert.equal(store.getState().balances[PERSON_IDS.manager].credits, 12);
 
   // ممیزی تکراری با همان شناسه رد می‌شود و پاداش مجدد نمی‌دهد
   const dupAudit = store.dispatch({
@@ -115,8 +111,8 @@ test('4. فرآیند ممیزی: ۸ XP به اپراتور، ۱۲ XP به مد�
   });
   assert.equal(dupAudit.ok, false);
   assert.equal(dupAudit.code, 'DUPLICATE');
-  assert.equal(store.getState().balances[PERSON_IDS.operator].xp, 24);
-  assert.equal(store.getState().balances[PERSON_IDS.manager].xp, 12);
+  assert.equal(store.getState().balances[PERSON_IDS.operator].credits, 24);
+  assert.equal(store.getState().balances[PERSON_IDS.manager].credits, 12);
 
   // کشف خطای آموزشی اپراتور توسط مدیر: فقط به مدیر پاداش می‌دهد
   const errAudit = store.dispatch({
@@ -126,8 +122,8 @@ test('4. فرآیند ممیزی: ۸ XP به اپراتور، ۱۲ XP به مد�
     reason: 'unverified',
   });
   assert.equal(errAudit.ok, true);
-  assert.equal(store.getState().balances[PERSON_IDS.operator].xp, 24);
-  assert.equal(store.getState().balances[PERSON_IDS.manager].xp, 24);
+  assert.equal(store.getState().balances[PERSON_IDS.operator].credits, 24);
+  assert.equal(store.getState().balances[PERSON_IDS.manager].credits, 24);
   assert.equal(store.getState().reviews.find(r => r.id === 'error-review').needsReview, true);
 
   // باز شدن نشان‌های امین محله و داور منصف
@@ -215,7 +211,6 @@ test('7. بازنشانی Reset: بازگشت دقیق تمام داده‌ها 
 
   const resetState = store.getState();
   assert.equal(resetState.balances[PERSON_IDS.citizen].credits, 10);
-  assert.equal(resetState.balances[PERSON_IDS.citizen].xp, 20);
   assert.equal(resetState.catalog.find(c => c.id === 'trip-voucher').remaining, 12);
   assert.equal(resetState.teams.find(t => t.id === 'sadeghiyeh').done, 8);
   assert.equal(resetState.vouchers.length, 0);

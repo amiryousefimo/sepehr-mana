@@ -337,6 +337,26 @@
   overflow-x: auto;
 }
 
+.citizen-profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.citizen-profile-caption { color: #61706a; font-size: .84rem; margin: .8rem 0; }
+.citizen-profile-title { color: #203b35; font-size: 1.8rem; font-weight: 700; }
+.citizen-profile-score { color: #986f2c; font-weight: 700; margin: .3rem 0 1rem; }
+.citizen-profile-level .progress-track { flex: none; width: 100%; height: 8px; }
+.citizen-levels { display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem; margin-top: 1.2rem; }
+.citizen-level { padding: .7rem .4rem; text-align: center; background: #f4f3ee; border: 1px solid #e3e1d7; border-radius: 9px; }
+.citizen-level strong, .citizen-level span { display: block; }
+.citizen-level strong { color: #33483f; font-size: .8rem; }
+.citizen-level span { color: #69756f; font-size: .68rem; margin-top: .2rem; }
+.citizen-level.is-current { background: #f8edcf; border-color: #d5aa59; }
+.citizen-leaderboard-list { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: .55rem; }
+.citizen-leaderboard-list li { display: flex; align-items: center; gap: .8rem; padding: .75rem; border: 1px solid #e4e7e0; border-radius: 9px; font-size: .82rem; }
+.citizen-leaderboard-list li.is-current { background: #f8edcf; border-color: #d5aa59; }
+.citizen-leaderboard-rank { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: #e8eee9; color: #203b35; font-weight: 700; }
+.citizen-leaderboard-name { flex: 1; }
+.citizen-leaderboard-name strong, .citizen-leaderboard-name small { display: block; }
+.citizen-leaderboard-name small { color: #68756e; margin-top: .15rem; }
+@media (max-width: 760px) { .citizen-profile-grid { grid-template-columns: 1fr; } .citizen-levels { grid-template-columns: repeat(2, 1fr); } }
+
 .citizen-tab-item {
   flex: 1;
   min-width: 140px;

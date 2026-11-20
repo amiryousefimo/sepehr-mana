@@ -251,8 +251,9 @@ export function mountStaff(root, api, role) {
     const findEntry = entryId => entries.find(item => item.id === entryId);
     const findAudit = reviewId => audits.find(item => item.reviewId === reviewId);
 
+    const rewardValue = event => Number(event.credits ?? event.creditsChange ?? 0) || ((event.type === 'review_reward' || event.type === 'audit_reward') ? Number(event.xp ?? event.xpChange ?? 0) : 0);
     const rewarded = (profileId, row) => ledger.some(event =>
-      event.profileId === profileId && (event.xp ?? event.deltaXp ?? 0) > 0 &&
+      event.profileId === profileId && rewardValue(event) > 0 &&
       ((event.reviewId ?? event.auditId) != null
         ? event.reviewId === row.id || (findAudit(row.id) && event.auditId === findAudit(row.id).id)
         : event.caseId != null && event.caseId === (row.caseId ?? findEntry(row.entryId)?.caseId)));
@@ -264,7 +265,7 @@ export function mountStaff(root, api, role) {
     const account = state.balances?.[id] || { xp: 0, credits: 0 };
     const progress = state.staffProgress?.[id];
     const badge = badges.find(item => item.profileId === id && typeof item === 'object' && item.unlocked !== false);
-    const awards = ledger.filter(item => item.profileId === id && (item.xp ?? item.deltaXp ?? 0) > 0 &&
+    const awards = ledger.filter(item => item.profileId === id && rewardValue(item) > 0 &&
       (item.period == null || state.period == null || item.period === state.period));
     const cap = progress?.limit ?? info.cap;
     const count = Math.min(cap, progress?.count ?? new Set(awards.map(item => item.caseId ?? item.reviewId ?? item.auditId ?? item)).size);
@@ -294,14 +295,14 @@ export function mountStaff(root, api, role) {
         <div class="staff-kpi-grid">
           <div class="staff-kpi-card">
             <div class="staff-kpi-header">
-              <span>امتیاز تجربه تخصصی (XP)</span>
-              <span class="staff-kpi-tag">سوابق مهارت</span>
+              <span>موجودی کوشانه</span>
+              <span class="staff-kpi-tag">پاداش مشارکت</span>
             </div>
             <div class="staff-kpi-value-row">
-              <span class="staff-kpi-number">${toFarsiDigits(account.xp)}</span>
-              <span class="staff-kpi-unit">XP</span>
+              <span class="staff-kpi-number">${toFarsiDigits(account.credits)}</span>
+              <span class="staff-kpi-unit">کوشانه</span>
             </div>
-            <div class="staff-kpi-footnote">این نقش صرفاً XP مهارتی دارد و فاقد اعتبار خرج‌شدنی است.</div>
+            <div class="staff-kpi-footnote">کوشانه کسب‌شده از فعالیت این نقش</div>
           </div>
 
           <div class="staff-kpi-card">
@@ -343,8 +344,8 @@ export function mountStaff(root, api, role) {
         <div>
           <strong>قاعده امتیازدهی این نقش: </strong>
           <span>${isOperator
-            ? 'تأیید یا برگشت مستدل پس از ممیزی درست می‌تواند XP داشته باشد. ثبت تصمیم به‌تنهایی XP ندارد.'
-            : 'تشخیص درستِ تصمیم صحیح یا کشف خطای نمونه با دلیل منطبق بر کلید، تا سقف دوره XP دارد.'}</span>
+            ? 'تأیید یا برگشت مستدل پس از ممیزی درست می‌تواند کوشانه داشته باشد. ثبت تصمیم به‌تنهایی کوشانه ندارد.'
+            : 'تشخیص درستِ تصمیم صحیح یا کشف خطای نمونه با دلیل منطبق بر کلید، تا سقف دوره کوشانه دارد.'}</span>
         </div>
       </div>
     `;
@@ -361,14 +362,13 @@ export function mountStaff(root, api, role) {
     recordTitle.innerHTML = `${ICONS.award} <span>کارنامهٔ این نقش</span>`;
     record.append(
       recordTitle,
-      paragraph(`${toFarsiDigits(account.xp)} امتیاز تجربه (XP)`, 'sh-staff__xp'),
+      paragraph(`${toFarsiDigits(account.credits)} کوشانه`, 'sh-staff__xp'),
       paragraph(`نشان «${info.badge}»: ${unlocked ? 'باز شده' : 'در حال پیشرفت'}`),
       paragraph(`پیشرفت نشان: ${toFarsiDigits(count)} از ${toFarsiDigits(cap)} پروندهٔ متمایز`),
       paragraph(`سقف این دوره: ${toFarsiDigits(cap)} پاداش. استفاده‌شده: ${toFarsiDigits(count)} از ${toFarsiDigits(cap)}.`),
-      paragraph('این نقش فقط XP مهارتی دارد؛ اعتبار خرج‌شدنی ندارد.', 'sh-staff__quiet'),
       paragraph(isOperator
-        ? 'تأیید یا برگشت مستدل پس از ممیزی درست می‌تواند XP داشته باشد. ثبت تصمیم به‌تنهایی XP ندارد.'
-        : 'تشخیص درستِ تصمیم صحیح یا کشف خطای نمونه با دلیل منطبق بر کلید، تا سقف دوره XP دارد.'),
+        ? 'تأیید یا برگشت مستدل پس از ممیزی درست می‌تواند کوشانه داشته باشد. ثبت تصمیم به‌تنهایی کوشانه ندارد.'
+        : 'تشخیص درستِ تصمیم صحیح یا کشف خطای نمونه با دلیل منطبق بر کلید، تا سقف دوره کوشانه دارد.'),
     );
 
     // ۴. منطق پر کردن صف عملیات
@@ -395,8 +395,8 @@ export function mountStaff(root, api, role) {
         article.append(formFor(entry.id, 'تصمیم اپراتور', decisions, 'ثبت بررسی',
           (decision, reason) => ({ type: 'review', entryId: entry.id, decision, reason }),
           decision => decision === 'approve'
-            ? 'پیوست به پروندهٔ بازی اضافه شد. وضعیت رفع مشکل تغییری نکرد. XP اپراتور به ممیزی وابسته است.'
-            : 'مشاهده برای اصلاح برگشت. XP اپراتور به ممیزی وابسته است.'));
+            ? 'پیوست به پروندهٔ بازی اضافه شد. وضعیت رفع مشکل تغییری نکرد. کوشانه اپراتور به ممیزی وابسته است.'
+            : 'مشاهده برای اصلاح برگشت. کوشانه اپراتور به ممیزی وابسته است.'));
         main.append(article);
       }
     }
@@ -451,7 +451,7 @@ export function mountStaff(root, api, role) {
       if (!isOperator && !audit) {
         article.append(formFor(row.id, 'نتیجهٔ داوری', verdicts, 'ثبت ممیزی',
           (verdict, reason) => ({ type: 'audit', reviewId: row.id, verdict, reason }),
-          () => 'ممیزی ثبت شد. نتیجه و دلیل XP در کارنامه آمده است.'));
+          () => 'ممیزی ثبت شد. نتیجه و دلیل کوشانه در کارنامه آمده است.'));
       } else if (audit) {
         const managerId = audit.profileId ?? audit.managerId ?? roles.manager.id;
         const managerReward = rewarded(managerId, row);
@@ -483,24 +483,24 @@ export function mountStaff(root, api, role) {
         article.append(matchTag);
 
         article.append(paragraph(operatorReward
-          ? 'XP اپراتور ثبت شد: تصمیم و دلیل مستدل در ممیزی تأیید شد.'
+          ? 'کوشانه اپراتور ثبت شد: تصمیم و دلیل مستدل در ممیزی تأیید شد.'
           : matched === undefined
-            ? 'XP اپراتور ثبت نشد؛ نتیجهٔ تطبیق در دسترس نیست.'
+            ? 'کوشانه اپراتور ثبت نشد؛ نتیجهٔ تطبیق در دسترس نیست.'
           : matched && audit.verdict === 'correct'
-            ? 'XP اپراتور ثبت نشد؛ سهمیهٔ دوره یا پاداش یکتای پرونده ممکن است مصرف شده باشد.'
-            : 'XP اپراتور ثبت نشد؛ تصمیم و دلیل در ممیزی تأیید نشد.', 'sh-staff__quiet'));
+            ? 'کوشانه اپراتور ثبت نشد؛ سهمیهٔ دوره یا پاداش یکتای پرونده ممکن است مصرف شده باشد.'
+            : 'کوشانه اپراتور ثبت نشد؛ تصمیم و دلیل در ممیزی تأیید نشد.', 'sh-staff__quiet'));
 
         if (!isOperator) {
           article.append(paragraph(managerReward
-            ? 'XP مدیر ثبت شد: تشخیص و دلیل مطابق کلید نمونه بود.'
+            ? 'کوشانه مدیر ثبت شد: تشخیص و دلیل مطابق کلید نمونه بود.'
             : matched === undefined
-              ? 'XP مدیر ثبت نشد؛ نتیجهٔ تطبیق در دسترس نیست.'
+              ? 'کوشانه مدیر ثبت نشد؛ نتیجهٔ تطبیق در دسترس نیست.'
             : matched
-              ? 'XP مدیر ثبت نشد؛ سهمیهٔ دوره یا پاداش یکتای پرونده ممکن است مصرف شده باشد.'
-              : 'XP مدیر ثبت نشد؛ تشخیص یا دلیل با کلید نمونه مطابقت نداشت.', 'sh-staff__quiet'));
+              ? 'کوشانه مدیر ثبت نشد؛ سهمیهٔ دوره یا پاداش یکتای پرونده ممکن است مصرف شده باشد.'
+              : 'کوشانه مدیر ثبت نشد؛ تشخیص یا دلیل با کلید نمونه مطابقت نداشت.', 'sh-staff__quiet'));
         }
       } else {
-        article.append(paragraph('XP اپراتور هنوز ثبت نشده است: در انتظار ممیزی.', 'sh-staff__quiet'));
+        article.append(paragraph('کوشانه اپراتور هنوز ثبت نشده است: در انتظار ممیزی.', 'sh-staff__quiet'));
       }
 
       (completed ? history : main).append(article);

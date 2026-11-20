@@ -21,7 +21,7 @@ const ROLE_DESCRIPTIONS = {
   citizen: {
     title: 'شهروند محله (صادقیه)',
     personId: PERSON_IDS.citizen,
-    summary: 'ثبت و اصلاح مشاهدات میدانی مکمل برای پرونده بارندگی، پیگیری وضعیت، کسب اعتبار و بهره‌مندی از خدمات باشگاه محله.',
+    summary: 'ثبت و اصلاح مشاهدات میدانی مکمل برای پرونده بارندگی، پیگیری وضعیت، کسب کوشانه و بهره‌مندی از خدمات باشگاه محله.',
     badgeHint: 'نشان هدف: همیار دسترسی معابر (با ثبت اولین شاهد معتبر مانع تردد)',
   },
   operator: {
@@ -78,18 +78,8 @@ export function initGameApp(options = {}) {
         <div class="sh-role-stats">
           <span class="sh-stat-pill">
             <svg class="icon-inline" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-            <span>امتیاز تجربه (XP): <strong>${toFarsiDigits(balance.xp)}</strong></span>
+            <span>کوشانه: <strong>${toFarsiDigits(balance.credits)}</strong></span>
           </span>
-          ${role === 'citizen' ? `
-            <span class="sh-stat-pill credit-pill">
-              <svg class="icon-inline" viewBox="0 0 24 24"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
-              <span>اعتبار باشگاه: <strong>${toFarsiDigits(balance.credits)}</strong></span>
-            </span>
-          ` : `
-            <span class="sh-stat-pill note-pill">
-              <span>این نقش صرفاً XP مهارتی دارد و فاقد اعتبار مصرفی است.</span>
-            </span>
-          `}
           <span class="sh-badge-hint">${info.badgeHint}</span>
         </div>
       </div>

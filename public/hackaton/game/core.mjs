@@ -46,6 +46,12 @@ export function createGameStore(initialState = null) {
   const listeners = new Set();
   let serial = Date.now();
 
+  // پاداش کارکنان در داده‌های قدیمی در فیلد xp ذخیره شده است.
+  function rewardAmount(event) {
+    const credits = Number(event.credits ?? event.creditsChange ?? 0);
+    return credits || (event.type === 'review_reward' || event.type === 'audit_reward' ? Number(event.xp ?? event.xpChange ?? 0) : 0);
+  }
+
   function nextId(prefix) {
     return `${prefix}-${++serial}`;
   }
@@ -62,7 +68,7 @@ export function createGameStore(initialState = null) {
   }
 
   /**
-   * محاسبه خالص تراز مالی و XP از روی دفترکل (Ledger)
+   * محاسبه خالص تراز مالی و کوشانه از روی دفترکل (Ledger)
    */
   function deriveBalances() {
     const balances = {
@@ -75,7 +81,7 @@ export function createGameStore(initialState = null) {
       const pId = event.profileId;
       if (!balances[pId]) balances[pId] = { xp: 0, credits: 0 };
       const xpVal = Number(event.xp ?? event.xpChange ?? 0);
-      const creditsVal = Number(event.credits ?? event.creditsChange ?? 0);
+      const creditsVal = rewardAmount(event);
       balances[pId].xp += xpVal;
       balances[pId].credits += creditsVal;
     }
@@ -91,7 +97,7 @@ export function createGameStore(initialState = null) {
 
     // محاسبه پیشرفت نشان اپراتور
     const operatorAwards = (state.ledger || []).filter(
-      l => l.profileId === PERSON_IDS.operator && Number(l.xp ?? l.xpChange ?? 0) > 0
+      l => l.profileId === PERSON_IDS.operator && rewardAmount(l) > 0
     );
     const opDistinctCases = new Set(operatorAwards.map(a => a.caseId || a.reviewId || a.id)).size;
     const operatorCap = REWARD_LIMITS[PERSON_IDS.operator] || 3;
@@ -99,7 +105,7 @@ export function createGameStore(initialState = null) {
 
     // محاسبه پیشرفت نشان مدیر
     const managerAwards = (state.ledger || []).filter(
-      l => l.profileId === PERSON_IDS.manager && Number(l.xp ?? l.xpChange ?? 0) > 0
+      l => l.profileId === PERSON_IDS.manager && rewardAmount(l) > 0
     );
     const mgrDistinctCases = new Set(managerAwards.map(a => a.caseId || a.auditId || a.id)).size;
     const managerCap = REWARD_LIMITS[PERSON_IDS.manager] || 2;
@@ -171,7 +177,7 @@ export function createGameStore(initialState = null) {
     const limit = REWARD_LIMITS[profileId] || 3;
     const rate = REWARD_RATES[profileId] || 0;
 
-    const prior = (state.ledger || []).filter(l => l.profileId === profileId && Number(l.xp ?? l.xpChange ?? 0) > 0);
+    const prior = (state.ledger || []).filter(l => l.profileId === profileId && rewardAmount(l) > 0);
     if (prior.length >= limit) return false;
     if (caseId && prior.some(l => l.caseId === caseId)) return false;
 
@@ -181,11 +187,11 @@ export function createGameStore(initialState = null) {
       profileId,
       caseId,
       type: `${roleKey}_reward`,
-      xp: rate,
-      credits: 0,
-      xpChange: rate,
-      creditsChange: 0,
-      description: isOp ? 'ممیزی موفق و ثبت XP داوری اپراتور' : 'تشخیص درست در ممیزی پرونده',
+      xp: 0,
+      credits: rate,
+      xpChange: 0,
+      creditsChange: rate,
+      description: isOp ? 'ممیزی موفق و ثبت کوشانه داوری اپراتور' : 'تشخیص درست در ممیزی پرونده',
       date: 'امروز',
     };
     if (isOp && refId) event.reviewId = refId;
@@ -278,9 +284,9 @@ export function createGameStore(initialState = null) {
               profileId: citizenId,
               caseId,
               type: 'mission_reward',
-              xp: REWARD_RATES.citizenReward.xp,
+              xp: 0,
               credits: REWARD_RATES.citizenReward.credits,
-              xpChange: REWARD_RATES.citizenReward.xp,
+              xpChange: 0,
               creditsChange: REWARD_RATES.citizenReward.credits,
               description: 'تأیید شاهد معتبر و مکمل پرونده صادقیه (همیار دسترسی معابر)',
               date: 'امروز',
@@ -343,9 +349,9 @@ export function createGameStore(initialState = null) {
               profileId: entry.profileId,
               caseId: entry.caseId,
               type: 'mission_reward',
-              xp: 20,
+              xp: 0,
               credits: 10,
-              xpChange: 20,
+              xpChange: 0,
               creditsChange: 10,
               description: 'تأیید شاهد معتبر و مکمل پرونده صادقیه',
               date: 'امروز',

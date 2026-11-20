@@ -13,7 +13,6 @@ test('چرخه کامل و متصل تعاملی شهرآگاه: شهروند �
   // ۱. گام شهروند: بررسی وضعیت اولیه
   let state = store.getState();
   assert.equal(state.balances[PERSON_IDS.citizen].credits, 10);
-  assert.equal(state.balances[PERSON_IDS.citizen].xp, 20);
 
   // شهروند گزارش معتبر مانع تردد را ثبت می‌کند
   const submitRes = store.dispatch({
@@ -25,7 +24,6 @@ test('چرخه کامل و متصل تعاملی شهرآگاه: شهروند �
 
   state = store.getState();
   assert.equal(state.balances[PERSON_IDS.citizen].credits, 20);
-  assert.equal(state.balances[PERSON_IDS.citizen].xp, 40);
   assert.equal(state.badges.find(b => b.id === 'accessibility-helper').unlocked, true);
 
   // ۲. گام اپراتور: سوییچ به نقش اپراتور و بررسی مشاهده موجود در صف
@@ -85,15 +83,15 @@ test('چرخه کامل و متصل تعاملی شهرآگاه: شهروند �
   assert.equal(auditRes2.ok, true);
 
   state = store.getState();
-  // مدیر به ۲۴ XP رسیده و نشان امین محله باز می‌شود
-  assert.equal(state.balances[PERSON_IDS.manager].xp, 24);
+  // مدیر به ۲۴ کوشانه رسیده و نشان امین محله باز می‌شود
+  assert.equal(state.balances[PERSON_IDS.manager].credits, 24);
   assert.equal(state.badges.find(b => b.id === 'neighborhood-trustee').unlocked, true);
 
-  // اپراتور نیز با ممیزی موفق به ۲۴ XP رسیده و نشان داور منصف باز می‌شود
-  assert.equal(state.balances[PERSON_IDS.operator].xp, 24);
+  // اپراتور نیز با ممیزی موفق به ۲۴ کوشانه رسیده و نشان داور منصف باز می‌شود
+  assert.equal(state.balances[PERSON_IDS.operator].credits, 24);
   assert.equal(state.badges.find(b => b.id === 'fair-judge').unlocked, true);
 
-  // ۴. گام شهروند در باشگاه محله: بهره‌مندی از اعتبار کسب‌شده
+  // ۴. گام شهروند در باشگاه محله: بهره‌مندی از کوشانه کسب‌شده
   store.dispatch({ type: 'switchRole', role: 'citizen' });
   state = store.getState();
   assert.equal(state.role, 'citizen');
@@ -125,6 +123,5 @@ test('چرخه کامل و متصل تعاملی شهرآگاه: شهروند �
   store.dispatch({ type: 'reset' });
   state = store.getState();
   assert.equal(state.balances[PERSON_IDS.citizen].credits, 10);
-  assert.equal(state.balances[PERSON_IDS.citizen].xp, 20);
   assert.equal(state.vouchers.length, 0);
 });
