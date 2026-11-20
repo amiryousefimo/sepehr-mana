@@ -1,0 +1,121 @@
+@font-face {
+  font-family: "Shahragah Staff Sahel";
+  src: url("../assets/Sahel-FD-BjaEWcOg.woff2") format("woff2");
+  font-display: swap;
+}
+
+.sh-staff {
+  --staff-ink: #172f30;
+  --staff-muted: #456162;
+  --staff-line: #c8d9d5;
+  --staff-paper: #fff;
+  --staff-accent: #07574f;
+  box-sizing: border-box;
+  padding: clamp(1rem, 3vw, 2rem);
+  border: 1px solid var(--staff-line);
+  border-radius: 1.25rem;
+  background: #f2f8f6;
+  color: var(--staff-ink);
+  font: 1rem/1.65 "Shahragah Staff Sahel", Tahoma, sans-serif;
+  overflow-wrap: anywhere;
+  text-align: start;
+}
+
+.sh-staff *, .sh-staff *::before, .sh-staff *::after { box-sizing: inherit; }
+.sh-staff :is(h2, h3, h4, p, dl, blockquote) { margin: 0; }
+.sh-staff h2 { font-size: clamp(1.35rem, 2vw, 1.8rem); }
+.sh-staff h3 { font-size: 1.15rem; }
+.sh-staff h4 { font-size: 1rem; }
+.sh-staff__kicker, .sh-staff__quiet { color: var(--staff-muted); }
+.sh-staff__kicker { font-size: .875rem; }
+
+.sh-staff__body {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 1rem;
+  margin-block-start: 1rem;
+  align-items: start;
+}
+
+.sh-staff :is(.sh-staff__main, .sh-staff__record, .sh-staff__history, .sh-staff__card) {
+  display: grid;
+  min-inline-size: 0;
+  gap: .65rem;
+}
+
+.sh-staff :is(.sh-staff__card, .sh-staff__record) {
+  border: 1px solid var(--staff-line);
+  border-radius: .9rem;
+  padding: 1rem;
+  background: var(--staff-paper);
+}
+
+.sh-staff__history { grid-column: 1 / -1; }
+.sh-staff__case, .sh-staff__xp { color: var(--staff-accent); font-weight: bold; }
+.sh-staff blockquote {
+  border-inline-start: .2rem solid #398477;
+  background: #edf6f2;
+  border-radius: .35rem;
+  padding: .55rem .75rem;
+}
+
+.sh-staff__details {
+  display: grid;
+  grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+  gap: .25rem .6rem;
+}
+
+.sh-staff__details dt { color: var(--staff-muted); }
+.sh-staff__details dd { margin: 0; }
+.sh-staff__form {
+  display: grid;
+  gap: .65rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-block-start: 1px solid var(--staff-line);
+  padding-block-start: .65rem;
+}
+
+.sh-staff__form label { min-inline-size: 0; }
+.sh-staff__form :is(select, button) {
+  min-block-size: 44px;
+  border-radius: .5rem;
+  border: 1px solid #62847f;
+  font: inherit;
+  color: inherit;
+  padding: .35rem .6rem;
+}
+
+.sh-staff__form select { display: block; inline-size: 100%; background-color: var(--staff-paper); }
+.sh-staff__form button {
+  grid-column: 1 / -1;
+  justify-self: start;
+  background: var(--staff-accent);
+  color: white;
+  cursor: pointer;
+}
+
+.sh-staff__form button:hover { background: #09453f; }
+.sh-staff :is(select, button, .sh-staff__status):focus-visible {
+  outline: 3px solid #8b4600;
+  outline-offset: 2px;
+}
+
+.sh-staff__flag, .sh-staff__status:not(:empty) {
+  padding: .5rem .7rem;
+  border-radius: .45rem;
+  border-inline-start: .2rem solid currentColor;
+}
+
+.sh-staff .sh-staff__status:not(:empty) { margin-block-start: .6rem; }
+.sh-staff__status[data-kind="success"] { color: #125447; background: #e2f2e9; }
+.sh-staff__status[data-kind="error"], .sh-staff__flag { color: #753b00; background: #fff4d9; }
+
+@media (max-width: 700px) {
+  .sh-staff__body { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 470px) {
+  .sh-staff__form { grid-template-columns: minmax(0, 1fr); }
+  .sh-staff__form button { inline-size: 100%; }
+  .sh-staff__details { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+}

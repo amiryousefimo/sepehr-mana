@@ -53,7 +53,6 @@ export const CitizenPortalView: React.FC = () => {
         <p className="text-xs sm:text-sm text-white/80 max-w-2xl leading-relaxed font-normal">
           در این بخش می‌توانید از آخرین وضعیت مسائل گزارش‌شده محله خود، روند پیگیری و اقدامات انجام‌شده مطلع شوید. گزارش‌های مشابه برای تسریع در اقدام، با استفاده از هوش مصنوعی تجمیع می‌شوند.
         </p>
-
         {/* پیوند مستقیم به باشگاه شهروندی و ثبت مشاهدات مکمل */}
         <div className="pt-2 flex flex-wrap items-center gap-3">
           <a

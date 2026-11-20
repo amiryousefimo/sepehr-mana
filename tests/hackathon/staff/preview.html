@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>شهرآگاه | آزمون پنل کارکنان</title>
+<style>
+  body { margin: .5rem; background: #e5eeeb; color: #142e2e; font: 1rem Tahoma, sans-serif; }
+  main { margin-inline: auto; max-inline-size: 76rem; }
+  nav { padding: .5rem 0; display: flex; gap: .5rem; flex-wrap: wrap; }
+  nav button { min-height: 44px; font: inherit; }
+</style>
+<main>
+  <nav aria-label="نقش آزمون"><button id="operator">اپراتور</button><button id="manager">مدیر</button></nav>
+  <div id="staff"></div>
+</main>
+<script type="module">
+  import { mountStaff } from '../../../public/hackaton/game/staff.mjs';
+  import { createStaffFixture } from './fixture.mjs';
+  const api = createStaffFixture(new URL(location.href).searchParams.get('choice') ?? 'access');
+  const root = document.querySelector('#staff');
+  let dispose = mountStaff(root, api, 'operator');
+  for (const role of ['operator', 'manager']) {
+    document.getElementById(role).addEventListener('click', () => {
+      dispose();
+      api.dispatch({ type: 'switchRole', role });
+      dispose = mountStaff(root, api, role);
+    });
+  }
+</script>
+</html>
