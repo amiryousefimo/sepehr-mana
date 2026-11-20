@@ -1,0 +1,985 @@
+/* ==========================================================================
+   شهرآگاه | سامانه هوشمند مشارکت شهروندی و باشگاه خدمات محله
+   طراحی هماهنگ با سیستم طراحی رسمی شهرآگاه (Sahel FD + Forest + Ivory)
+   ========================================================================== */
+
+/* بارگذاری فونت رسمی ساحل و ارقام فارسی (Sahel FD) */
+@font-face {
+  font-family: 'Sahel';
+  src: url('../assets/Sahel-pG7ms9kJ.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sahel';
+  src: url('../assets/Sahel-SemiBold-CZp6O-9p.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sahel';
+  src: url('../assets/Sahel-Bold-YDDzFapg.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sahel';
+  src: url('../assets/Sahel-Black-cQrRhsuZ.woff2') format('woff2');
+  font-weight: 800 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sahel FD';
+  src: url('../assets/Sahel-FD-BjaEWcOg.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sahel FD';
+  src: url('../assets/Sahel-SemiBold-FD-CJSqMWXO.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sahel FD';
+  src: url('../assets/Sahel-Bold-FD-Bpb6CWft.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* متغیرهای رنگی و مقیاس‌های بصری محصول شهرآگاه */
+.shahragah-citizen-app {
+  --c-forest: #203B35;
+  --c-forest-dark: #172D29;
+  --c-forest-light: #386A5E; /* سبز روشن‌تر جهت هاور */
+  --c-forest-hover: #2C5249;
+
+  --c-ivory-warm: #F1EEE5;
+  --c-ivory-surface: #FAF9F5;
+
+  --c-terracotta: #D97852;
+  --c-terracotta-dark: #B85E39;
+  --c-terracotta-light: #FBF0EB;
+
+  --c-amber: #D5AA59;
+  --c-amber-dark: #B88F40;
+  --c-amber-light: #FDF9EE;
+
+  --c-slate-green: #75847B;
+  --c-muted-green: #789184;
+
+  --c-dark-text: #252D29;
+  --c-text-muted: #5F6E66;
+  --c-text-subtle: #87948D;
+  --c-text-inverse: #FFFFFF;
+
+  --c-border: #DEDCD3;
+  --c-border-subtle: #E8E6DD;
+  --c-border-focus: #203B35;
+
+  --c-success: #1E6B47;
+  --c-success-light: #2E8B5E;
+  --c-success-bg: #E8F5EE;
+  --c-success-border: #B7DEC7;
+
+  --c-radius-sm: 8px;
+  --c-radius-md: 12px;
+  --c-radius-lg: 14px;
+  --c-radius-xl: 18px;
+  --c-radius-full: 9999px;
+
+  --c-shadow-sm: 0 1px 2px 0 rgba(32, 59, 53, 0.05);
+  --c-shadow-card: 0 1px 3px 0 rgba(32, 59, 53, 0.06), 0 1px 2px -1px rgba(32, 59, 53, 0.04);
+  --c-shadow-hover: 0 4px 12px -1px rgba(32, 59, 53, 0.08), 0 2px 6px -1px rgba(32, 59, 53, 0.04);
+  --c-shadow-modal: 0 20px 25px -5px rgba(23, 45, 41, 0.2), 0 10px 10px -5px rgba(23, 45, 41, 0.1);
+
+  direction: rtl;
+  text-align: right;
+  font-family: 'Sahel FD', 'Sahel', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--c-dark-text);
+  background-color: var(--c-ivory-warm);
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 1.5rem 1rem 3rem 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.shahragah-citizen-app,
+.shahragah-citizen-app * {
+  box-sizing: border-box;
+  letter-spacing: normal !important;
+  font-family: 'Sahel FD', 'Sahel', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* آیکون‌های وکتوری درون‌برنامه‌ای */
+.icon-svg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  flex-shrink: 0;
+  stroke-width: 2;
+  stroke: currentColor;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-sm { width: 14px; height: 14px; }
+.icon-md { width: 18px; height: 18px; }
+.icon-lg { width: 22px; height: 22px; }
+.icon-xl { width: 28px; height: 28px; }
+
+/* دکمه‌ها و فرم‌ها */
+.shahragah-citizen-app button,
+.shahragah-citizen-app input,
+.shahragah-citizen-app select {
+  font-family: 'Sahel FD', 'Sahel', inherit;
+  font-size: 0.875rem;
+}
+
+.shahragah-citizen-app button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: all 0.15s ease-in-out;
+}
+
+.shahragah-citizen-app button:focus-visible {
+  outline: 2px solid var(--c-forest);
+  outline-offset: 2px;
+}
+
+/* چیدمان کلی صفحه */
+.citizen-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* هدر اصلی محصول و پنل هویتی شهروند */
+.citizen-hero-card {
+  background: linear-gradient(135deg, var(--c-forest) 0%, #284A42 60%, var(--c-forest-dark) 100%);
+  color: var(--c-text-inverse);
+  padding: 1.5rem 1.75rem;
+  border-radius: var(--c-radius-xl);
+  box-shadow: 0 4px 20px -2px rgba(23, 45, 41, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.citizen-hero-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(213, 170, 89, 0.8) 0%, rgba(255, 255, 255, 0.2) 100%);
+}
+
+.citizen-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.citizen-brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.citizen-brand-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--c-radius-md);
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-amber);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.citizen-hero-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #FFFFFF;
+}
+
+.citizen-hero-subtitle {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 0.25rem;
+}
+
+.citizen-period-pill {
+  background: rgba(23, 45, 41, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--c-radius-full);
+  font-size: 0.775rem;
+  color: rgba(255, 255, 255, 0.9);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pulse-indicator {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #4ADE80;
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.25);
+}
+
+/* شبکه آمار شاخص‌ها (کارت‌های تفکیک موجودی و مهارت) */
+.citizen-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.875rem;
+}
+
+.citizen-kpi-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--c-radius-lg);
+  padding: 1rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  backdrop-filter: blur(8px);
+}
+
+.citizen-kpi-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.775rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.citizen-kpi-tag {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+.citizen-kpi-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-top: 0.15rem;
+}
+
+.citizen-kpi-number {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #FFFFFF;
+}
+
+.citizen-kpi-unit {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.citizen-kpi-footnote {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 0.15rem;
+}
+
+/* تب‌های ماژولار اصلی */
+.citizen-tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #E8E5DC;
+  padding: 0.35rem;
+  border-radius: var(--c-radius-lg);
+  border: 1px solid var(--c-border);
+  overflow-x: auto;
+}
+
+.citizen-tab-item {
+  flex: 1;
+  min-width: 140px;
+  padding: 0.625rem 0.875rem;
+  border-radius: 10px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+}
+
+.citizen-tab-item:hover {
+  color: var(--c-dark-text);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.citizen-tab-item.active {
+  background: #FFFFFF;
+  color: var(--c-forest);
+  box-shadow: 0 1px 3px rgba(32, 59, 53, 0.08);
+  font-weight: 700;
+}
+
+.citizen-tab-badge {
+  background: var(--c-forest);
+  color: #FFFFFF;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.1rem 0.45rem;
+  border-radius: var(--c-radius-full);
+}
+
+/* کارت‌های سطح ۲ (محتوا) */
+.citizen-content-card {
+  background: var(--c-ivory-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--c-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--c-shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.content-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--c-border-subtle);
+  padding-bottom: 0.875rem;
+}
+
+.content-card-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--c-forest);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.content-card-status {
+  font-size: 0.775rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--c-radius-full);
+}
+
+/* کادر شرح پرونده صادقیه */
+.case-intel-box {
+  background: #FAF8F2;
+  border: 1px solid var(--c-border);
+  border-radius: var(--c-radius-md);
+  padding: 1.15rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.case-intel-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 0.8rem;
+  color: var(--c-text-muted);
+  flex-wrap: wrap;
+}
+
+.case-intel-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.case-intel-desc {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--c-dark-text);
+}
+
+/* گزینه‌های مشاهده پرونده */
+.obs-choice-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.obs-card {
+  background: #FFFFFF;
+  border: 1px solid var(--c-border);
+  border-radius: var(--c-radius-md);
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.obs-card:hover {
+  border-color: var(--c-muted-green);
+  box-shadow: var(--c-shadow-hover);
+}
+
+.obs-card.is-active-choice {
+  border-color: var(--c-forest);
+  background: #F7FAF8;
+  box-shadow: 0 0 0 1px var(--c-forest);
+}
+
+.obs-card.is-approved {
+  border-color: var(--c-success-border);
+  background: #F4FAF6;
+}
+
+.obs-card.is-returned {
+  border-color: #F8B49B;
+  background: #FFF9F7;
+}
+
+.obs-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.obs-card-type {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--c-forest);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.obs-card-type-sub {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--c-text-muted);
+}
+
+.obs-quote-box {
+  background: rgba(241, 238, 229, 0.4);
+  border-right: 3px solid var(--c-forest);
+  padding: 0.75rem 1rem;
+  border-radius: var(--c-radius-sm);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--c-dark-text);
+}
+
+.obs-card.is-returned .obs-quote-box {
+  border-right-color: var(--c-terracotta);
+}
+
+.obs-card.is-approved .obs-quote-box {
+  border-right-color: var(--c-success);
+}
+
+/* پنل بازخورد اپراتور */
+.obs-feedback-banner {
+  border-radius: var(--c-radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.obs-feedback-banner.returned {
+  background: #FEF2F2;
+  border: 1px solid #FEE2E2;
+  color: #991B1B;
+}
+
+.obs-feedback-banner.approved {
+  background: var(--c-success-bg);
+  border: 1px solid var(--c-success-border);
+  color: var(--c-success);
+}
+
+.obs-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+/* دکمه‌های کنترلی سیستم */
+.btn-civic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--c-radius-sm);
+  font-weight: 600;
+  font-size: 0.84rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-civic-primary {
+  background-color: var(--c-forest);
+  color: #FFFFFF;
+  border: 1px solid var(--c-forest-dark);
+}
+
+.btn-civic-primary:hover:not(:disabled) {
+  background-color: var(--c-forest-light); /* سبز کم‌رنگ‌تر */
+  color: #FFFFFF;
+  border-color: var(--c-forest-light);
+  transform: translateY(-1px);
+}
+
+.btn-civic-success {
+  background-color: var(--c-success);
+  color: #FFFFFF;
+  border: 1px solid #14532D;
+}
+
+.btn-civic-success:hover:not(:disabled) {
+  background-color: var(--c-success-light); /* سبز کم‌رنگ‌تر */
+  color: #FFFFFF;
+  border-color: var(--c-success-light);
+}
+
+.btn-civic-secondary {
+  background: transparent;
+  color: var(--c-forest);
+  border: 1px solid var(--c-border);
+}
+
+.btn-civic-secondary:hover:not(:disabled) {
+  background: rgba(32, 59, 53, 0.05);
+}
+
+.btn-civic:disabled {
+  background: #E5E3DC !important;
+  color: #8C8A82 !important;
+  border-color: #DDDBCF !important;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ==========================================================================
+   قاعده اختصاصی دکمه ثبت مستقیم شاهد معتبر دسترسی:
+   در حالت عادی سبز، در حالت هاور سبز کم‌رنگ
+   ========================================================================== */
+#btn-quick-demo-access {
+  background-color: #203B35 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #172D29 !important;
+  box-shadow: 0 1px 3px rgba(32, 59, 53, 0.15);
+  transition: all 0.2s ease-in-out !important;
+}
+
+#btn-quick-demo-access:hover:not(:disabled) {
+  background-color: #386A5E !important; /* سبز کم‌رنگ در حالت هاور */
+  color: #FFFFFF !important;
+  border-color: #386A5E !important;
+  box-shadow: 0 3px 10px rgba(56, 106, 94, 0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+#btn-quick-demo-access:active {
+  background-color: #172D29 !important;
+  transform: translateY(0) !important;
+}
+
+/* جدول محله‌ها */
+.district-table-wrapper {
+  background: #FFFFFF;
+  border: 1px solid var(--c-border);
+  border-radius: var(--c-radius-md);
+  overflow: hidden;
+}
+
+.district-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+.district-table th {
+  background: #F8F6F0;
+  color: var(--c-forest);
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  text-align: right;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.district-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--c-border-subtle);
+  color: var(--c-dark-text);
+}
+
+.district-table tr.my-district {
+  background: #F3F7F5;
+  font-weight: 600;
+}
+
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #E8E6DE;
+  color: var(--c-dark-text);
+}
+
+.rank-badge.rank-1 {
+  background: #FEF08A;
+  color: #713F12;
+}
+
+.rank-badge.rank-2 {
+  background: #E2E8F0;
+  color: #334155;
+}
+
+.progress-track {
+  flex: 1;
+  height: 7px;
+  background: #EAE8E0;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--c-forest);
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.target-reached {
+  background: var(--c-success);
+}
+
+/* کاتالوگ پاداش‌ها */
+.rewards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.15rem;
+}
+
+.reward-card {
+  background: #FFFFFF;
+  border: 1px solid var(--c-border);
+  border-radius: var(--c-radius-md);
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.15rem;
+  transition: all 0.2s ease;
+}
+
+.reward-card:hover {
+  border-color: var(--c-muted-green);
+  box-shadow: var(--c-shadow-hover);
+}
+
+.reward-card-top {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.reward-icon-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reward-icon-holder {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--c-radius-md);
+  background: #F1EEE5;
+  color: var(--c-forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--c-border-subtle);
+}
+
+.reward-price-tag {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--c-forest);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.reward-price-unit {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--c-text-muted);
+}
+
+.reward-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-dark-text);
+}
+
+.reward-meta-box {
+  background: #FAF8F2;
+  border: 1px solid var(--c-border-subtle);
+  border-radius: var(--c-radius-sm);
+  padding: 0.65rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.775rem;
+  color: var(--c-text-muted);
+}
+
+.reward-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reward-deficit-alert {
+  font-size: 0.775rem;
+  color: var(--c-terracotta);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* کوپن‌های من */
+.vouchers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.15rem;
+}
+
+.voucher-item-card {
+  background: #FFFFFF;
+  border: 1px dashed var(--c-muted-green);
+  border-radius: var(--c-radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  position: relative;
+}
+
+.voucher-item-card.is-used {
+  opacity: 0.65;
+  border-style: solid;
+  border-color: var(--c-border);
+  background: #FBF9F5;
+}
+
+.voucher-code-display {
+  background: #F1EEE5;
+  border: 1px solid var(--c-border);
+  border-radius: var(--c-radius-sm);
+  padding: 0.5rem 0.75rem;
+  font-family: 'Sahel FD', monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c-forest-dark);
+  text-align: center;
+  letter-spacing: 1.5px;
+  direction: ltr;
+}
+
+/* لاگ تراکنش‌ها */
+.ledger-row-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  background: #FFFFFF;
+  border: 1px solid var(--c-border-subtle);
+  border-radius: var(--c-radius-sm);
+  font-size: 0.825rem;
+  gap: 1rem;
+}
+
+.ledger-amount-credits {
+  font-weight: 700;
+  direction: ltr;
+}
+
+.ledger-amount-credits.plus {
+  color: var(--c-success);
+}
+
+.ledger-amount-credits.minus {
+  color: var(--c-terracotta);
+}
+
+.ledger-amount-xp {
+  font-weight: 700;
+  color: var(--c-forest);
+  direction: ltr;
+}
+
+/* مودال‌ها */
+.citizen-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(23, 45, 41, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 10000;
+}
+
+.citizen-dialog-panel {
+  background: var(--c-ivory-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--c-radius-xl);
+  box-shadow: var(--c-shadow-modal);
+  width: 100%;
+  max-width: 480px;
+  padding: 1.65rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: citizenModalFade 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes citizenModalFade {
+  from { opacity: 0; transform: scale(0.97) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.citizen-dialog-title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--c-forest);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* اعلان Toast */
+.citizen-toast-box {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--c-forest-dark);
+  color: #FFFFFF;
+  padding: 0.75rem 1.35rem;
+  border-radius: var(--c-radius-full);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  font-size: 0.84rem;
+  font-weight: 600;
+  z-index: 10001;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  animation: citizenToastSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.citizen-toast-box.error {
+  background: #991B1B;
+}
+
+.citizen-toast-box.success {
+  background: #14532D;
+}
+
+@keyframes citizenToastSlide {
+  from { opacity: 0; transform: translate(-50%, 15px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* بنر رسمی سازمانی */
+.official-notice-banner {
+  background: #FAF8F2;
+  border: 1px solid var(--c-border);
+  border-radius: var(--c-radius-md);
+  padding: 0.85rem 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ریسپانسیو */
+@media (max-width: 640px) {
+  .shahragah-citizen-app {
+    padding: 0.75rem 0.5rem 2rem 0.5rem;
+  }
+  .citizen-hero-card {
+    padding: 1.15rem;
+  }
+  .citizen-kpi-grid,
+  .rewards-grid,
+  .vouchers-grid {
+    grid-template-columns: 1fr;
+  }
+  .citizen-tab-item {
+    min-width: 110px;
+    font-size: 0.78rem;
+    padding: 0.5rem 0.65rem;
+  }
+}

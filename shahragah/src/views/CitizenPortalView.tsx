@@ -9,7 +9,9 @@ import {
   ShieldCheck, 
   Activity,
   FileText,
-  AlertTriangle
+  AlertTriangle,
+  Gift,
+  ArrowLeft
 } from 'lucide-react';
 import { TEHRAN_DISTRICTS, STATUS_MAP } from '../data/mockData';
 import { UrbanIssue, IssueCategory } from '../types';
@@ -51,6 +53,21 @@ export const CitizenPortalView: React.FC = () => {
         <p className="text-xs sm:text-sm text-white/80 max-w-2xl leading-relaxed font-normal">
           در این بخش می‌توانید از آخرین وضعیت مسائل گزارش‌شده محله خود، روند پیگیری و اقدامات انجام‌شده مطلع شوید. گزارش‌های مشابه برای تسریع در اقدام، با استفاده از هوش مصنوعی تجمیع می‌شوند.
         </p>
+
+        {/* پیوند مستقیم به باشگاه شهروندی و ثبت مشاهدات مکمل */}
+        <div className="pt-2 flex flex-wrap items-center gap-3">
+          <a
+            href="/hackaton/game/citizen_preview.html"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-amber hover:bg-amber-light text-forest-dark font-bold text-xs sm:text-sm rounded-xl transition-all shadow-sm"
+          >
+            <Gift className="w-4 h-4 text-forest-dark" />
+            <span>ورود به باشگاه مشارکت شهروندی و ثبت مشاهدات مکمل صادقیه</span>
+            <ArrowLeft className="w-3.5 h-3.5" />
+          </a>
+          <span className="text-xs text-white/75 font-normal">
+            رتبه‌بندی محله‌ها، تسهیلات خدمات شهری و ثبت شاهد معتبر موانع معابر
+          </span>
+        </div>
       </div>
 
       {/* آمارهای شفافیت شهروندی */}
