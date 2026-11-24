@@ -10,6 +10,15 @@ const nextConfig = {
       "/api/admin/didban/**": didbanFiles,
     },
   },
+  async headers() {
+    return [{
+      source: "/dashboard_1",
+      headers: [
+        {key: "Content-Security-Policy", value: "frame-src https://app.powerbi.com https://login.microsoftonline.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'"},
+        {key: "Cache-Control", value: "private, no-store"}
+      ]
+    }];
+  },
   images: {
     remotePatterns: [
       {
