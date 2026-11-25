@@ -14,6 +14,8 @@ const files = new Map(Object.entries({
   "index.html": "text/html; charset=utf-8",
   "app.js": "text/javascript; charset=utf-8",
   "pages.js": "text/javascript; charset=utf-8",
+  "help-reports.js": "text/javascript; charset=utf-8",
+  "help.js": "text/javascript; charset=utf-8",
   "app.css": "text/css; charset=utf-8",
   "rasad.css": "text/css; charset=utf-8",
   "Vazirmatn-Regular.ttf": "font/ttf",

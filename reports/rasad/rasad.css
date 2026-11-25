@@ -34,5 +34,31 @@ button,select,input{min-height:34px} button:focus-visible,a:focus-visible,select
 .province-list button i{width:10px;height:10px;display:inline-block;border-radius:3px}
 .province-list button[aria-pressed=true]{background:#d4efec;color:#075956;border-color:#188c85}
 .province-list button:disabled{opacity:.65}
+.help-inline{display:inline-flex;align-items:center;gap:4px;vertical-align:middle;max-width:100%}
+.help-field{display:grid;gap:3px;max-width:100%;color:var(--muted);font-size:12px}
+.help-field .help-inline>label{display:inline;margin:0}
+.help-button,.province-list .help-button{display:inline-grid;place-items:center;flex:0 0 25px;width:25px;height:25px;min-height:0;padding:0;margin:0;background:transparent;color:#145478;border:0;border-radius:50%;vertical-align:middle;cursor:pointer}
+.help-button>span,.province-list .help-button>span{display:grid;place-items:center;width:17px;height:17px;line-height:1;border:1px solid currentColor;border-radius:50%;font-size:12px;font-weight:700}
+.help-button:hover,.province-list .help-button:hover{background:#cfeae8;color:#064c52}
+.pagehead .help-button,.topbar .help-button,aside .help-button{color:#def3ff}
+.pagehead .help-button:hover,.topbar .help-button:hover,aside .help-button:hover{background:#b3e9e5;color:#10374b}
+.pagehead .help-button:focus-visible,.topbar .help-button:focus-visible,aside .help-button:focus-visible{outline-color:#c7faff}
+.toplinks .menu-help{display:none}
+.panelhead,.footrow{flex-wrap:wrap}
+.nav-item{display:flex;align-items:center;gap:1px}.nav-item .navlink{flex:1;min-width:0}
+.products .help-inline{gap:0;min-width:0}.products .help-inline>a{flex:1;min-width:0;font-size:11px;padding-inline:2px}
+.kpi{padding-inline-end:33px}.kpi>.help-button{position:absolute;inset-inline-end:5px;inset-block-start:6px}
+.kpi>button:not(.help-button){text-align:start;width:100%}
+.alertlist .help-inline>a{flex:1;min-width:0}
+.tablebox th .help-inline{max-width:none}.legend .help-inline{display:inline-flex}
+.province-list li{display:flex;align-items:center;gap:2px}.province-list li>button:first-child{flex:1;min-width:0}
+#help-dialog{width:min(38rem,calc(100% - 28px));max-height:calc(100% - 28px);padding:clamp(15px,4vw,25px);color:var(--ink);border:1px solid #afcce1;border-radius:16px;box-shadow:0 14px 42px #102d4955;overscroll-behavior:contain}
+#help-dialog::backdrop{background:#0a213f87}
+.help-dialog-head{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--teal);font-weight:700;font-size:12px}
+#help-dialog h2{margin:8px 0 12px;line-height:1.5}#help-content section{padding:10px 0;border-top:1px solid var(--line)}
+#help-content h3{margin:0 0 4px;color:#12655d;font-size:13px}
+#help-content p{margin:0;line-height:1.9;color:#304d66;overflow-wrap:anywhere}
+@media(max-width:760px){.toplinks .menu-help{display:inline-grid}.kpi{padding-inline-end:30px}.help-field select,.help-field input{max-width:100%}}
+@media print{.help-button{display:none!important}}
 @media(max-width:760px){.province-grid{grid-template-columns:1fr;gap:8px}.province-list{max-height:240px}.province-grid .map{height:270px}.filters label{max-width:100%}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important;animation:none!important}}

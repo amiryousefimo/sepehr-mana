@@ -91,11 +91,58 @@
   justify-items: start;
 }
 
-.form label {
+.guideField {
   display: grid;
   gap: .3rem;
   width: min(100%, 24rem);
 }
+
+.guideRow {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+}
+
+.guideButton {
+  display: inline-grid;
+  place-items: center;
+  vertical-align: middle;
+  flex: 0 0 1.7rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  padding: 0;
+  color: #145478;
+  border: 0;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.guideButton span {
+  display: grid;
+  place-items: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.guideButton:hover { background: #cfeae8; }
+.guideButton:focus-visible { outline: 2px solid #145478; outline-offset: 2px; }
+
+.guideDialog {
+  width: min(35rem, calc(100% - 2rem));
+  padding: clamp(1rem, 4vw, 1.5rem);
+  border: 1px solid #afcce1;
+  color: #102d49;
+  border-radius: 1rem;
+  background: white;
+}
+
+.guideDialog::backdrop { background: #0a213f87; }
+.guideDialog p { line-height: 1.9; margin: .6rem 0 1rem; }
 
 .form input {
   padding: .6rem .75rem;

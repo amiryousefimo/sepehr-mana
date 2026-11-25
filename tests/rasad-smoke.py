@@ -33,7 +33,7 @@ def smoke(origin, credentials):
     landing, headers = request("", 200)
     assert "ورود به داشبورد ۲" in landing.decode()
     assert b"app.powerbi.com" not in landing and "no-store" in headers["Cache-Control"]
-    for path in ["/report", "/report/api/meta", "/report/api/governance", "/report/api/profile?person=1"]:
+    for path in ["/report", "/report/help.js", "/report/help-reports.js", "/report/api/meta", "/report/api/governance", "/report/api/profile?person=1"]:
         request(path, 401)
     login_headers = {"Origin": origin}
     request("/session", 403, credentials, {"Origin": "https://invalid.example"})
@@ -45,7 +45,11 @@ def smoke(origin, credentials):
     if origin.startswith("https:"):
         assert "secure" in cookie
     assert b'iframe' in request("", 200)[0]
-    assert b"pages.js" in request("/report", 200)[0]
+    report, policy = request("/report", 200)
+    assert b"help-dialog" in report and b"help-reports.js" in report
+    assert "frame-ancestors 'self'" in policy["Content-Security-Policy"]
+    assert b"rasadHelp" in request("/report/help.js", 200)[0]
+    assert b"rasadReportHelp" in request("/report/help-reports.js", 200)[0]
     assert b"G-12" in request("/report/pages.js", 200)[0]
     meta = json.loads(request("/report/api/meta", 200)[0])
     governance = json.loads(request("/report/api/governance", 200, headers={"Accept-Encoding": "gzip"})[0])

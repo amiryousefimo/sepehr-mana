@@ -175,7 +175,7 @@ function gview(id){
     chart('روند عملکرد مالی',trend,'PeriodKey','line',[X('منابع','Sources'),X('مصارف','Uses'),X('تراز','Balance')]),
     chart('ترکیب منابع و مصارف',account,'Account','bar',[X('منابع','Sources'),X('مصارف','Uses')]),
     pane('بودجه و نقدینگی',mini([['تحقق کل بودجه',fmt(ratio(budget.Actual,budget.Approved),'pct')],['خالص نقد',fmt(diff(ct.inflow,ct.outflow),'money')],['فاصله تا آستانه',fmt(diff(ct.closing,ct.floor),'money')],['تحقق مصارف',fmt(ratio(sum(bud.filter(x=>x.Direction==='مصرف'),'Actual'),sum(bud.filter(x=>x.Direction==='مصرف'),'Approved')),'pct')]])),
-    pane('هشدارهای قابل پیگیری','<div class="alertlist">'+(news.length?news.map(([to,t,value])=>'<a href="#'+to+'">'+esc(t)+'<span>'+esc(value)+'</span></a>').join(''):para('برای این دامنه هشدار فعال وجود ندارد.'))+'</div>')
+    pane('هشدارهای قابل پیگیری','<div class="alertlist">'+(news.length?news.map(([to,title,value])=>linkAlert(to,title,value)).join(''):para('برای این دامنه هشدار فعال وجود ندارد.'))+'</div>')
    ],[acctTab],'مانده بانک در سطح حساب است؛ فیلتر طرح یا استان روی مانده بانک اعمال نمی‌شود. استثناها و وضعیت داده در صفحه کیفیت آمده‌اند.');
  }
  if(id==='G-01'){

@@ -52,7 +52,7 @@ async function api(url,options={}){
 }
 const option=(v,t=v,selected=false)=>'<option value="'+esc(v)+'"'+(selected?' selected':'')+'>'+esc(t)+'</option>';
 function sel(key,title,opts){
- return '<label for="f-'+esc(key)+'">'+esc(title)+'<select id="f-'+esc(key)+'" name="'+esc(key)+'"'+(opts.length<2?' disabled':'')+'>'+opts.map(x=>option(x[0],x[1],String(x[0])===filters[key])).join('')+'</select></label>';
+ return '<div class="help-field"><div class="help-inline"><label for="f-'+esc(key)+'">'+esc(title)+'</label>'+help('filter',key,title)+'</div><select id="f-'+esc(key)+'" name="'+esc(key)+'"'+(opts.length<2?' disabled':'')+'>'+opts.map(x=>option(x[0],x[1],String(x[0])===filters[key])).join('')+'</select></div>';
 }
 const named={from:'از ماه',to:'تا ماه / تاریخ مبنا',basis:'مبنای مالی',plan:'طرح بیمه‌ای',province:'استان',branch:'شعبه',group:'گروه بیمه‌ای',status:'وضعیت',party:'کارگاه / ارائه‌دهنده / طرف',payer:'سهم پرداخت‌کننده',corrected:'ثبت اصلاحی',grain:'دوره روند',dateBasis:'مبنای تاریخ',kind:'نوع مزایا',service:'نوع خدمت / مستمری',rule:'نسخه قاعده',rightStatus:'وضعیت حق',valuation:'مبنای ارزش‌گذاری',scenario:'سناریو',source:'سامانه مبدأ',type:'نوع مغایرت',account:'سرفصل',direction:'جهت جریان',attribution:'نوع انتساب',bank:'حساب بانکی',horizon:'افق پیش‌بینی',indicator:'شاخص جغرافیا',sector:'صنعت / حوزه',cause:'عامل شکاف',aging:'وضعیت زمانی وصول',diagnosis:'گروه بیماری',age:'گروه سنی',gender:'جنس',cohort:'نسل ورود',version:'نسخه بودجه',relation:'نوع رابطه',overlap:'دوره‌های هم‌زمان'};
 defaults.city='';defaults.history='';named.city='شهر';named.history='نوع سابقه بیمه';
@@ -190,12 +190,25 @@ function agingClaim(r){
 }
 function mergeMonths(...lists){const rows=new Map();lists.flat().forEach(r=>rows.set(r.PeriodKey,{...rows.get(r.PeriodKey),...r}));return [...rows.values()].sort((a,b)=>a.PeriodKey-b.PeriodKey)}
 const para=t=>'<p>'+esc(t)+'</p>';
-const links=items=>'<div class="listlinks">'+items.map(x=>'<a href="#'+x+'">'+esc(titles[x])+'</a>').join('')+'</div>';
-const mini=rows=>'<div class="mini-grid">'+rows.map(([t,v])=>'<div><small>'+esc(t)+'</small><br><b>'+esc(v)+'</b></div>').join('')+'</div>';
-function pane(t,html){return '<section class="panel"><div class="panelhead"><h2>'+esc(t)+'</h2></div>'+html+'</section>'}
+function help(kind,key,label=key,context=''){
+ const topic=window.rasadHelp.resolve(active,kind,key,label,context);
+ if(!topic)return '';
+ return '<button class="help-button" type="button" data-help="'+esc(kind+':'+key)+'" data-help-context="'+esc(context)+'" data-help-label="'+esc(label)+'" aria-label="راهنما: '+esc(label)+'" aria-haspopup="dialog"><span aria-hidden="true">؟</span></button>';
+}
+function withHelp(html,kind,key,label,context){
+ const tag=/^<h[1-6]>/.test(html)?'div':'span';
+ return '<'+tag+' class="help-inline">'+html+help(kind,key,label,context)+'</'+tag+'>';
+}
+const control=(html,key,label)=>withHelp(html,'control',key,label);
+const formField=(label,key,html)=>'<div class="help-field"><div class="help-inline"><label for="help-field-'+key+'">'+esc(label)+'</label>'+help('control',key==='premium'||key==='pension'||key==='health'?'scenarioPercent':key,label)+'</div>'+html.replace(/^<(\w+)/,'<$1 id="help-field-'+key+'"')+'</div>';
+const links=items=>'<div class="listlinks">'+items.map(key=>withHelp('<a href="#'+key+'">'+esc(titles[key])+'</a>','page',key,titles[key])).join('')+'</div>';
+const linkAlert=(page,label,value)=>withHelp('<a href="#'+page+'">'+esc(label)+'<span>'+esc(value)+'</span></a>','page',page,label);
+const mini=rows=>'<div class="mini-grid">'+rows.map(([title,value,key,type])=>'<div>'+withHelp('<small>'+esc(title)+'</small>',key?'detail':'metric',key||title,title,type)+'<br><b>'+esc(value)+'</b></div>').join('')+'</div>';
+const emptyPanel=()=>'<div class="empty">'+control(esc(emptyNote),'empty','نبود داده')+'</div>';
+function pane(t,html){return '<section class="panel"><div class="panelhead">'+withHelp('<h2>'+esc(t)+'</h2>','panel',t)+'</div>'+html+'</section>'}
 function chart(t,rows,axis,type,series=[],o={}){
  if(type==='timeline')return pane(t,timeline(rows));
- if(!rows.length||!series.some(s=>rows.some(r=>typeof r[s.key]==='number')))return pane(t,'<div class="empty">'+emptyNote+'</div>');
+ if(!rows.length||!series.some(s=>rows.some(r=>typeof r[s.key]==='number')))return pane(t,emptyPanel());
  const unit=o.unit||'money';
  let rr=rows;
  if(type==='waterfall'){
@@ -235,14 +248,14 @@ function chart(t,rows,axis,type,series=[],o={}){
    const z=Math.min(50,(x1-x0)/rr.length*.7),bw=o.stack?z:z/series.length;
    rr.forEach((r,i)=>{let cum=0;series.forEach((s,j)=>{const a=r[s.key];if(typeof a!=='number')return;const origin=o.stack?cum:0;svg.push(rect(X(i,true)-z/2+(o.stack?0:bw*j),origin,origin+a,Math.max(1,bw-1),CIRCLE[j],label(r[axis])+' · '+s.name+': '+fmt(a,unit),action(r)));if(o.stack)cum+=a})});
  }
- svg.push('</svg><div class="legend">'+series.map((s,j)=>'<span><i style="background:'+CIRCLE[j]+'"></i>'+esc(s.name)+'</span>').join('')+'</div>');
+ svg.push('</svg><div class="legend">'+series.map((s,j)=>withHelp('<i style="background:'+CIRCLE[j]+'"></i>'+esc(s.name),'series',s.key,s.name,unit)).join('')+withHelp('<small>محورهای نمودار</small>','axes',axis,'محورهای نمودار',unit)+'</div>');
  return pane(t,svg.join(''));
 }
 function timeline(rows){
- if(!rows.length)return '<div class="empty">'+emptyNote+'</div>';
+ if(!rows.length)return emptyPanel();
  const lo=Date.parse(periods[+filters.from]?.StartDate||periods[140201].StartDate),hi=Date.parse(periods[+filters.to]?.EndDate||periods[meta.asOf].EndDate),length=Math.max(86400000,hi-lo);
  return '<div class="timeline">'+rows.map((r,i)=>{const a=Math.max(0,Math.min(100,(Date.parse(r.StartDate)-lo)*100/length)),b=r.EndDate?Math.min(100,(Date.parse(r.EndDate)-lo)*100/length):100;const text=dim('plan',r.PlanKey)+' · '+dateLabel(r.StartDate)+' تا '+(r.EndDate?dateLabel(r.EndDate):'جاری');
- return '<div class="track"><button class="segment" data-drill="MembershipKey|'+r.MembershipKey+'" style="inset-inline-start:'+a+'%;width:'+Math.max(1,b-a)+'%;background:'+CIRCLE[i%CIRCLE.length]+'" title="'+esc(text)+'">'+esc(text)+'</button></div>'}).join('')+'</div><div class="footrow"><span>'+esc(periodLabel(+filters.from))+'</span><span>'+esc(periodLabel(+filters.to))+'</span></div>';
+ return '<div class="track"><button class="segment" data-drill="MembershipKey|'+r.MembershipKey+'" style="inset-inline-start:'+a+'%;width:'+Math.max(1,b-a)+'%;background:'+CIRCLE[i%CIRCLE.length]+'" title="'+esc(text)+'">'+esc(text)+'</button></div>'}).join('')+'</div><div class="footrow">'+withHelp(esc(periodLabel(+filters.from)),'filter','from','شروع خط زمانی')+control('<small>خواندن نوارها</small>','timeline','خط زمانی عضویت')+withHelp(esc(periodLabel(+filters.to)),'filter','to','پایان خط زمانی')+'</div>';
 }
 function mapPanel(rows,indicator){
  const labels={Balance:'تراز',Collected:'وصول',Sources:'منابع',Uses:'مصارف',Rate:'نرخ وصول'};
@@ -269,10 +282,11 @@ function mapPanel(rows,indicator){
   return '<path d="'+path.trim()+'" fill-rule="evenodd" style="fill:'+color(code)+'" class="'+(selected?'selected':'')+'"'+(canOpen(code)?' tabindex="0" role="button" aria-pressed="'+selected+'" data-drill="ProvinceCode|'+esc(code)+'" aria-label="'+esc(caption)+'"':'')+'><title>'+esc(caption)+'</title></path>';
  }).join('');
  const ranking=[...names].sort(([a,an],[b,bn])=>(value.get(b)??-Infinity)-(value.get(a)??-Infinity)||an.localeCompare(bn,'fa'));
- const list=ranking.map(([code,label])=>'<li><button type="button" aria-pressed="'+(code===filters.province)+'" data-drill="ProvinceCode|'+esc(code)+'"'+(canOpen(code)?'':' disabled')+'><span><i style="background:'+color(code)+'"></i>'+esc(label)+'</span><b>'+esc(shown(code))+'</b></button></li>').join('');
+ const list=ranking.map(([code,label])=>'<li><button type="button" aria-pressed="'+(code===filters.province)+'" data-drill="ProvinceCode|'+esc(code)+'"'+(canOpen(code)?'':' disabled')+'><span><i style="background:'+color(code)+'"></i>'+esc(label)+'</span><b>'+esc(shown(code))+'</b></button>'+help('province',code,label,labels[indicator])+'</li>').join('');
  const svg=area.size?'<svg class="map" viewBox="'+[left-9,top-9,right-left+18,bottom-top+18].join(' ')+'" aria-label="نقشه تعاملی استان‌های ایران">'+shapes+'</svg>':para('نقشه بارگذاری نشد؛ استان را از فهرست انتخاب کنید.');
- const legend='<div class="legend"><span>کم</span>'+scale.map(c=>'<i style="background:'+c+'"></i>').join('')+'<span>زیاد</span><span><i style="background:#dce8ed"></i>فاقد داده</span></div>';
- return '<section class="panel province-panel"><div class="panelhead"><h2>نقشه استان‌ها · '+esc(labels[indicator])+'</h2><span class="pill">'+num(nums.length)+' از '+num(names.size)+' استان با داده</span></div><p aria-live="polite">'+(filters.province?'استان انتخاب‌شده: '+esc(names.get(filters.province)||filters.province):'برای دیدن شهرها و شعب، یک استان انتخاب کنید.')+'</p><div class="province-grid"><div>'+svg+legend+'<p class="mapnote" dir="ltr">© OpenStreetMap contributors, Wambacher · geoBoundaries IRN ADM1 · ODbL 1.0</p></div><div><h3>رتبه استان‌ها</h3><ol class="province-list" aria-label="رتبه استان‌ها">'+list+'</ol></div></div></section>';
+ const heading='نقشه استان‌ها · '+labels[indicator];
+ const legend='<div class="legend"><span>کم</span>'+scale.map(c=>'<i style="background:'+c+'"></i>').join('')+'<span>زیاد</span>'+control('<i style="background:#dce8ed"></i>فاقد داده','mapLegend','رنگ‌های نقشه')+'</div>';
+ return '<section class="panel province-panel"><div class="panelhead">'+withHelp('<h2>'+esc(heading)+'</h2>','panel','نقشه استان‌ها',heading)+control('<span class="pill">'+num(nums.length)+' از '+num(names.size)+' استان با داده</span>','mapCount','تعداد استان‌های دارای داده')+'</div><p aria-live="polite">'+control(filters.province?'استان انتخاب‌شده: '+esc(names.get(filters.province)||filters.province):'برای دیدن شهرها و شعب، یک استان انتخاب کنید.','mapSelection','انتخاب استان')+'</p><div class="province-grid"><div>'+svg+legend+'<p class="mapnote" dir="ltr">© OpenStreetMap contributors, Wambacher · geoBoundaries IRN ADM1 · ODbL 1.0</p></div><div>'+control('<h3>رتبه استان‌ها</h3>','mapRanking','رتبه استان‌ها')+'<ol class="province-list" aria-label="رتبه استان‌ها">'+list+'</ol></div></div></section>';
 }
 function tableHTML(t,i){
  const {rows,cols}=t;
@@ -283,29 +297,30 @@ function tableHTML(t,i){
   arr.sort((a,b)=>{const x=a.r[c[0]],y=b.r[c[0]];if(x==null)return y==null?0:1;if(y==null)return -1;const k=typeof x==='number'&&typeof y==='number'?x-y:String(showCell(a.r,c)).localeCompare(String(showCell(b.r,c)),'fa',{numeric:true});return st.asc?k:-k});
  }
  const batch=12,total=Math.max(1,Math.ceil(arr.length/batch)),page=Math.min(st.page,total-1);
- const h='<thead><tr>'+cols.map((c,j)=>'<th><button data-sort="'+i+'|'+j+'">'+esc(c[1])+(st.col===j?(st.asc?' ↑':' ↓'):'')+'</button></th>').join('')+((t.opts.trace||t.opts.periodLink||t.opts.drill||t.opts.select)?'<th>جزئیات</th>':'')+'</tr></thead>';
+ const rowAction=['select','drill','periodLink','trace'].find(key=>t.opts[key]);
+ const h='<thead><tr>'+cols.map(([key,label,type],position)=>'<th scope="col"'+(st.col===position?' aria-sort="'+(st.asc?'ascending':'descending')+'"':'')+'>'+withHelp('<button type="button" data-sort="'+i+'|'+position+'">'+esc(label)+(st.col===position?(st.asc?' ↑':' ↓'):'')+'</button>','field',key,label,type)+'</th>').join('')+(rowAction?'<th scope="col">'+control('جزئیات',rowAction,'عمل ستون جزئیات')+'</th>':'')+'</tr></thead>';
  const tr=arr.slice(page*batch,(page+1)*batch).map(({r,j})=>{
   const action=t.opts.select?'انتخاب پرونده':t.opts.drill?'ریز شاخص':t.opts.periodLink?'انتخاب دوره':t.opts.trace?'منشأ و جزئیات':'';
   return '<tr>'+cols.map(c=>'<td'+(typeof r[c[0]]==='number'&&r[c[0]]<0?' class="neg"':'')+'>'+esc(showCell(r,c))+'</td>').join('')+(action?'<td><button class="linklike" data-row="'+i+'|'+j+'">'+action+'</button></td>':'')+'</tr>'
  }).join('');
- const pageBar='<div class="footrow"><span>'+num(arr.length)+' ردیف · '+num(page+1)+' از '+num(total)+'</span><span><button class="secondary" data-paging="'+i+'|'+(page-1)+'"'+(page===0?' disabled':'')+'>قبلی</button> <button class="secondary" data-paging="'+i+'|'+(page+1)+'"'+(page+1>=total?' disabled':'')+'>بعدی</button></span></div>';
- return '<section class="panel tablepanel" data-table="'+i+'"><div class="panelhead"><h2>'+esc(t.t)+'</h2><span class="pill">'+num(rows.length)+' ردیف</span></div>'+(arr.length?'<div class="tablebox"><table>'+h+'<tbody>'+tr+'</tbody></table></div>'+pageBar:'<div class="empty">'+emptyNote+'</div>')+'</section>';
+ const pageBar='<div class="footrow"><span>'+num(arr.length)+' ردیف · '+num(page+1)+' از '+num(total)+'</span>'+control('<button type="button" class="secondary" data-paging="'+i+'|'+(page-1)+'"'+(page===0?' disabled':'')+'>قبلی</button> <button type="button" class="secondary" data-paging="'+i+'|'+(page+1)+'"'+(page+1>=total?' disabled':'')+'>بعدی</button>','paging','صفحه‌بندی جدول')+'</div>';
+ return '<section class="panel tablepanel" data-table="'+i+'"><div class="panelhead">'+withHelp('<h2>'+esc(t.t)+'</h2>','panel',t.t)+control('<span class="pill">'+num(rows.length)+' ردیف</span>','rows','تعداد ردیف‌ها')+'</div>'+(arr.length?'<div class="tablebox"><table>'+h+'<tbody>'+tr+'</tbody></table></div>'+pageBar:emptyPanel())+'</section>';
 }
 function kpis(rows){
  if(!rows.length)return '';
  return '<div class="kpis">'+rows.map((x,i)=>{const q=x.v<0?'warn':x.subtitle==='آزمایشی'?'sc':'good';
  const value='<span>'+esc(x.t)+'</span><strong>'+esc(fmt(x.v,x.kind))+'</strong><small>'+esc(x.subtitle||(x.kind==='money'?units:''))+'</small>';
- return '<article class="kpi '+q+'">'+(x.link?'<button data-go="'+x.link+'">'+value+'</button>':value)+'</article>'}).join('')+'</div>';
+ return '<article class="kpi '+q+'">'+(x.link?'<button type="button" data-go="'+x.link+'">'+value+'</button>':value)+help('metric',x.t,x.t,x.link?titles[x.link]:'')+'</article>'}).join('')+'</div>';
 }
 function filtersHTML(){
  const keys=F[active]?.split(' ')||[];
  if(!keys.length)return '';
- return '<form class="filters" id="filters">'+keys.map(k=>sel(k,named[k],filterOptions(k))).join('')+'<div class="actions"><span class="filter-note">گزینه‌ها بر اساس دادهٔ همین صفحه به‌روز می‌شوند.</span><button class="secondary" type="button" data-reset>بازنشانی</button></div></form>';
+ return '<form class="filters" id="filters">'+keys.map(k=>sel(k,named[k],filterOptions(k))).join('')+'<div class="actions">'+control('<span class="filter-note">گزینه‌ها بر اساس دادهٔ همین صفحه به‌روز می‌شوند.</span>','filters','گزینه‌های فیلتر')+control('<button class="secondary" type="button" data-reset>بازنشانی</button>','reset','بازنشانی فیلترها')+'</div></form>';
 }
 function searchView(){
  const p=meta.dims.Region.filter(x=>x.RegionKey>0);
  const statuses=['بیمه‌پرداز','وقفه پوشش','بازنشستگی','ازکارافتادگی','بازماندگی'];
- const form='<section class="panel searchpanel"><h2>فرم جست‌وجوی ممیزی‌شده</h2><form class="form" id="search"><label>نوع شناسه<select name="kind"><option>شناسه نمایشی</option></select></label><label>شناسه پرونده نمونه<input placeholder="DEMO-0001" name="code" value="'+esc(searchDraft.code)+'" required></label><label>وضعیت پرونده<select name="status">'+option('','همه',!searchDraft.status)+statuses.map(x=>option(x,x,x===searchDraft.status)).join('')+'</select></label><label>شعبه<select name="branch">'+option('0','حوزه مجاز نقش',searchDraft.branch==='0')+p.map(x=>option(x.RegionKey,x.Branch,+searchDraft.branch===x.RegionKey)).join('')+'</select></label><button type="submit">جست‌وجو</button><button type="button" class="secondary" data-search-clear>پاک‌کردن</button></form>'+para(searchMsg||'نمونه‌های قابل امتحان: DEMO-0001 برای بیمه‌شده نمونه و DEMO-0005 برای پرونده مستمری در نقش تحلیل‌گر.')+'</section>';
+ const form=pane('فرم جست‌وجوی ممیزی‌شده','<form class="form" id="search">'+formField('نوع شناسه','searchKind','<select name="kind"><option>شناسه نمایشی</option></select>')+formField('شناسه پرونده نمونه','searchCode','<input placeholder="DEMO-0001" name="code" value="'+esc(searchDraft.code)+'" required>')+formField('وضعیت پرونده','searchStatus','<select name="status">'+option('','همه',!searchDraft.status)+statuses.map(x=>option(x,x,x===searchDraft.status)).join('')+'</select>')+formField('شعبه','searchBranch','<select name="branch">'+option('0','حوزه مجاز نقش',searchDraft.branch==='0')+p.map(x=>option(x.RegionKey,x.Branch,+searchDraft.branch===x.RegionKey)).join('')+'</select>')+control('<button type="submit">جست‌وجو</button>','search','جست‌وجو')+control('<button type="button" class="secondary" data-search-clear>پاک‌کردن</button>','clear','پاک‌کردن فرم')+'</form>'+para(searchMsg||'نمونه‌های قابل امتحان: DEMO-0001 برای بیمه‌شده نمونه و DEMO-0005 برای پرونده مستمری.'));
  const arr=[tab('پرونده‌های منطبق',results,[C('CaseCode','شناسه نمایشی'),C('DisplayName','پرونده'),columns.g,columns.status],{select:true})];
  return {cards:[V('دامنه نقش',meta.roles[role].name,'text','داده ساختگی'),V('نتیجه منطبق',results.length,'num'),V('کنترل دسترسی','فعال','text'),V('تاریخ مبنا',meta.asOf,'period')],panels:[],extra:form,tables:arr,note:'پرونده‌های این محیط ساختگی‌اند. برای جست‌وجو از شناسه پرونده نمونه استفاده کنید.'};
 }
@@ -313,11 +328,11 @@ function scenarioForm(isP){
  if(!meta.roles[role].scenario)return pane('سناریوهای آماده',para('برای مقایسه، سناریو و فیلترهای گزارش را انتخاب کنید.'));
  const s=scenarioData();
  const allowed=meta.roles[role].scenario;
- const nums=(n,t,v)=>'<label>'+t+' (٪)<input type="number" name="'+n+'" min="-30" max="30" step="0.1" value="'+v+'" required></label>';
+ const nums=(name,title,value)=>formField(title+' (٪)',name,'<input type="number" name="'+name+'" min="-30" max="30" step="0.1" value="'+value+'" required>');
  return pane('اجرای سناریو و ذخیره نسخه',para('قاعده DEMO-1.0 | دامنه تغییر: ۳۰− تا ۳۰+ درصد | ثبت همراه مبنا، اجراکننده، تاریخ اثر و نتیجه.')+
- '<form id="scenario-form" class="form"><label>نام سناریو<input name="name" value="'+esc(s.ScenarioName+' · آزمون')+'" minlength="2" maxlength="80" required></label><label>تاریخ اثر فرضی (میلادی)<input name="effective" type="date" value="2026-10-23" min="2026-10-23" max="2028-03-19" required></label>'+
+ '<form id="scenario-form" class="form">'+formField('نام سناریو','scenarioName','<input name="name" value="'+esc(s.ScenarioName+' · آزمون')+'" minlength="2" maxlength="80" required>')+formField('تاریخ اثر فرضی (میلادی)','scenarioDate','<input name="effective" type="date" value="2026-10-23" min="2026-10-23" max="2028-03-19" required>')+
  (isP?'':nums('premium','وصول',Math.round(s.PremiumRate*100)))+nums('pension','مستمری',Math.round(s.PensionRate*100))+(isP?'':nums('health','درمان',Math.round(s.HealthRate*100)))+
- '<button'+(!allowed?' disabled':'')+'>اجرا و ذخیره</button></form>'+para(!allowed?'نقش نمونه امکان اجرای سفارشی ندارد.':formMsg));
+ control('<button type="submit"'+(!allowed?' disabled':'')+'>اجرا و ذخیره</button>','scenarioRun','اجرا و ذخیره')+'</form>'+para(!allowed?'نقش نمونه امکان اجرای سفارشی ندارد.':formMsg));
 }
 function runsTable(){
  const r=runs.map(x=>{let z={};try{z=JSON.parse(x.Result)}catch{}return {...x,Base:z.base,Estimate:z.scenario,Impact:z.delta}});
@@ -325,30 +340,30 @@ function runsTable(){
 }
 function followForm(isP){
  if(role==='viewer')return '';
- return pane(isP?'ثبت درخواست اصلاح':'ثبت مغایرت یا درخواست تطبیق','<form id="follow-form" class="form"><label>مرجع<input name="ref" value="'+esc(isP?profile.person[0].CaseCode:'QA-DEMO')+'" maxlength="80" required></label><label>دسته<select name="category">'+['اصلاح سابقه','مغایرت پرداخت','کیفیت داده','تطبیق مالی','سایر'].map(x=>option(x,x,x===(isP?'اصلاح سابقه':'تطبیق مالی'))).join('')+'</select></label><label>شرح<textarea name="detail" rows="2" minlength="3" maxlength="450" required></textarea></label><button>ثبت و دریافت کد</button></form>'+para(formMsg||'درخواست در انبار آزمایشی ذخیره می‌شود.'));
+ return pane(isP?'ثبت درخواست اصلاح':'ثبت مغایرت یا درخواست تطبیق','<form id="follow-form" class="form">'+formField('مرجع','followRef','<input name="ref" value="'+esc(isP?profile.person[0].CaseCode:'QA-DEMO')+'" maxlength="80" required>')+formField('دسته','followCategory','<select name="category">'+['اصلاح سابقه','مغایرت پرداخت','کیفیت داده','تطبیق مالی','سایر'].map(x=>option(x,x,x===(isP?'اصلاح سابقه':'تطبیق مالی'))).join('')+'</select>')+formField('شرح','followDetail','<textarea name="detail" rows="2" minlength="3" maxlength="450" required></textarea>')+control('<button type="submit">ثبت و دریافت کد</button>','followSend','ثبت و دریافت کد')+'</form>'+para(formMsg||'درخواست در انبار آزمایشی ذخیره می‌شود.'));
 }
 function nav(){
  const r=meta.roles[role],p=r.scope!=='none';
- $('#products').innerHTML=(r.gov?'<a href="#G-00" aria-current="'+(active[0]==='G')+'">حکمرانی</a>':'')+(p?'<a href="#P-00" aria-current="'+(active[0]==='P')+'">پروفایل فرد</a>':'');
- $('#nav').innerHTML='<div class="navtitle">'+(active[0]==='G'?'حکمرانی و پایداری مالی':'پرونده بیمه اجتماعی')+'</div>'+Object.entries(titles).filter(([k])=>k[0]===active[0]).map(([k,t])=>'<a class="navlink" href="#'+k+'"'+(k===active?' aria-current="page"':'')+'><bdi>'+k+'</bdi><span>'+esc(t)+'</span></a>').join('');
+ $('#products').innerHTML=(r.gov?withHelp('<a href="#G-00" aria-current="'+(active[0]==='G')+'">حکمرانی</a>','control','governance','حکمرانی'):'')+(p?withHelp('<a href="#P-00" aria-current="'+(active[0]==='P')+'">پروفایل فرد</a>','control','profile','پروفایل فرد'):'');
+ $('#nav').innerHTML='<div class="navtitle">'+(active[0]==='G'?control('حکمرانی و پایداری مالی','governance','حکمرانی و پایداری مالی'):control('پرونده بیمه اجتماعی','profile','پرونده بیمه اجتماعی'))+'</div>'+Object.entries(titles).filter(([k])=>k[0]===active[0]).map(([k,t])=>'<div class="nav-item"><a class="navlink" href="#'+k+'"'+(k===active?' aria-current="page"':'')+'><bdi>'+k+'</bdi><span>'+esc(t)+'</span></a>'+help('page',k,t)+'</div>').join('');
 }
 function render(){
  facetCache.clear();
  nav();
  units=active[0]==='G'?'میلیارد ریال':'میلیون ریال';
  const ok=!((active[0]==='P'&&active!=='P-00'&&!profile)||(active[0]==='G'&&!gov));
- const d=!ok?bundle([],[],[],'','<section class="panel">'+para('در حال دریافت اطلاعات…')+'</section>'):active==='P-00'?searchView():active[0]==='P'?pview(active):gview(active);
+ const d=!ok?bundle([],[],[],'',pane('در حال دریافت اطلاعات…',control('در حال آماده‌سازی گزارش','loading','دریافت داده‌ها'))):active==='P-00'?searchView():active[0]==='P'?pview(active):gview(active);
  if(profileScope&&active[0]==='P'&&['P-03','P-04'].includes(active))d.note+=' · فیلتر دوره عضویت '+num(profileScope)+' فعال است.';
  displayTables=d.tables;
  const base=(active[0]==='P'&&person&&profile?' · '+profile.person[0].CaseCode:'')+' · تاریخ مبنا '+periodLabel(+filters.to);
- const toolbar='<div class="toolbar"><button class="secondary" data-def>تعریف شاخص‌ها</button><button class="secondary" data-save-view>ذخیره نما</button>'+(view?'<button class="secondary" data-restore>نمای ذخیره‌شده</button>':'')+(meta.roles[role].export&&d.tables.length?'<button data-export>خروجی CSV</button>':'')+'</div>';
- $('#main').innerHTML='<div class="crumb">'+(active[0]==='G'?'حکمرانی و پایداری مالی':'پروفایل بیمه‌ای فرد')+'  /  <bdi>'+active+'</bdi>'+esc(base)+'</div>'+
- '<div class="pagehead"><div><h1>'+esc(titles[active])+'</h1><p>'+esc(descriptions[active])+' <span class="tag">'+units+'</span></p></div>'+toolbar+'</div>'+
- filtersHTML()+kpis(d.cards)+(d.extra||'')+(d.note?'<p class="keynote">'+esc(d.note)+'</p>':'')+(d.panels.length?'<div class="twocol">'+d.panels.join('')+'</div>':'')+d.tables.map(tableHTML).join('');
+ const toolbar='<div class="toolbar">'+control('<button class="secondary" data-def>تعریف شاخص‌ها</button>','definitions','تعریف شاخص‌ها')+control('<button class="secondary" data-save-view>ذخیره نما</button>','save','ذخیره نما')+(view?control('<button class="secondary" data-restore>نمای ذخیره‌شده</button>','restore','نمای ذخیره‌شده'):'')+(meta.roles[role].export&&d.tables.length?control('<button data-export>خروجی CSV</button>','export','خروجی CSV'):'')+'</div>';
+ $('#main').innerHTML='<div class="crumb">'+control((active[0]==='G'?'حکمرانی و پایداری مالی':'پروفایل بیمه‌ای فرد')+'  /  <bdi>'+active+'</bdi>'+esc(base),'path','مسیر و ماه مبنا')+'</div>'+
+ '<div class="pagehead"><div>'+withHelp('<h1>'+esc(titles[active])+'</h1>','page',active,titles[active])+'<p>'+esc(descriptions[active])+' '+control('<span class="tag">'+units+'</span>','units','واحد مبلغ')+'</p></div>'+toolbar+'</div>'+
+ filtersHTML()+kpis(d.cards)+(d.extra||'')+(d.note?'<p class="keynote">'+withHelp(esc(d.note),'page',active,'نکته و مثال این گزارش')+'</p>':'')+(d.panels.length?'<div class="twocol">'+d.panels.join('')+'</div>':'')+d.tables.map(tableHTML).join('');
 }
 function toast(t){$('#toast').textContent=t;$('#toast').classList.add('active');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('active'),4700)}
 function modal(t,h){$('#dialog-body').innerHTML='<h2>'+esc(t)+'</h2>'+h;$('#dialog').showModal()}
-function fail(message){$('#main').innerHTML='<section class="panel banner-error" role="alert"><h2>گزارش آماده نشد</h2><p>'+esc(message)+'</p><button id="retry-load" type="button">تلاش دوباره</button> <a href="/dashboard_2" target="_top">بازگشت به داشبورد سایت</a></section>';$('#retry-load').addEventListener('click',()=>meta?navigate():init());}
+function fail(message){$('#main').innerHTML='<section class="panel banner-error" role="alert">'+control('<h2>گزارش آماده نشد</h2>','retry','مشکل بارگذاری گزارش')+'<p>'+esc(message)+'</p>'+control('<button id="retry-load" type="button">تلاش دوباره</button>','retry','تلاش دوباره')+' '+control('<a href="/dashboard_2" target="_top">بازگشت به داشبورد سایت</a>','session','بازگشت به سایت')+'</section>';$('#retry-load').addEventListener('click',()=>meta?navigate():init());}
 async function navigate(){
  const k=location.hash.slice(1).toUpperCase();
  let dest=titles[k]?k:'G-00';
@@ -373,7 +388,7 @@ function drill(action){
  const at=action.indexOf('|'),key=action.slice(0,at),val=action.slice(at+1);
  if(key==='MembershipKey'){
   const x=profile.membership.find(r=>r.MembershipKey===+val);
-  if(x)modal('دوره عضویت · '+dim('plan',x.PlanKey),mini([['آغاز',dateLabel(x.StartDate)],['پایان',x.EndDate?dateLabel(x.EndDate):'جاری'],['کارگاه',dim('party',x.PartyKey)],['مرجع',x.SourceRef]])+'<div class="listlinks"><button data-memberlink="'+x.MembershipKey+'|P-03">پرداخت‌های دوره</button><button data-memberlink="'+x.MembershipKey+'|P-04">مزایای دوره</button></div>');
+  if(x)modal('دوره عضویت · '+dim('plan',x.PlanKey),mini([['آغاز',dateLabel(x.StartDate)],['پایان',x.EndDate?dateLabel(x.EndDate):'جاری'],['کارگاه',dim('party',x.PartyKey)],['مرجع',x.SourceRef]])+'<div class="listlinks">'+control('<button data-memberlink="'+x.MembershipKey+'|P-03">پرداخت‌های دوره</button>','membershipPremium','پرداخت‌های دوره')+control('<button data-memberlink="'+x.MembershipKey+'|P-04">مزایای دوره</button>','membershipBenefit','مزایای دوره')+'</div>');
  }else if(key==='ProvinceCode'){
   const selected=filters.province===val?'':val;
   applyFilter('province',selected);
@@ -394,7 +409,7 @@ function drill(action){
  }
 }
 function detailTable(t,r){
- const data=t.cols.map(c=>[c[1],showCell(r,c)]);
+ const data=t.cols.map(column=>[column[1],showCell(r,column),column[0],column[2]]);
  if(r.SourceKey!==undefined)data.push(['منبع',dim('source',r.SourceKey)]);
  if(r.SourceRef)data.push(['نوع مدرک','سند ساختگی ثبت‌شده']);
  if(r.Result)data.push(['خروجی ثبت‌شده',r.Result],['مفروضات',r.Parameters]);
@@ -427,10 +442,26 @@ async function exportCSV(){
  const a=document.createElement('a');a.href=obj;a.download='Dashboard1-'+active+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(obj),1500);
  toast('خروجی ثبت و آماده شد.');
 }
+const helpDialog=$('#help-dialog');
+let helpTrigger;
+function showHelp(kind,key,label,context,trigger){
+ const topics=window.rasadHelp.resolve(active,kind,key,label,context);
+ if(!topics)return;
+ $('#help-title').textContent=label;
+ $('#help-content').innerHTML=topics.map(({title,text})=>'<section><h3>'+esc(title)+'</h3><p>'+esc(text)+'</p></section>').join('');
+ helpTrigger=trigger;
+ helpDialog.showModal();
+}
+helpDialog.addEventListener('close',()=>{if(helpTrigger?.isConnected)helpTrigger.focus({preventScroll:true})});
 document.addEventListener('click',async ev=>{
  const el=ev.target.closest('button,[data-drill],a');
  if(!el||el.disabled)return;
  const {dataset:d}=el;
+ if(d.help){
+  const separator=d.help.indexOf(':');
+  showHelp(d.help.slice(0,separator),d.help.slice(separator+1),d.helpLabel||el.getAttribute('aria-label').replace(/^راهنما: /,''),d.helpContext,el);
+  return;
+ }
  if(el.tagName==='A'&&el.hash&&$('#dialog').open)$('#dialog').close();
  try{
   if('go'in d){location.hash=d.go;return}
@@ -451,14 +482,13 @@ document.addEventListener('click',async ev=>{
    const [k,p]=d.memberlink.split('|');profileScope=+k;$('#dialog').close();location.hash=p;return;
   }
   if('def'in d){
-   const list=(displayTables[0]?.cols||[]).map(c=>[c[1],c[2]==='money'?units:c[2]==='pct'?'نسبت درصدی':c[2]==='date'?'شمسی':'به شرح جزئیات']);
-   modal('تعریف و منشأ شاخص‌ها',para(descriptions[active])+para('نسخه آزمایشی؛ ماه مبنا '+periodLabel(+filters.to)+' · منبع SS_GOV_DW_1')+mini(list)+(active[0]==='G'?links(['G-12']):links(['P-08'])));return;
+   showHelp('page',active,'تعریف شاخص‌ها · '+titles[active],'',el);return;
   }
   if('saveView'in d){view=JSON.stringify({page:active,filters});try{localStorage.setItem('dashboard1-view',view)}catch{}render();toast('نمای جاری روی این مرورگر ذخیره شد.');return}
   if('restore'in d){const x=JSON.parse(view);filters={...defaults,...x.filters};if(active!==x.page)location.hash=x.page;else {repairFacets();refresh()}return}
   if('export'in d){await exportCSV();return}
   if('searchClear'in d){searchDraft={code:'',status:'',branch:'0'};results=[];searchMsg='';refresh();return}
-  if(el.id==='menu')$('#sidebar').classList.toggle('active');
+  if(el.id==='menu')el.setAttribute('aria-expanded',String($('#sidebar').classList.toggle('active')));
  }catch(e){toast(e.message)}
 });
 document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('svg [data-drill]')){e.preventDefault();drill(e.target.dataset.drill)}});
@@ -514,6 +544,6 @@ async function init(){
 }
 function login(){
  meta=null;gov=null;profile=null;person=null;$('#nav').innerHTML='';$('#products').innerHTML='';
- $('#main').innerHTML='<section class="panel login-card"><h2>نشست شما پایان یافته است</h2><p><a href="/dashboard_2" target="_top">ورود دوباره به سایت</a></p></section>';
+ $('#main').innerHTML='<section class="panel login-card">'+control('<h2>نشست شما پایان یافته است</h2>','session','نشست حساب سایت')+'<p>'+control('<a href="/dashboard_2" target="_top">ورود دوباره به سایت</a>','session','ورود دوباره به سایت')+'</p></section>';
 }
 init();
