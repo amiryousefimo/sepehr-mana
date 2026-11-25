@@ -10,25 +10,29 @@
 <script defer src="/dashboard_2/report/pages.js"></script>
 <script defer src="/dashboard_2/report/help-reports.js"></script>
 <script defer src="/dashboard_2/report/help.js"></script>
+<script defer src="/dashboard_2/report/help-topics.js"></script>
+<script defer src="/dashboard_2/report/profile-math.js"></script>
+<script defer src="/dashboard_2/report/profile-insights.js"></script>
 <script defer src="/dashboard_2/report/app.js"></script>
 </head>
 <body>
 <header class="topbar">
   <a href="#G-00" class="brand"><span class="marks"><img src="/dashboard_2/report/social-security-logo.png" alt="سازمان تأمین اجتماعی" width="42" height="42"><img src="/dashboard_2/report/company-logo.jpeg" alt="تکاپوگران سپهر مانا" width="42" height="42"></span><span><strong>رصد</strong><small>پایداری مالی و حساب‌های بیمه‌ای</small></span></a>
-  <div class="toplinks"><button class="help-button" type="button" data-help="control:brand" aria-label="راهنما: رصد" aria-haspopup="dialog"><span aria-hidden="true">؟</span></button><span class="tag demo">داده آزمایشی</span><button class="help-button" type="button" data-help="control:demo" aria-label="راهنما: داده آزمایشی" aria-haspopup="dialog"><span aria-hidden="true">؟</span></button><button id="menu" class="secondary" aria-label="منو" aria-controls="sidebar" aria-expanded="false">☰</button><button class="help-button menu-help" type="button" data-help="control:menu" aria-label="راهنما: منو" aria-haspopup="dialog"><span aria-hidden="true">؟</span></button></div>
+  <div class="toplinks"><span class="tag demo">داده آزمایشی</span><button type="button" id="help-mode" class="mode-button" aria-pressed="false"><span aria-hidden="true">◈</span> نیاز به راهنمایی دارم</button><a class="book-link" href="/dashboard_2/report/guide.html" target="_blank" rel="noopener">دفترچه راهنما</a><button id="menu" class="secondary" aria-label="منو" aria-controls="sidebar" aria-expanded="false">☰</button><button class="help-button menu-help" type="button" data-help="control:menu" aria-label="راهنما: منو" aria-haspopup="dialog"><span aria-hidden="true">؟</span></button></div>
 </header>
 <div class="shell">
   <aside id="sidebar" aria-label="ناوبری">
     <div id="products" class="products"></div><div id="nav"></div>
     <p class="navfoot"><span class="dot"></span>نسخهٔ آزمایشی؛ فقط مشاهده <button class="help-button" type="button" data-help="control:readonly" aria-label="راهنما: فقط مشاهده" aria-haspopup="dialog"><span aria-hidden="true">؟</span></button></p>
   </aside>
-  <main id="main"><div class="panel loading" role="status">در حال دریافت داده‌های گزارش… <button class="help-button" type="button" data-help="control:loading" aria-label="راهنما: دریافت داده‌ها" aria-haspopup="dialog"><span aria-hidden="true">؟</span></button></div></main>
+  <main id="main"><div class="branded-loader" role="status"><div class="loader-marks"><img src="/dashboard_2/report/social-security-logo.png" alt="سازمان تأمین اجتماعی"><img src="/dashboard_2/report/company-logo.jpeg" alt="تکاپوگران سپهر مانا"></div><strong>در حال آماده کردن گزارش رصد</strong><span>در حال خواندن داده‌های آزمایشی</span><i aria-hidden="true"></i></div></main>
 </div>
 <dialog id="dialog" aria-label="جزئیات"><div id="dialog-body"></div><form method="dialog"><button class="secondary">بستن</button></form></dialog>
 <dialog id="help-dialog" aria-labelledby="help-title">
   <div class="help-dialog-head"><span>راهنمای همین بخش</span><form method="dialog"><button class="secondary" autofocus>بستن</button></form></div>
   <h2 id="help-title"></h2>
   <div id="help-content"></div>
+  <a id="help-book-link" target="_blank" rel="noopener" class="open-chapter" href="/dashboard_2/report/guide.html">توضیح تکمیلی در دفترچه راهنمای رصد ↗</a>
 </dialog>
 <div id="toast" role="status" aria-live="polite"></div>
 </body>

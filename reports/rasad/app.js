@@ -345,18 +345,21 @@ function followForm(isP){
 function nav(){
  const r=meta.roles[role],p=r.scope!=='none';
  $('#products').innerHTML=(r.gov?withHelp('<a href="#G-00" aria-current="'+(active[0]==='G')+'">حکمرانی</a>','control','governance','حکمرانی'):'')+(p?withHelp('<a href="#P-00" aria-current="'+(active[0]==='P')+'">پروفایل فرد</a>','control','profile','پروفایل فرد'):'');
- $('#nav').innerHTML='<div class="navtitle">'+(active[0]==='G'?control('حکمرانی و پایداری مالی','governance','حکمرانی و پایداری مالی'):control('پرونده بیمه اجتماعی','profile','پرونده بیمه اجتماعی'))+'</div>'+Object.entries(titles).filter(([k])=>k[0]===active[0]).map(([k,t])=>'<div class="nav-item"><a class="navlink" href="#'+k+'"'+(k===active?' aria-current="page"':'')+'><bdi>'+k+'</bdi><span>'+esc(t)+'</span></a>'+help('page',k,t)+'</div>').join('');
+ $('#nav').innerHTML='<div class="navtitle">'+(active[0]==='G'?control('حکمرانی و پایداری مالی','governance','حکمرانی و پایداری مالی'):control('پرونده بیمه اجتماعی','profile','پرونده بیمه اجتماعی'))+'</div>'+Object.entries(titles).filter(([k])=>k[0]===active[0]).map(([k,t])=>'<div class="nav-item">'+(k==='P-09'?'<div class="nav-insight">تحلیل فرد و خانواده</div>':'')+'<a class="navlink" href="#'+k+'"'+(k===active?' aria-current="page"':'')+'><bdi>'+k+'</bdi><span>'+esc(t)+'</span></a>'+help('page',k,t)+'</div>').join('');
+}
+function loadingPanel(label){
+ return '<div class="branded-loader" role="status"><div class="loader-marks"><img src="/dashboard_2/report/social-security-logo.png" alt="سازمان تأمین اجتماعی"><img src="/dashboard_2/report/company-logo.jpeg" alt="تکاپوگران سپهر مانا"></div><strong>'+esc(label)+'</strong><i aria-hidden="true"></i></div>';
 }
 function render(){
  facetCache.clear();
  nav();
  units=active[0]==='G'?'میلیارد ریال':'میلیون ریال';
  const ok=!((active[0]==='P'&&active!=='P-00'&&!profile)||(active[0]==='G'&&!gov));
- const d=!ok?bundle([],[],[],'',pane('در حال دریافت اطلاعات…',control('در حال آماده‌سازی گزارش','loading','دریافت داده‌ها'))):active==='P-00'?searchView():active[0]==='P'?pview(active):gview(active);
+ const d=!ok?bundle([],[],[],'',loadingPanel('در حال آماده‌سازی گزارش رصد…')):active==='P-00'?searchView():active[0]==='P'?pview(active):gview(active);
  if(profileScope&&active[0]==='P'&&['P-03','P-04'].includes(active))d.note+=' · فیلتر دوره عضویت '+num(profileScope)+' فعال است.';
  displayTables=d.tables;
  const base=(active[0]==='P'&&person&&profile?' · '+profile.person[0].CaseCode:'')+' · تاریخ مبنا '+periodLabel(+filters.to);
- const toolbar='<div class="toolbar">'+control('<button class="secondary" data-def>تعریف شاخص‌ها</button>','definitions','تعریف شاخص‌ها')+control('<button class="secondary" data-save-view>ذخیره نما</button>','save','ذخیره نما')+(view?control('<button class="secondary" data-restore>نمای ذخیره‌شده</button>','restore','نمای ذخیره‌شده'):'')+(meta.roles[role].export&&d.tables.length?control('<button data-export>خروجی CSV</button>','export','خروجی CSV'):'')+'</div>';
+ const toolbar='<div class="toolbar">'+control('<button class="secondary" data-def>نکته و مثال این گزارش</button>','definitions','نکته و مثال این گزارش')+control('<button class="secondary" data-save-view>ذخیره نما</button>','save','ذخیره نما')+(view?control('<button class="secondary" data-restore>نمای ذخیره‌شده</button>','restore','نمای ذخیره‌شده'):'')+(meta.roles[role].export&&d.tables.length?control('<button data-export>خروجی CSV</button>','export','خروجی CSV'):'')+'</div>';
  $('#main').innerHTML='<div class="crumb">'+control((active[0]==='G'?'حکمرانی و پایداری مالی':'پروفایل بیمه‌ای فرد')+'  /  <bdi>'+active+'</bdi>'+esc(base),'path','مسیر و ماه مبنا')+'</div>'+
  '<div class="pagehead"><div>'+withHelp('<h1>'+esc(titles[active])+'</h1>','page',active,titles[active])+'<p>'+esc(descriptions[active])+' '+control('<span class="tag">'+units+'</span>','units','واحد مبلغ')+'</p></div>'+toolbar+'</div>'+
  filtersHTML()+kpis(d.cards)+(d.extra||'')+(d.note?'<p class="keynote">'+withHelp(esc(d.note),'page',active,'نکته و مثال این گزارش')+'</p>':'')+(d.panels.length?'<div class="twocol">'+d.panels.join('')+'</div>':'')+d.tables.map(tableHTML).join('');
@@ -372,7 +375,7 @@ async function navigate(){
  if(dest[0]==='P'&&dest!=='P-00'&&!person)dest='P-00';
  if(location.hash!=='#'+dest){location.replace('#'+dest);return}
  const token=++loadToken;
- active=dest;tableState={};formMsg='';$('#sidebar').classList.remove('active');
+ active=dest;tableState={};formMsg='';$('#sidebar').classList.remove('active');$('#menu').setAttribute('aria-expanded','false');
  if(dest[0]==='G'&&!gov){
   render();
   try{const g=await api('/api/governance');if(token!==loadToken)return;gov=g}catch(error){if(token===loadToken)fail(error.message);return}
@@ -383,6 +386,7 @@ async function navigate(){
    if(dest==='G-04'&&!geometries.length){const r=await api('/iran-provinces.json');if(token!==loadToken)return;geometries=r.features||[]}
  }catch(e){toast(e.message)}
  repairFacets();render();window.scrollTo(0,0);
+ if(dest==='P-09')void loadMarket();
 }
 function drill(action){
  const at=action.indexOf('|'),key=action.slice(0,at),val=action.slice(at+1);
@@ -445,14 +449,26 @@ async function exportCSV(){
 const helpDialog=$('#help-dialog');
 let helpTrigger;
 function showHelp(kind,key,label,context,trigger){
- const topics=window.rasadHelp.resolve(active,kind,key,label,context);
+ const entry=window.rasadGuide.entry(active,kind,key,label,context);
+ const topics=entry.sections;
  if(!topics)return;
  $('#help-title').textContent=label;
  $('#help-content').innerHTML=topics.map(({title,text})=>'<section><h3>'+esc(title)+'</h3><p>'+esc(text)+'</p></section>').join('');
+ $('#help-book-link').href=window.rasadGuide.href(entry);
  helpTrigger=trigger;
  helpDialog.showModal();
 }
 helpDialog.addEventListener('close',()=>{if(helpTrigger?.isConnected)helpTrigger.focus({preventScroll:true})});
+const modeKey='rasad-guide-mode';
+function setGuideMode(enabled){
+ document.documentElement.classList.toggle('guide-on',enabled);
+ $('#help-mode').setAttribute('aria-pressed',String(enabled));
+ $('#help-mode').lastChild.textContent=enabled?' پنهان‌کردن راهنما':' نیاز به راهنمایی دارم';
+}
+function initGuideMode(){
+ try{setGuideMode(localStorage.getItem(modeKey)==='1')}catch{}
+ window.addEventListener('storage',event=>{if(event.key===modeKey)setGuideMode(event.newValue==='1')});
+}
 document.addEventListener('click',async ev=>{
  const el=ev.target.closest('button,[data-drill],a');
  if(!el||el.disabled)return;
@@ -464,6 +480,13 @@ document.addEventListener('click',async ev=>{
  }
  if(el.tagName==='A'&&el.hash&&$('#dialog').open)$('#dialog').close();
  try{
+  if(el.id==='help-mode'){
+   const enabled=el.getAttribute('aria-pressed')!=='true';
+   setGuideMode(enabled);try{localStorage.setItem(modeKey,enabled?'1':'0')}catch{}
+   return;
+  }
+  if('marketRetry'in d){void loadMarket();return}
+  if('insightClear'in d){insightPrefs.delete(person);render();return}
   if('go'in d){location.hash=d.go;return}
   if('reset'in d){for(const k of activeFilters())filters[k]=defaults[k];profileScope=null;refresh();return}
   if('paging'in d){const [i,p]=d.paging.split('|').map(Number);tableState[i]={...tableState[i],page:p};updateTable(i);return}
@@ -482,7 +505,7 @@ document.addEventListener('click',async ev=>{
    const [k,p]=d.memberlink.split('|');profileScope=+k;$('#dialog').close();location.hash=p;return;
   }
   if('def'in d){
-   showHelp('page',active,'تعریف شاخص‌ها · '+titles[active],'',el);return;
+   showHelp('page',active,'نکته و مثال این گزارش · '+titles[active],'',el);return;
   }
   if('saveView'in d){view=JSON.stringify({page:active,filters});try{localStorage.setItem('dashboard1-view',view)}catch{}render();toast('نمای جاری روی این مرورگر ذخیره شد.');return}
   if('restore'in d){const x=JSON.parse(view);filters={...defaults,...x.filters};if(active!==x.page)location.hash=x.page;else {repairFacets();refresh()}return}
@@ -499,6 +522,12 @@ document.addEventListener('change',event=>{
  document.getElementById(field.id)?.focus({preventScroll:true});
 });
 document.addEventListener('submit',async ev=>{
+ if(ev.target.id==='insight-form'){
+  ev.preventDefault();
+  const values=new FormData(ev.target),prefs=profilePrefs();
+  for(const key of ['gold','wage','months'])if(values.has(key))prefs[key]=String(values.get(key));
+  render();toast('برآورد با مقادیر انتخابی به‌روز شد.');return;
+ }
  const form=ev.target;
  if(!['filters','search','scenario-form','follow-form'].includes(form.id))return;
  ev.preventDefault();
@@ -546,4 +575,5 @@ function login(){
  meta=null;gov=null;profile=null;person=null;$('#nav').innerHTML='';$('#products').innerHTML='';
  $('#main').innerHTML='<section class="panel login-card">'+control('<h2>نشست شما پایان یافته است</h2>','session','نشست حساب سایت')+'<p>'+control('<a href="/dashboard_2" target="_top">ورود دوباره به سایت</a>','session','ورود دوباره به سایت')+'</p></section>';
 }
+initGuideMode();
 init();

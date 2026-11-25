@@ -65,6 +65,9 @@
   border-radius: .5rem;
   background: var(--paper);
   pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
 }
 
 .frame iframe {
@@ -131,7 +134,10 @@
 }
 
 .guideButton:hover { background: #cfeae8; }
+.guideButton[hidden] { display: none; }
 .guideButton:focus-visible { outline: 2px solid #145478; outline-offset: 2px; }
+.modeToggle { font: inherit; font-size: .85rem; font-weight: 700; padding: .45rem .75rem; background: #f3fbf9; color: #125762; border: 1px solid #9bc5c5; border-radius: .6rem; cursor: pointer; }
+.modeToggle[aria-pressed=true] { background: #d7f0e9; }
 
 .guideDialog {
   width: min(35rem, calc(100% - 2rem));

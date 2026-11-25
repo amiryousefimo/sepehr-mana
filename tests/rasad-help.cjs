@@ -26,6 +26,7 @@ const resolve=window.rasadHelp.resolve;
 window.rasadHelp.resolve=(page,kind,key,label,context)=>{
  const sections=resolve(page,kind,key,label,context);
  if(sections){
+  assert.equal(sections.length,4,page+':'+key);
   assert.ok(sections.every(section=>section.title&&section.text),page+':'+key);
   topics.add(kind+':'+key);
  }else missing.add(kind+':'+key+' ['+label+']');
@@ -53,11 +54,14 @@ assert.equal(($('#main').innerHTML.match(/data-help="province:/g)||[]).length,31
 for(const match of source.matchAll(/data-help="control:([^"]+)"/g))assert.ok(resolve('G-00','control',match[1]),match[1]);
 assert.match(resolve('G-05','field','Rate','نرخ','pct')[0].text,/وصول ÷ جمع مطالبه/);
 assert.match(resolve('P-01','metric','روز پوشش یکتا')[0].text,/۱۰ روز/);
+const target=window.rasadGuide.entry('P-09','field','CurrentRials','ریال با نرخ مرجع','num');
+assert.match(window.rasadGuide.href(target),/#topic-P-09~field~CurrentRials/);
+assert.match(target.sections[2].text,/۶۰۰ میلیون/);
 assert.deepEqual([...missing],[]);
 return {pages:Object.keys(titles).length,topics:topics.size};
 `;
-const app=read('app.js').replace(/\binit\(\);\s*$/,'');
+const app=read('app.js').replace(/\binitGuideMode\(\);\s*init\(\);\s*$/,'');
 const result=Function('document','window','fixture','assert','source',[
- read('pages.js'),read('help-reports.js'),read('help.js'),app,run
+ read('pages.js'),read('help-reports.js'),read('help.js'),read('help-topics.js'),read('profile-math.js'),read('profile-insights.js'),app,run
 ].join('\n'))(document,window,fixture,assert,read('index.html'));
 console.log('Help verified for',result.pages,'reports and',result.topics,'distinct topics.');

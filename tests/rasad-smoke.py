@@ -33,7 +33,7 @@ def smoke(origin, credentials):
     landing, headers = request("", 200)
     assert "ورود به داشبورد ۲" in landing.decode()
     assert b"app.powerbi.com" not in landing and "no-store" in headers["Cache-Control"]
-    for path in ["/report", "/report/help.js", "/report/help-reports.js", "/report/api/meta", "/report/api/governance", "/report/api/profile?person=1"]:
+    for path in ["/report", "/report/guide.html", "/report/help.js", "/report/help-reports.js", "/report/api/meta", "/report/api/gold", "/report/api/governance", "/report/api/profile?person=1"]:
         request(path, 401)
     login_headers = {"Origin": origin}
     request("/session", 403, credentials, {"Origin": "https://invalid.example"})
@@ -50,16 +50,29 @@ def smoke(origin, credentials):
     assert "frame-ancestors 'self'" in policy["Content-Security-Policy"]
     assert b"rasadHelp" in request("/report/help.js", 200)[0]
     assert b"rasadReportHelp" in request("/report/help-reports.js", 200)[0]
+    assert b"book-main" in request("/report/guide.html", 200)[0]
+    assert b"rasadProfileMath" in request("/report/profile-math.js", 200)[0]
     assert b"G-12" in request("/report/pages.js", 200)[0]
     meta = json.loads(request("/report/api/meta", 200)[0])
     governance = json.loads(request("/report/api/governance", 200, headers={"Accept-Encoding": "gzip"})[0])
     provinces = json.loads(request("/report/iran-provinces.json", 200)[0])
     assert len(governance) == 13 and len({item["properties"]["shapeName"] for item in provinces["features"]}) == 31
     assert meta["roles"]["viewer"]["export"] is False
+    gold = json.loads(request("/report/api/gold", 200)[0])
+    assert gold["currency"] == "IRR" and gold["mode"] in {"latest-close", "archive"} and gold["reference"]["rials"] > 0
+    assert all(str(period["PeriodKey"]) in gold["months"] for period in meta["dims"]["Period"] if period["IsActual"])
     for case in [1, 5, 160]:
         code = f"DEMO-{case:04d}"
         assert json.loads(request("/report/api/search?q=" + code, 200)[0])[0]["CaseCode"] == code
-        assert json.loads(request(f"/report/api/profile?person={case}", 200)[0])["person"][0]["CaseCode"] == code
+        profile = json.loads(request(f"/report/api/profile?person={case}", 200)[0])
+        assert profile["person"][0]["CaseCode"] == code
+        family = profile["household"]
+        assert family["origin"] == "DEMO-HOUSEHOLD-1"
+        dependent_ids = {row["DependentKey"] for row in family["dependents"]}
+        assert len({row["DependentBenefitKey"] for row in family["dependentBenefits"]}) == len(family["dependentBenefits"])
+        assert all(row["FamilyPaid"] > 0 and row["DependentKey"] in dependent_ids for row in family["dependentBenefits"])
+        if case == 1:
+            assert len(dependent_ids) == 10 and len(family["dependentBenefits"]) >= 10
     request("/report/profiles.json.gz", 404)
     request("/report/api/scenario", 405, {}, login_headers)
     request("/session", 303, {"action": "logout"}, login_headers)
@@ -69,7 +82,7 @@ def smoke(origin, credentials):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("origin", choices=["http://127.0.0.1:3012", "https://tgsepma.com"])
+    parser.add_argument("origin", choices=["http://127.0.0.1:3012", "http://127.0.0.1:3022", "https://tgsepma.com"])
     parser.add_argument("credentials", type=Path)
     args = parser.parse_args()
     smoke(args.origin, json.loads(args.credentials.read_text(encoding="utf-8")))
