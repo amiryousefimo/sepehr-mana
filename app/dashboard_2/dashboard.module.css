@@ -31,6 +31,7 @@
 
 .intro .kicker {
   margin-block: 0 .55rem;
+  color: var(--ink-700);
   font-size: .875rem;
   font-weight: 700;
 }
