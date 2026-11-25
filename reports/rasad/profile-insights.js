@@ -26,7 +26,8 @@ function pairedPanel(title,items){
 }
 function accountInsight(){
  const basis=periods[meta.asOf].EndDate,prefs=profilePrefs(),model=window.rasadProfileMath;
- const mix=model.coverageMix(profile.membership,basis);
+ const coverage=profile.coverageHistory??profile.membership;
+ const mix=model.coverageMix(coverage,basis);
  const classified=mix.shares.map(part=>({...part,name:meta.dims.HistoryType?.find(item=>String(item.HistoryTypeCode)===part.HistoryCode)?.HistoryTypeName||'سابقهٔ نامشخص'}));
  const cash=model.cashRows(profile,basis,calendarKey);
  const override=numericOverride(prefs.gold);
@@ -47,8 +48,8 @@ function accountInsight(){
  return bundle(
   [V('روز پوشش یکتا',mix.days,'num','تمام سابقهٔ موجود'),V('افراد تبعی فعال',cash.active.length,'num','در تاریخ مبنای داده'),V('جمع وصول به سازمان',cash.gross),V('جمع هزینه فرد و خانواده',cash.direct+cash.family),V('تراز نقدی منتسب',cash.net)],
   [donutPanel('سهم انواع سابقه بیمه',classified,mix.days,'روز یکتا'),chart('پل مالی فرد و خانواده',bridge,'Name','waterfall',[X('جریان نقدی','Amount')]),marketQuote&&reference&&!priced.missing?pairedPanel('ارزش معادل طلا در تاریخ مرجع',compare):pane('ارزش معادل طلا در تاریخ مرجع',marketPending?loadingPanel('در حال دریافت نرخ طلا…'):para(priced.missing?'برای '+num(priced.missing)+' ردیف نرخ کامل وجود ندارد؛ مجموع معادل نمایش داده نمی‌شود.':'نرخ معتبر در دسترس نیست. مبالغ اسمی در صفحه موجودند.')+(!marketQuote?'<button type="button" data-market-retry>دریافت دوبارهٔ نرخ</button>':'')),pane('نرخ‌گذاری و مبنای محاسبه',para(quote)+adjustable)],
-  [tab('سهم روزهای پوشش بر اساس نوع سابقه',classified,[C('HistoryCode','کد نوع سابقه'),C('name','نوع سابقه'),C('OriginalDays','روز بدون تقسیم','num'),C('WeightedDays','روز سهم‌دار','num'),C('CoverageShare','سهم از کل','pct')]),tab('افراد تبعی پرونده و هزینه هر نفر',dependentRows,[C('DependentKey','شناسه تبعی'),C('DependentLabel','عنوان عضو'),C('RelationLabel','نسبت'),C('LinkedFrom','آغاز وابستگی','date'),C('LinkedTo','پایان وابستگی','openDate'),C('DependentFlag','فعال در مبنا','bool'),C('FamilyPaid','هزینه ریالی','num')]),tab('ریز پرداخت‌های ثبت‌شده برای افراد تبعی',cash.benefits,[C('DependentBenefitKey','مرجع خدمت تبعی'),C('DependentLabel','عنوان عضو'),C('BenefitDate','تاریخ پرداخت','date'),C('Service','خدمت'),C('FamilyPaid','هزینه ریالی','num')]),tab('دفتر ریز جریان و ارزش‌گذاری طلا',priced.priced,detail,{trace:true})],
-  'بازه: از نخستین ردیف موجود تا '+dateLabel(basis)+'؛ نرخ مرجع طلا مستقل از تاریخ بستهٔ آزمایشی است. هزینهٔ اعضای تبعی، ردیف‌های ساختگی جداگانه‌اند و به گزارش‌های قبلی اضافه نشده‌اند.');
+  [tab('سهم روزهای پوشش بر اساس نوع سابقه',classified,[C('HistoryCode','کد نوع سابقه'),C('name','نوع سابقه'),C('OriginalDays','روز بدون تقسیم','num'),C('WeightedDays','روز سهم‌دار','num'),C('CoverageShare','سهم از کل','pct')]),tab('ریز دوره‌های پوشش',coverage.filter(row=>row.StartDate<=basis).map(row=>({...row,HistoryCode:row.HistoryTypeCode})),[C('CoverageReference','مرجع دوره'),C('HistoryCode','کد نوع سابقه'),C('StartDate','شروع دوره','date'),C('EndDate','پایان دوره','openDate'),C('CoverageOrigin','منبع دوره')]),tab('افراد تبعی پرونده و هزینه هر نفر',dependentRows,[C('DependentKey','شناسه تبعی'),C('DependentLabel','عنوان عضو'),C('RelationLabel','نسبت'),C('LinkedFrom','آغاز وابستگی','date'),C('LinkedTo','پایان وابستگی','openDate'),C('DependentFlag','فعال در مبنا','bool'),C('FamilyPaid','هزینه ریالی','num')]),tab('ریز پرداخت‌های ثبت‌شده برای افراد تبعی',cash.benefits,[C('DependentBenefitKey','مرجع خدمت تبعی'),C('DependentLabel','عنوان عضو'),C('BenefitDate','تاریخ پرداخت','date'),C('Service','خدمت'),C('FamilyPaid','هزینه ریالی','num')]),tab('دفتر ریز جریان و ارزش‌گذاری طلا',priced.priced,detail,{trace:true})],
+  'بازه: از نخستین ردیف موجود تا '+dateLabel(basis)+'؛ نرخ مرجع طلا مستقل از تاریخ بستهٔ آزمایشی است. هزینه‌های تبعی و دوره‌هایی با برچسب «نمونهٔ تکمیلی رصد» ساختگی‌اند و فقط در همین گزارش کاربرد دارند.');
 }
 function pensionInsight(){
  const basis=periods[meta.asOf].EndDate,prefs=profilePrefs();

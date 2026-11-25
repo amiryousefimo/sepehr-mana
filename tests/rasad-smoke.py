@@ -73,6 +73,11 @@ def smoke(origin, credentials):
         assert all(row["FamilyPaid"] > 0 and row["DependentKey"] in dependent_ids for row in family["dependentBenefits"])
         if case == 1:
             assert len(dependent_ids) == 10 and len(family["dependentBenefits"]) >= 10
+            assert {row["HistoryTypeCode"] for row in profile["coverageHistory"]} == {"01", "08", "09"}
+            first_membership = min(row["StartDate"] for row in profile["membership"])
+            samples = [row for row in profile["coverageHistory"] if row["CoverageReference"].startswith("DEMO-COVERAGE-")]
+            assert len(samples) == 2 and all(row["StartDate"] <= row["EndDate"] < first_membership for row in samples)
+            assert {row["HistoryTypeCode"] for row in profile["membership"]} == {"01"}
     request("/report/profiles.json.gz", 404)
     request("/report/api/scenario", 405, {}, login_headers)
     request("/session", 303, {"action": "logout"}, login_headers)

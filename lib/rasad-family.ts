@@ -1,4 +1,22 @@
 type Benefit = {BenefitKey: number; EventDate: string; Paid?: string; Fund: number; Kind: string; Service: string};
+type Membership = {MembershipKey: number; HistoryTypeCode?: string; StartDate: string; EndDate?: string | null};
+
+export function demoCoverage(personKey: number, memberships: Membership[]) {
+  const rows = memberships.map(row => ({
+    CoverageReference: "MEM-" + row.MembershipKey, HistoryTypeCode: row.HistoryTypeCode,
+    StartDate: row.StartDate, EndDate: row.EndDate, CoverageOrigin: "ردیف عضویت بسته"
+  }));
+  if (personKey !== 1 && personKey % 4 !== 0) return rows;
+  const day = 86400000;
+  const first = Math.min(...rows.map(row => Date.parse(row.StartDate)).filter(Number.isFinite));
+  if (!Number.isFinite(first)) return rows;
+  const earlier = (days: number) => new Date(first - days * day).toISOString().slice(0, 10);
+  return [
+    {CoverageReference: 'DEMO-COVERAGE-' + personKey + '-1', HistoryTypeCode: '08', StartDate: earlier(540), EndDate: earlier(221), CoverageOrigin: 'نمونهٔ تکمیلی رصد'},
+    {CoverageReference: 'DEMO-COVERAGE-' + personKey + '-2', HistoryTypeCode: '09', StartDate: earlier(220), EndDate: earlier(1), CoverageOrigin: 'نمونهٔ تکمیلی رصد'},
+    ...rows
+  ];
+}
 
 export function demoHousehold(personKey: number, benefits: Benefit[]) {
   const count = personKey === 1 ? 10 : personKey % 6;
