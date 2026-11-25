@@ -1,20 +1,21 @@
 import type {Metadata} from "next";
 import {SiteHeader} from "@/components/site-header";
 import {content} from "@/lib/content";
-import {readPowerBiEmbed} from "@/lib/powerbi-embed";
+import {viewSession} from "@/lib/rasad-session";
 import {ReportFrame} from "./report-frame";
 import styles from "./dashboard.module.css";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "داشبورد ۲ | گزارش Power BI | سپهر مانا",
+  title: "داشبورد ۲ | رصد بیمه و حکمرانی مالی | سپهر مانا",
   robots: {index: false, follow: false}
 };
 
-export default function DashboardTwoPage() {
-  const embedUrl = readPowerBiEmbed(process.env.POWERBI_EMBED_URL);
-  const reportTitle = process.env.POWERBI_REPORT_TITLE?.trim().slice(0, 100);
+export default function DashboardTwoPage({searchParams}: {searchParams: {status?: string}}) {
+  const signedIn = viewSession();
+  const error = searchParams.status === "invalid" ? "نام کاربری یا گذرواژه درست نیست."
+    : searchParams.status === "unavailable" ? "ورود موقتاً در دسترس نیست. با پشتیبان سایت تماس بگیرید." : "";
 
   return (
     <>
@@ -24,21 +25,24 @@ export default function DashboardTwoPage() {
         <div className={styles.container}>
           <header className={styles.intro}>
             <div>
-              <p className={styles.kicker}>داشبوردها / Microsoft Power BI</p>
+              <p className={styles.kicker}>داشبوردها / رصد بیمه و حکمرانی مالی</p>
               <h1>داشبورد ۲</h1>
-              {reportTitle && <p>{reportTitle}</p>}
-              <p>برای دیدن گزارش، با حساب سازمانی مایکروسافت که به گزارش دسترسی دارد وارد شوید.</p>
+              <p>۲۲ گزارش تعاملی حکمرانی و پرونده‌های نمونه. تمام ارقام و پرونده‌ها آزمایشی‌اند.</p>
             </div>
-            {embedUrl && (
-              <a className="button button--primary" href={embedUrl} target="_blank" rel="noopener noreferrer">
-                ورود و بازکردن در Power BI <span aria-hidden="true">↗</span>
-              </a>
-            )}
+            {signedIn && <form action="/dashboard_2/session" method="post">
+              <button className="button button--secondary" name="action" value="logout">خروج از حساب سایت</button>
+            </form>}
           </header>
-          {embedUrl ? <ReportFrame src={embedUrl} title={reportTitle || "داشبورد ۲"} /> : (
-            <section className={styles.empty} aria-labelledby="report-unavailable">
-              <h2 id="report-unavailable">گزارش هنوز برای این صفحه تنظیم نشده است</h2>
-              <p>برای پیگیری دسترسی یا زمان انتشار گزارش، با پشتیبان سایت تماس بگیرید.</p>
+          {signedIn ? <ReportFrame /> : (
+            <section className={styles.empty} aria-labelledby="report-login">
+              <h2 id="report-login">ورود به داشبورد ۲</h2>
+              <p className={styles.help}>برای مشاهده گزارش‌ها، با حسابی که پشتیبان سایت به شما داده وارد شوید.</p>
+              <form className={styles.form} action="/dashboard_2/session" method="post">
+                <label>نام کاربری<input name="username" autoComplete="username" dir="ltr" required maxLength={41} /></label>
+                <label>گذرواژه<input name="password" autoComplete="current-password" type="password" dir="ltr" required maxLength={96} /></label>
+                {error && <p role="alert" className={styles.error}>{error}</p>}
+                <button className="button button--primary">ورود به سایت</button>
+              </form>
             </section>
           )}
         </div>

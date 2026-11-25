@@ -8,13 +8,14 @@ const nextConfig = {
       "/didban/**": didbanFiles,
       "/api/admin/didban": didbanFiles,
       "/api/admin/didban/**": didbanFiles,
+      "/dashboard_2/report/**": ["./reports/rasad/**/*"],
     },
   },
   async headers() {
     return [{
       source: "/dashboard_2",
       headers: [
-        {key: "Content-Security-Policy", value: "frame-src https://app.powerbi.com https://login.microsoftonline.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'"},
+        {key: "Content-Security-Policy", value: "frame-src 'self'; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"},
         {key: "Cache-Control", value: "private, no-store"}
       ]
     }];
