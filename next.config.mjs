@@ -12,7 +12,7 @@ const nextConfig = {
   },
   async headers() {
     return [{
-      source: "/dashboard_1",
+      source: "/dashboard_2",
       headers: [
         {key: "Content-Security-Policy", value: "frame-src https://app.powerbi.com https://login.microsoftonline.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'"},
         {key: "Cache-Control", value: "private, no-store"}
@@ -34,6 +34,11 @@ const nextConfig = {
         source: "/",
         destination: "/fa",
         permanent: false,
+      },
+      {
+        source: "/dashboard_1",
+        destination: "/dashboard_2",
+        permanent: true,
       },
     ];
   },

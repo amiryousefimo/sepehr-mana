@@ -24,7 +24,7 @@ export default async function DashboardsPage({params}: {params: {locale: string}
         <p>{fa?"تمام ارقام ساختگی‌اند و عملکرد واقعی سازمان تأمین اجتماعی را نشان نمی‌دهند. نمونه مستقل است و به پایگاه داده محلی یا سامانه‌های سازمان متصل نیست.":"All figures are synthetic, with no representation of actual Social Security Organization performance. This self-contained sample has no connection to a local database or organizational systems."}</p>
         <a className="button button--primary" href="/dashboard-demo/index.html" target="_blank" rel="noopener noreferrer">{fa?"بازکردن داشبورد در صفحه کامل ↗":"Open full-screen dashboard ↗"}</a>
         {" "}
-        <a className="button button--secondary" href="/dashboard_1">{fa?"رصد ۱ در Power BI":"Rasad 1 in Power BI"}</a>
+        <a className="button button--secondary" href="/dashboard_2">{fa?"داشبورد ۲ در Power BI":"Dashboard 2 in Power BI"}</a>
       </section>
       <iframe title={fa?"رصد؛ داشبورد نمایشی با داده ساختگی":"Rasad synthetic financial dashboard"} src="/dashboard-demo/index.html" loading="lazy" style={{width:"100%",height:"88vh",minHeight:740,border:0,display:"block"}} />
     </main>

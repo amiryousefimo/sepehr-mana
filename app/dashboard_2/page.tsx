@@ -8,13 +8,13 @@ import styles from "./dashboard.module.css";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "رصد ۱ | گزارش Power BI | سپهر مانا",
+  title: "داشبورد ۲ | گزارش Power BI | سپهر مانا",
   robots: {index: false, follow: false}
 };
 
-export default function DashboardOnePage() {
+export default function DashboardTwoPage() {
   const embedUrl = readPowerBiEmbed(process.env.POWERBI_EMBED_URL);
-  const reportTitle = process.env.POWERBI_REPORT_TITLE?.trim().slice(0, 100) || "رصد ۱";
+  const reportTitle = process.env.POWERBI_REPORT_TITLE?.trim().slice(0, 100);
 
   return (
     <>
@@ -25,7 +25,8 @@ export default function DashboardOnePage() {
           <header className={styles.intro}>
             <div>
               <p className={styles.kicker}>داشبوردها / Microsoft Power BI</p>
-              <h1>{reportTitle}</h1>
+              <h1>داشبورد ۲</h1>
+              {reportTitle && <p>{reportTitle}</p>}
               <p>برای دیدن گزارش، با حساب سازمانی مایکروسافت که به گزارش دسترسی دارد وارد شوید.</p>
             </div>
             {embedUrl && (
@@ -34,7 +35,7 @@ export default function DashboardOnePage() {
               </a>
             )}
           </header>
-          {embedUrl ? <ReportFrame src={embedUrl} title={reportTitle} /> : (
+          {embedUrl ? <ReportFrame src={embedUrl} title={reportTitle || "داشبورد ۲"} /> : (
             <section className={styles.empty} aria-labelledby="report-unavailable">
               <h2 id="report-unavailable">گزارش هنوز برای این صفحه تنظیم نشده است</h2>
               <p>برای پیگیری دسترسی یا زمان انتشار گزارش، با پشتیبان سایت تماس بگیرید.</p>
