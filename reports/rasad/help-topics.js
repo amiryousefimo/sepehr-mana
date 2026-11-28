@@ -109,11 +109,13 @@
   const isField=fieldType.split(' ').includes(kind);
   const own=isField?profileFields[key]:null;
   const ownMetric=kind==='metric'?profileMetrics[key]:null;
+  const authored=window.rasadAudience?.terms(page,key,label);
   let result=base;
   if(own)result=sections(own[1],own[2],own[3],kind==='field'?original.controls.sort:'آن را کنار مبلغ، واحد یا تاریخ همان ردیف بخوانید.');
   else if(ownMetric)result=sections(...ownMetric,'برای بازبینی از جدول ریز همان گزارش شروع کنید.');
   else if(kind==='control'&&controls[key])result=sections(controls[key],'این کنترل ورودی تحلیل همین پرونده را تنظیم می‌کند.',book?.['مثال']||controls[key],'پس از اعمال، مقدار جدید را کنار دادهٔ پایه و واحد نشان‌داده‌شده مقایسه کنید.');
   else if(kind==='panel'&&book?.[key])result=sections(book[key],book['مسیر داده'],book['مثال'],book['کار با صفحه']);
+  else if(!base&&kind!=='page'&&authored)result=sections(authored.plain,authored.engineering,authored.example,authored.decision);
   else if(base&&kind!=='page'){
    const definition=base[0].text.replace(' '+original.controls.sort,'');
    const origin=isField?'این مقدار از ردیف یا گروهی می‌آید که جدول یا نمودار نشان می‌دهد. '+(book?.['مسیر داده']||'برای عددها، ماه و واحد همان ردیف را بررسی کنید.'):book?.['مسیر داده']&&['panel','metric','filter','axes','province'].includes(kind)?book['مسیر داده']:'این راهنما به همان کنترل، برچسب یا وضعیت صفحه مربوط است. گزینه‌های مجاز با نقش و گزارش شما تعیین می‌شوند.';

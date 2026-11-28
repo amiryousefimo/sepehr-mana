@@ -30,7 +30,7 @@ export default function DashboardTwoPage({searchParams}: {searchParams: {status?
             <div>
               <div className={styles.kicker}>داشبوردها / رصد بیمه و حکمرانی مالی <InlineGuide title="مسیر داشبورد" text="از فهرست داشبوردهای سایت می‌توانید به رصد برگردید. این صفحه ورودی گزارش‌های حکمرانی و پرونده‌های نمونه است." /></div>
               <div className={styles.guideRow}><h1>داشبورد ۲</h1><InlineGuide title="داشبورد ۲" text="پس از ورود، «حکمرانی» را برای دیدن آمار کل و «پروفایل فرد» را برای یک پروندهٔ نمونه انتخاب کنید. علامت سؤال کنار هر گزارش یا شاخص، روش خواندن و محاسبه را توضیح می‌دهد." /></div>
-              <p>۲۴ گزارش تعاملی حکمرانی و پرونده‌های نمونه. تمام ارقام و پرونده‌ها آزمایشی‌اند.</p>
+              <p>۲۵ گزارش تعاملی حکمرانی و پرونده‌های نمونه. تمام ارقام و پرونده‌ها آزمایشی‌اند.</p>
             </div>
             <div className={styles.guideRow}><GuideModeButton />{signedIn && <a href="/dashboard_2/report/guide.html" target="_blank" rel="noopener">دفترچه راهنمای رصد ↗</a>}{identity?.admin && <a href="/dashboard_2/access-log">گزارش ورودها</a>}</div>
             {signedIn && <form className={styles.guideRow} action="/dashboard_2/session" method="post">

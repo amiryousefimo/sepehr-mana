@@ -55,12 +55,12 @@ function sel(key,title,opts){
  return '<div class="help-field"><div class="help-inline"><label for="f-'+esc(key)+'">'+esc(title)+'</label>'+help('filter',key,title)+'</div><select id="f-'+esc(key)+'" name="'+esc(key)+'"'+(opts.length<2?' disabled':'')+'>'+opts.map(x=>option(x[0],x[1],String(x[0])===filters[key])).join('')+'</select></div>';
 }
 const named={from:'از ماه',to:'تا ماه / تاریخ مبنا',basis:'مبنای مالی',plan:'طرح بیمه‌ای',province:'استان',branch:'شعبه',group:'گروه بیمه‌ای',status:'وضعیت',party:'کارگاه / ارائه‌دهنده / طرف',payer:'سهم پرداخت‌کننده',corrected:'ثبت اصلاحی',grain:'دوره روند',dateBasis:'مبنای تاریخ',kind:'نوع مزایا',service:'نوع خدمت / مستمری',rule:'نسخه قاعده',rightStatus:'وضعیت حق',valuation:'مبنای ارزش‌گذاری',scenario:'سناریو',source:'سامانه مبدأ',type:'نوع مغایرت',account:'سرفصل',direction:'جهت جریان',attribution:'نوع انتساب',bank:'حساب بانکی',horizon:'افق پیش‌بینی',indicator:'شاخص جغرافیا',sector:'صنعت / حوزه',cause:'عامل شکاف',aging:'وضعیت زمانی وصول',diagnosis:'گروه بیماری',age:'گروه سنی',gender:'جنس',cohort:'نسل ورود',version:'نسخه بودجه',relation:'نوع رابطه',overlap:'دوره‌های هم‌زمان'};
-defaults.city='';defaults.history='';named.city='شهر';named.history='نوع سابقه بیمه';
+defaults.city='';defaults.history='';defaults.supportType='';named.city='شهر';named.history='نوع سابقه بیمه';named.supportType='نوع حمایت';
 const unique=r=>[...new Set(r.filter(x=>x!==null&&x!==undefined))];
 const opts=(r,key)=>unique((r||[]).map(x=>x[key])).sort((a,b)=>(''+a).localeCompare(''+b,'fa')).map(x=>[x,x]);
 const facetData={
  'G-00':'finance','G-01':'finance','G-02':'cash','G-03':'finance','G-04':'finance','G-05':'premium','G-06':'benefit',
- 'G-07':'population','G-08':'claim','G-09':'budget','G-10':'company','G-11':'finance','G-12':'quality',
+ 'G-07':'population','G-08':'claim','G-09':'budget','G-10':'company','G-11':'finance','G-12':'quality','G-13':'shortTermBenefit',
  'P-01':'membership','P-02':'membership','P-03':'premium','P-04':'benefit','P-05':'rights','P-06':'rights','P-07':'rights','P-08':'quality'
 };
 const directFacet={account:'Account',direction:'Direction',attribution:'Attribution',cause:'Cause',aging:'Aging',bank:'Bank',kind:'Kind',service:'Service',diagnosis:'Diagnosis',type:'Type',age:'AgeBand',gender:'Gender',cohort:'EntryCohort',relation:'Relation',rightStatus:'RightStatus'};
@@ -79,6 +79,7 @@ function facetRows(key,extra=[]){
    let source=data[kind]||[];
    if(active==='G-06')source=source.filter(isHealth);
    if(active==='G-07'&&kind==='benefit')source=source.filter(isPension);
+   if(active==='P-04'&&kind==='benefit')source=[...source,...shortTermProfileRows()];
    return filterRows(source,kind,{ignore});
   });
   facetCache.set(cacheKey,rows);
@@ -115,6 +116,7 @@ function filterOptions(key){
  if(key==='province'||key==='city')return strings([...new Map(regions.map(r=>key==='province'?[geoCode(r),provinceName(r)]:[r.CityCode,r.CityName]).filter(([code])=>code&&code!=='00')).entries()].sort((a,b)=>a[1].localeCompare(b[1],'fa')));
  if(key==='branch')return strings(regions.filter(r=>r.RegionKey>0).map(r=>[r.RegionKey,r.Branch]));
  if(key==='history')return strings(lookup(d.HistoryType,'HistoryTypeCode','HistoryTypeName'));
+ if(key==='supportType')return strings([...new Map(rows.map(row=>[row.BenefitTypeCode,row.BenefitTypeName])).entries()].sort((a,b)=>a[1].localeCompare(b[1],'fa')));
  if(key==='group')return strings(opts(d.Plan.filter(r=>rows.some(x=>x.PlanKey===r.PlanKey)),'GroupName'));
  if(key==='party')return strings(lookup(d.Party,'PartyKey','PartyName'));
  if(key==='sector'){const ids=new Set(rows.map(r=>r.PartyKey));return strings(opts(d.Party.filter(r=>ids.has(r.PartyKey)),'Sector'))}
@@ -142,7 +144,7 @@ function filterRows(rows,kind,options={}){
  const vals=Object.fromEntries(Object.keys(filters).map(k=>[k,f(k)]));
  const fr=options.from??+vals.from, to=options.to??(+vals.to||meta.asOf);
  const lo=periods[fr]?.StartDate||'0001-01-01',hi=periods[to]?.EndDate||'9999-12-31';
- const mapping={account:'Account',direction:'Direction',attribution:'Attribution',cause:'Cause',aging:'Aging',bank:'Bank',kind:'Kind',service:'Service',diagnosis:'Diagnosis',type:'Type',age:'AgeBand',gender:'Gender',cohort:'EntryCohort',relation:'Relation',rightStatus:'RightStatus',status:kind==='quality'?'State':kind==='company'?'StatementStatus':'Status'};
+ const mapping={account:'Account',direction:'Direction',attribution:'Attribution',cause:'Cause',aging:'Aging',bank:'Bank',kind:'Kind',service:'Service',supportType:'BenefitTypeCode',diagnosis:'Diagnosis',type:'Type',age:'AgeBand',gender:'Gender',cohort:'EntryCohort',relation:'Relation',rightStatus:'RightStatus',status:kind==='quality'?'State':kind==='company'?'StatementStatus':'Status'};
  const fields=Object.entries(mapping).filter(([k,n])=>vals[k]&&!(kind==='pensionBands'&&k==='status'));
  return (rows||[]).filter(r=>{
   let key=r.PeriodKey;

@@ -1,8 +1,10 @@
 ((root) => {
  'use strict';
  const model={
-  groups:[["جغرافیا، پرونده و سابقه",["ref.Province","ref.City","ref.Branch","dw.Region","dw.Person","dw.Membership","ref.HistoryType"]],["حق‌بیمه، خدمات و حقوق",["dw.Premium","dw.Benefit","dw.RightSnapshot","dw.Population"]],["دفتر، بودجه، نقد و سرمایه‌گذاری",["dw.Ledger","dw.Budget","dw.Cash","dw.CashForecast","dw.Claim","dw.CompanyFlow"]],["قاعده، کنترل و پیگیری",["dw.Period","dw.Plan","dw.Party","dw.Source","dw.Rule","dw.Scenario","dw.Quality","dw.Followup","dw.Audit","dw.ScenarioRun"]]],
+  groups:[["جغرافیا، پرونده و سابقه",["ref.Province","ref.City","ref.Branch","dw.Region","dw.Person","dw.Membership","ref.HistoryType"]],["حق‌بیمه، خدمات و حقوق",["dw.Premium","dw.Benefit","dw.RightSnapshot","dw.Population"]],["حمایت‌های کوتاه‌مدت",["dw.ShortTermBenefitType","dw.ShortTermPayment"]],["دفتر، بودجه، نقد و سرمایه‌گذاری",["dw.Ledger","dw.Budget","dw.Cash","dw.CashForecast","dw.Claim","dw.CompanyFlow"]],["قاعده، کنترل و پیگیری",["dw.Period","dw.Plan","dw.Party","dw.Source","dw.Rule","dw.Scenario","dw.Quality","dw.Followup","dw.Audit","dw.ScenarioRun"]]],
   tables:{
+   "dw.ShortTermBenefitType":["یک نوع حمایت کوتاه‌مدت؛ کد ثابت مبنای اتصال", [["varchar(32)","BenefitTypeCode","PK"],["nvarchar(120)","BenefitTypeName"],["smallint","SortOrder"],["varchar(16)","PaymentMode"]]],
+   "dw.ShortTermPayment":["یک ردیف پرداخت یا درخواست نمونه؛ مرجع قدیمی در صورت وجود، دوباره در هزینه ثبت نمی‌شود", [["bigint","ShortTermBenefitKey","PK"],["int","PersonKey","FK"],["int","RegionKey","FK"],["varchar(32)","BenefitTypeCode","FK"],["date","ClaimDate"],["date","PaymentDate"],["int","PeriodKey","FK"],["varchar(8)","Status"],["bigint","PaidAmount"],["int","SourceKey","FK"],["nvarchar(160)","SourceRef"],["varchar(32)","Origin"],["int","LegacyBenefitKey","FK"],["int","PlanKey","FK"],["int","PartyKey","FK"],["int","MembershipKey","FK"]]],
    "dw.Audit":["یک رخداد ممیزی انبار",[["int","AuditKey","PK"],["nvarchar","Actor"],["nvarchar","ActionName"],["int","PersonKey","FK"],["nvarchar","Outcome"],["nvarchar","Logged"]]],
    "dw.Benefit":["یک رخداد خدمت یا مزایا",[["int","BenefitKey","PK"],["int","PersonKey","FK"],["int","PlanKey","FK"],["int","RegionKey","FK"],["int","PartyKey","FK"],["int","MembershipKey","FK"],["int","PeriodKey","FK"],["nvarchar","Kind"],["nvarchar","Service"],["nvarchar","Diagnosis"],["int","Volume"],["bigint","Total"],["bigint","Fund"],["bigint","MemberShare"],["bigint","OtherShare"],["date","EventDate"],["date","Paid"],["nvarchar","Status"],["nvarchar","Attribution"],["int","SourceKey","FK"],["nvarchar","SourceRef"]]],
    "dw.Budget":["یک سلول ماه، طرح، منطقه، حساب و نسخه",[["int","PeriodKey","PK,FK"],["int","PlanKey","PK,FK"],["int","RegionKey","PK,FK"],["nvarchar","Account","PK"],["nvarchar","Direction"],["nvarchar","Version","PK"],["bigint","Approved"],["bigint","Revised"],["bigint","Actual"],["bigint","Forecast"],["date","ForecastAsOf"],["int","SourceKey","FK"]]],
@@ -32,6 +34,15 @@
    "ref.Province":["یک استان",[["varchar","ProvinceCode","PK"],["nvarchar","ProvinceName"],["varchar","SourceStatus"],["varchar","SourceStatusDate"],["varchar","MapName"]]]
   },
   relationships:[
+   ["dw.Person","dw.ShortTermPayment","PersonKey",true],
+   ["dw.Region","dw.ShortTermPayment","RegionKey",true],
+   ["dw.ShortTermBenefitType","dw.ShortTermPayment","BenefitTypeCode",true],
+   ["dw.Period","dw.ShortTermPayment","PeriodKey",false],
+   ["dw.Source","dw.ShortTermPayment","SourceKey",true],
+   ["dw.Benefit","dw.ShortTermPayment","LegacyBenefitKey",false],
+   ["dw.Plan","dw.ShortTermPayment","PlanKey",false],
+   ["dw.Party","dw.ShortTermPayment","PartyKey",false],
+   ["dw.Membership","dw.ShortTermPayment","MembershipKey",false],
    ["dw.Person","dw.Audit","PersonKey",false],
    ["dw.Person","dw.Benefit","PersonKey",true],
    ["dw.Plan","dw.Benefit","PlanKey",true],

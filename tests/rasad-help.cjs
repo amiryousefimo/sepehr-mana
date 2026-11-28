@@ -12,9 +12,9 @@ const document={querySelector(selector){
  return nodes.get(selector);
 },addEventListener(){}};
 const window={addEventListener(){}};
-const fixture={meta:packed('meta'),gov:packed('governance'),profiles:packed('profiles'),map:JSON.parse(read('iran-provinces.json')).features};
+const fixture={meta:packed('meta'),gov:packed('governance'),profiles:packed('profiles'),shortTerm:packed('short-term'),map:JSON.parse(read('iran-provinces.json')).features};
 const run=String.raw`
-meta=fixture.meta;gov=fixture.gov;geometries=fixture.map;
+meta=fixture.meta;gov={...fixture.gov,shortTermBenefit:fixture.shortTerm.shortTermBenefit};geometries=fixture.map;
 periods=Object.fromEntries(meta.dims.Period.map(item=>[item.PeriodKey,item]));
 regionBy=Object.fromEntries(meta.dims.Region.map(item=>[item.RegionKey,item]));
 meta.roles={
@@ -33,7 +33,7 @@ window.rasadHelp.resolve=(page,kind,key,label,context)=>{
  return sections;
 };
 for(const account of ['1','5']){
- profile=fixture.profiles[account];person=Number(account);results=profile.person;
+ profile={...fixture.profiles[account],shortTermBenefits:fixture.shortTerm.profiles[account]||[]};person=Number(account);results=profile.person;
  for(const id of Object.keys(titles)){
   active=id;render();
   const html=$('#main').innerHTML;
@@ -51,6 +51,41 @@ for(const access of Object.keys(meta.roles)){
 }
 active='G-04';role='viewer';render();
 assert.equal(($('#main').innerHTML.match(/data-help="province:/g)||[]).length,31);
+active='G-13';filters={...defaults};facetCache.clear();
+const reportCategory=gov.shortTermBenefit[0].BenefitTypeCode;
+assert.ok(filterOptions('supportType').some(([code])=>code===reportCategory));
+filters.supportType=reportCategory;facetCache.clear();
+const governed=gview(active);
+const governancePaid=gov.shortTermBenefit.filter(row=>row.BenefitTypeCode===reportCategory).reduce((amount,row)=>amount+row.PaidAmount,0);
+assert.equal(governed.cards[0].v,governancePaid);
+assert.equal(governed.tables[0].rows.length,1);
+assert.ok(governed.cards[3].v>0,'support type filter must not remove separate healthcare spend');
+person=1;profile={...fixture.profiles['1'],shortTermBenefits:fixture.shortTerm.profiles['1']};
+active='P-04';filters={...defaults};facetCache.clear();
+const shortTerm=profile.shortTermBenefits, paidShortTerm=shortTerm.filter(row=>row.Status==='Paid');
+const shortTermGross=paidShortTerm.reduce((amount,row)=>amount+row.PaidAmount,0);
+const shortTermIncrement=paidShortTerm.filter(row=>row.LegacyBenefitKey==null).reduce((amount,row)=>amount+row.PaidAmount,0);
+const shortTermTitle='پرداخت مزایای کوتاه‌مدت';
+const shortTermTable=report=>report.tables.find(table=>table.t==='ریز پرونده‌ها و پرداخت‌های مزایای کوتاه‌مدت').rows;
+const baseBenefitFund=profile.benefit.reduce((amount,row)=>amount+row.Fund,0);
+assert.equal(shortTermTable(pview(active)).length,shortTerm.length);
+assert.equal(pview(active).cards.find(card=>card.t===shortTermTitle).v,shortTermGross);
+assert.ok(filterOptions('kind').some(([value])=>value==='مزایای کوتاه‌مدت'));
+filters.status='در انتظار رسیدگی';facetCache.clear();
+assert.ok(shortTermTable(pview(active)).length>0);
+assert.ok(shortTermTable(pview(active)).every(row=>row.ShortTermPaidDate===null));
+assert.equal(pview(active).cards.find(card=>card.t===shortTermTitle).v,0);
+filters={...defaults,kind:'مزایای کوتاه‌مدت',dateBasis:'پرداخت'};facetCache.clear();
+assert.equal(shortTermTable(pview(active)).length,paidShortTerm.length);
+assert.deepEqual(new Set(shortTermTable(pview(active)).map(row=>row.BenefitTypeCode)),new Set(paidShortTerm.map(row=>row.BenefitTypeCode)));
+for(const [page,label] of [['P-01','مزایای سهم صندوق'],['P-06','مزایای دریافت‌شده']]){
+ active=page;filters={...defaults};
+ assert.equal(pview(page).cards.find(card=>card.t===label).v,baseBenefitFund+shortTermIncrement);
+}
+active='P-09';filters={...defaults};render();
+assert.equal(pview(active).cards.find(card=>card.t===shortTermTitle).v,shortTermGross);
+assert.match($('#main').innerHTML,/data-help="field:CashCategory"/);
+assert.ok(window.rasadAudience.resolve(window.rasadGuide.entry('P-04','field','ShortTermPaidInRange','مبلغ پرداخت‌شده کوتاه‌مدت','money')).specific);
 for(const match of source.matchAll(/data-help="control:([^"]+)"/g))assert.ok(resolve('G-00','control',match[1]),match[1]);
 assert.match(resolve('G-05','field','Rate','نرخ','pct')[0].text,/وصول ÷ جمع مطالبه/);
 assert.match(resolve('P-01','metric','روز پوشش یکتا')[0].text,/۱۰ روز/);
@@ -75,8 +110,9 @@ const cash=financeField('G-02','Forecast','پیش‌بینی'),budget=financeFie
 assert.ok(cash.specific&&budget.specific);
 assert.notEqual(cash.engineering[0].text,budget.engineering[0].text);
 const erd=window.rasadGuideErd;
-assert.equal(new Set(erd.groups.flatMap(group=>group[1])).size,27);
-assert.equal(erd.relationships.length,65);
+assert.equal(new Set(erd.groups.flatMap(group=>group[1])).size,29);
+assert.equal(erd.relationships.length,74);
+assert.deepEqual(erd.relationships.find(edge=>edge[2]==='LegacyBenefitKey'),['dw.Benefit','dw.ShortTermPayment','LegacyBenefitKey',false]);
 for(const [parent,child,key] of erd.relationships){
  assert.ok(erd.tables[parent]&&erd.tables[child],parent+' → '+child);
  assert.ok(erd.tables[child][1].some(([,column,role])=>column===key&&role?.includes('FK')),child+'.'+key);

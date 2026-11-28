@@ -57,7 +57,9 @@ def smoke(origin, credentials):
     meta = json.loads(request("/report/api/meta", 200)[0])
     governance = json.loads(request("/report/api/governance", 200, headers={"Accept-Encoding": "gzip"})[0])
     provinces = json.loads(request("/report/iran-provinces.json", 200)[0])
-    assert len(governance) == 13 and len({item["properties"]["shapeName"] for item in provinces["features"]}) == 31
+    assert len(governance) == 14 and len({item["properties"]["shapeName"] for item in provinces["features"]}) == 31
+    assert len(meta["dims"]["ShortTermBenefitType"]) == 9 and meta["shortTermOrigin"] == "DEMO-SHORT-TERM-1"
+    assert sum(row["PaidAmount"] for row in governance["shortTermBenefit"]) == 8_884_120_000
     assert meta["roles"]["viewer"]["export"] is False
     gold = json.loads(request("/report/api/gold", 200)[0])
     assert gold["currency"] == "IRR" and gold["mode"] in {"latest-close", "archive"} and gold["reference"]["rials"] > 0
@@ -67,12 +69,15 @@ def smoke(origin, credentials):
         assert json.loads(request("/report/api/search?q=" + code, 200)[0])[0]["CaseCode"] == code
         profile = json.loads(request(f"/report/api/profile?person={case}", 200)[0])
         assert profile["person"][0]["CaseCode"] == code
+        assert all(row["PersonKey"] == case for row in profile["shortTermBenefits"])
         family = profile["household"]
         assert family["origin"] == "DEMO-HOUSEHOLD-1"
         dependent_ids = {row["DependentKey"] for row in family["dependents"]}
         assert len({row["DependentBenefitKey"] for row in family["dependentBenefits"]}) == len(family["dependentBenefits"])
         assert all(row["FamilyPaid"] > 0 and row["DependentKey"] in dependent_ids for row in family["dependentBenefits"])
         if case == 1:
+            assert {row["Status"] for row in profile["shortTermBenefits"]} == {"Paid", "Pending", "Rejected"}
+            assert len({row["BenefitTypeCode"] for row in profile["shortTermBenefits"] if row["Status"] == "Paid"}) == 9
             assert len(dependent_ids) == 10 and len(family["dependentBenefits"]) >= 10
             assert {row["HistoryTypeCode"] for row in profile["coverageHistory"]} == {"01", "08", "09"}
             first_membership = min(row["StartDate"] for row in profile["membership"])
@@ -80,6 +85,7 @@ def smoke(origin, credentials):
             assert len(samples) == 2 and all(row["StartDate"] <= row["EndDate"] < first_membership for row in samples)
             assert {row["HistoryTypeCode"] for row in profile["membership"]} == {"01"}
     request("/report/profiles.json.gz", 404)
+    request("/report/short-term.json.gz", 404)
     request("/report/api/scenario", 405, {}, login_headers)
     request("/session", 303, {"action": "logout"}, login_headers)
     request("/report/api/governance", 401)

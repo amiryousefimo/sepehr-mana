@@ -2,7 +2,8 @@ import {readFile, stat} from "node:fs/promises";
 import {createReadStream} from "node:fs";
 import {join} from "node:path";
 import {Readable} from "node:stream";
-import {gunzipSync} from "node:zlib";
+import {gzip, gunzipSync} from "node:zlib";
+import {promisify} from "node:util";
 import {noStore, rasadIdentity} from "@/lib/rasad-session";
 import {recordLogin} from "@/lib/rasad-login-audit";
 import {demoCoverage, demoHousehold} from "@/lib/rasad-family";
@@ -39,9 +40,43 @@ const files = new Map(Object.entries({
 const contentPolicy = "default-src 'self'; frame-ancestors 'self'; style-src 'self' 'unsafe-inline'; base-uri 'none'; object-src 'none'; form-action 'self'";
 type Person = {PersonKey: number; CaseCode: string; DisplayName: string; Status: string; RegionKey: number};
 type Profile = {person: [Person]; benefit: Parameters<typeof demoHousehold>[1]; membership: Parameters<typeof demoCoverage>[1]};
+type BudgetRow = {PeriodKey: number; PlanKey: number; RegionKey: number; Account: string; Direction: string; Version: string};
+type ShortTermBundle = {
+  origin: string; source: unknown; taxonomy: unknown[]; profiles: Record<string, unknown[]>; shortTermBenefit: unknown[];
+  finance: unknown[]; budget: BudgetRow[]; cash: unknown[]; forecast: unknown[];
+};
 let cases: Promise<Record<string, Profile>> | undefined;
 const readJson = async (name: string) => JSON.parse(gunzipSync(await readFile(join(root, name))).toString("utf8"));
 const reply = (value: unknown, status = 200) => Response.json(value, {status, headers});
+const compress = promisify(gzip);
+let shortTerm: Promise<ShortTermBundle> | undefined;
+let governance: Promise<{raw: Uint8Array<ArrayBuffer>; compressed: Uint8Array<ArrayBuffer>}> | undefined;
+
+function getShortTerm() {
+  shortTerm ??= readJson("short-term.json.gz").catch(error => { shortTerm = undefined; throw error; });
+  return shortTerm;
+}
+
+const budgetKey = (row: BudgetRow) => [row.PeriodKey, row.PlanKey, row.RegionKey, row.Account, row.Direction, row.Version].join("|");
+
+function getGovernance() {
+  governance ??= Promise.all([readJson("governance.json.gz"), getShortTerm()]).then(async ([base, added]) => {
+    const patchedBudget = new Map(added.budget.map(row => [budgetKey(row), row]));
+    const budget = (base.budget as BudgetRow[]).map(row => {
+      const key = budgetKey(row);
+      const adjustment = patchedBudget.get(key);
+      if (!adjustment) return row;
+      patchedBudget.delete(key);
+      return adjustment;
+    });
+    const raw = Buffer.from(JSON.stringify({
+      ...base, finance: [...base.finance, ...added.finance], shortTermBenefit: added.shortTermBenefit,
+      budget: [...budget, ...patchedBudget.values()], cash: added.cash, forecast: added.forecast
+    }), "utf8");
+    return {raw: new Uint8Array(raw), compressed: new Uint8Array(await compress(raw))};
+  }).catch(error => { governance = undefined; throw error; });
+  return governance;
+}
 
 async function file(name: string, type: string, extra = {}) {
   const path = join(root, name);
@@ -66,17 +101,18 @@ export async function GET(request: Request, {params}: {params: {path?: string[]}
       return response;
     }
     if (path === "api/meta") {
-      const meta = await readJson("meta.json.gz");
-      return reply({...meta, authenticated: true, role: "viewer", roles: {
+      const [meta, added] = await Promise.all([readJson("meta.json.gz"), getShortTerm()]);
+      return reply({...meta, dims: {...meta.dims, Source: [...meta.dims.Source, added.source], ShortTermBenefitType: added.taxonomy}, shortTermOrigin: added.origin, authenticated: true, role: "viewer", roles: {
         viewer: {name: "مشاهده گزارش آزمایشی", scope: "all", gov: true, scenario: false, export: false}
       }});
     }
     if (path === "api/gold") return reply(await readGoldCalendar(root));
     if (path === "api/governance") {
       const acceptsGzip = (request.headers.get("accept-encoding") ?? "").split(",").some(value => /^\s*gzip\s*$/i.test(value));
-      if (acceptsGzip) return await file("governance.json.gz", "application/json", {"Content-Encoding": "gzip", Vary: "Accept-Encoding"});
-      const data = gunzipSync(await readFile(join(root, "governance.json.gz")));
-      return new Response(new Uint8Array(data), {headers: {...headers, "Content-Type": "application/json", Vary: "Accept-Encoding"}});
+      const {raw, compressed} = await getGovernance();
+      return new Response(acceptsGzip ? compressed : raw, {headers: {
+        ...headers, "Content-Type": "application/json", Vary: "Accept-Encoding", ...(acceptsGzip ? {"Content-Encoding": "gzip"} : {})
+      }});
     }
     if (path === "api/search" || path === "api/profile") {
       const digits = "۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩";
@@ -87,7 +123,8 @@ export async function GET(request: Request, {params}: {params: {path?: string[]}
       if (path === "api/profile") return profile ? reply({
         ...profile,
         household: demoHousehold(profile.person[0].PersonKey, profile.benefit),
-        coverageHistory: demoCoverage(profile.person[0].PersonKey, profile.membership)
+        coverageHistory: demoCoverage(profile.person[0].PersonKey, profile.membership),
+        shortTermBenefits: (await getShortTerm()).profiles[String(profile.person[0].PersonKey)] ?? []
       }) : reply({error: "پرونده پیدا نشد."}, 404);
       const person = profile?.person[0];
       const status = url.searchParams.get("status");

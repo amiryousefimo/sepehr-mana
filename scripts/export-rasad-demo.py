@@ -41,6 +41,8 @@ def main():
     if meta["forecastVersion"] != "FC-DEMO-1" or not all("ساختگی" in source["Coverage"] for source in meta["dims"]["Source"]):
         raise ValueError("Refusing to export a data source not marked as synthetic.")
     governance = fetch("/api/governance")
+    if "shortTermBenefit" in governance:
+        raise ValueError("Export the original governance snapshot before applying short-term benefits.")
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as workers:
         profiles = dict(workers.map(profile, cases))
     save(bundle / "profiles.json.gz", profiles)

@@ -1,14 +1,14 @@
 'use strict';
 const titles={
  'P-00':'جست‌وجو و انتخاب فرد','P-01':'نمای کلی پروفایل بیمه‌ای','P-02':'تاریخچه عضویت و پوشش','P-03':'حق‌بیمه و سوابق پرداخت','P-04':'خدمات و مزایای دریافت‌شده','P-05':'حقوق بیمه‌ای و مستمری','P-06':'تصویر مالی و مفاهیم فردی','P-07':'شبیه‌سازی و مقایسه سناریو','P-08':'اسناد، مغایرت و کیفیت اطلاعات','P-09':'پوشش و حساب مالی خانواده','P-10':'اگر امروز بازنشسته شوم',
- 'G-00':'نمای کلان مدیریتی','G-01':'تراز منابع و مصارف و ریشه‌یابی کسری','G-02':'نقدینگی و جریان وجوه','G-03':'عملکرد مالی و پایداری طرح‌ها','G-04':'تحلیل جغرافیایی استان‌ها و شعب','G-05':'حق‌بیمه، وصول و شکاف منابع','G-06':'هزینه درمان و عوامل رشد','G-07':'مستمری، جمعیت و تعهدات','G-08':'مطالبات و تعهدات دولت','G-09':'بودجه، عملکرد و پیش‌بینی','G-10':'شرکت‌ها و سرمایه‌گذاری','G-11':'ریسک، پیش‌بینی و سناریو','G-12':'کیفیت داده و تطبیق مالی'
+ 'G-00':'نمای کلان مدیریتی','G-01':'تراز منابع و مصارف و ریشه‌یابی کسری','G-02':'نقدینگی و جریان وجوه','G-03':'عملکرد مالی و پایداری طرح‌ها','G-04':'تحلیل جغرافیایی استان‌ها و شعب','G-05':'حق‌بیمه، وصول و شکاف منابع','G-06':'هزینه درمان و عوامل رشد','G-07':'مستمری، جمعیت و تعهدات','G-08':'مطالبات و تعهدات دولت','G-09':'بودجه، عملکرد و پیش‌بینی','G-10':'شرکت‌ها و سرمایه‌گذاری','G-11':'ریسک، پیش‌بینی و سناریو','G-12':'کیفیت داده و تطبیق مالی','G-13':'هزینه حمایت‌های کوتاه‌مدت'
 };
 const descriptions={
  'P-00':'یک پروندهٔ نمونه را با شناسهٔ نمایشی انتخاب کنید. جست‌وجو و بازکردن پرونده ثبت می‌شوند.',
  'P-01':'وضعیت کنونی، پوشش، پرداخت‌ها و حمایت‌های ثبت‌شده تا تاریخ مبنا.',
  'P-02':'خط زمانی طرح‌های بیمه‌ای، هم‌پوشانی، وقفه و مسیر ورود به تراکنش‌های هر دوره.',
  'P-03':'از دستمزد مشمول تا تشخیص، مطالبه، وصول و تفکیک پرداخت‌کنندگان.',
- 'P-04':'هزینه کل و سهم واقعی صندوق، فرد و دیگر پرداخت‌کنندگان؛ همراه با مرجع هر خدمت.',
+ 'P-04':'ریز درمان، مستمری، مزایای نقدی و پرونده‌های حمایت کوتاه‌مدت، همراه با تاریخ و مبلغ پرداخت.',
  'P-05':'تفاوت حقوق جاری، برآورد مشروط، ارزش حقوق اکتسابی و تعهد آینده.',
  'P-06':'تفکیک مبلغ اسمی، ارزش فرضی و اندوختهٔ واقعی در مدل تأمین مالی.',
  'P-07':'آزمون تغییر پارامتر در محیط آزمایشی؛ سابقه و قواعد جاری تغییر نمی‌کنند.',
@@ -27,7 +27,8 @@ const descriptions={
  'G-09':'تطبیق در دانه ماه، حساب، طرح، منطقه و نسخه بودجه.',
  'G-10':'جریان وجوه سازمان، سود عملیاتی، بازده، هزینه فرصت و مأموریت اجتماعی.',
  'G-11':'سناریوهای نسخه‌دار، حساسیت، توزیع اثر و پیش‌بینی ماندهٔ نقد.',
- 'G-12':'کیفیت منبع، اختلاف دفتر، انتساب و ردیابی محاسبات.'
+ 'G-12':'کیفیت منبع، اختلاف دفتر، انتساب و ردیابی محاسبات.',
+ 'G-13':'مبلغ و تعداد پرداخت‌های کوتاه‌مدت به تفکیک نوع، ماه پرداخت، طرح و شعبه؛ مسیر جداگانه برای هزینه درمان.'
 };
 const F={
  'P-01':'from to plan','P-02':'from to plan history status party province city branch overlap','P-03':'from to plan history party status payer corrected grain dateBasis',
@@ -35,7 +36,7 @@ const F={
  'G-00':'from to basis plan province','G-01':'from to basis plan province branch account direction attribution source','G-02':'from to bank scenario','G-03':'from to plan group province attribution direction',
  'G-04':'from to province city branch plan group indicator','G-05':'from to plan province city branch party sector status cause aging','G-06':'from to plan province city branch party service diagnosis age',
  'G-07':'from to plan province age gender cohort service','G-08':'from to plan province branch party status','G-09':'from to version plan province account direction',
- 'G-10':'from to party sector relation status','G-11':'to plan scenario horizon','G-12':'from to source type status attribution account plan'
+ 'G-10':'from to party sector relation status','G-11':'to plan scenario horizon','G-12':'from to source type status attribution account plan','G-13':'from to province city branch plan supportType'
 };
 const columns={
  k:['PeriodKey','ماه'],p:['PlanKey','طرح','plan'],g:['RegionKey','شعبه','region'],a:['PartyKey','طرف/مرکز','party'],
@@ -93,6 +94,47 @@ function coverage(m){
  const spans=Object.entries(part).map(([PlanKey,Days])=>({PlanKey:+PlanKey,Days,Share:ratio(Days,all)}));
  return {all,overlap,gap,spans};
 }
+function shortTermProfileRows(){
+ const basis=periods[meta.asOf].EndDate;
+ const status={Paid:'پرداخت‌شده',Pending:'در انتظار رسیدگی',Rejected:'ردشده'};
+ return window.rasadProfileMath.shortTermClaims(profile,basis).map(row=>({
+  ...row,Kind:'مزایای کوتاه‌مدت',Service:row.BenefitTypeName,
+  Status:status[row.Status]||'نامشخص',EventDate:row.ClaimDate,Paid:row.PaidInScope?row.PaymentDate:null,
+  PeriodKey:calendarKey(row.ClaimDate),PlanKey:row.PlanKey??null,PartyKey:row.PartyKey??null,MembershipKey:row.MembershipKey??null
+ }));
+}
+function shortTermProfilePayments(){
+ return filterRows(shortTermProfileRows().filter(row=>row.LegacyBenefitKey==null&&row.Paid).map(row=>({
+  ...row,PeriodKey:calendarKey(row.Paid),Fund:row.PaidAmount,Total:row.PaidAmount
+ })),'benefit');
+}
+function shortTermProfileReport(baseRows){
+ const cutoff=periods[+filters.to]?.EndDate||periods[meta.asOf].EndDate;
+ const claims=filterRows(shortTermProfileRows(),'benefit').map(row=>{
+  const paid=Boolean(row.Paid&&row.Paid<=cutoff);
+  return {...row,ShortTermStatus:row.Status,ShortTermPaidDate:paid?row.Paid:null,ShortTermPaidInRange:paid?row.PaidAmount:null,
+   ShortTermSource:row.LegacyBenefitKey!=null?'پرداخت موجود در دفتر مزایا':'پروندهٔ نمونهٔ کوتاه‌مدت'};
+ });
+ const paid=claims.filter(row=>row.ShortTermPaidDate);
+ const breakdown=byKey(claims,'BenefitTypeName',rows=>({
+  ShortTermClaimCount:rows.length,ShortTermPaymentCount:rows.filter(row=>row.ShortTermPaidDate).length,
+  ShortTermPaidInRange:sum(rows,'ShortTermPaidInRange')
+ })).sort((first,second)=>second.ShortTermPaidInRange-first.ShortTermPaidInRange);
+ const baseKeys=new Set(baseRows.map(row=>String(row.BenefitKey)));
+ const history=[...baseRows,...paid.filter(row=>row.LegacyBenefitKey==null||!baseKeys.has(String(row.LegacyBenefitKey))).map(row=>({
+  ...row,Total:row.ShortTermPaidInRange,Fund:row.ShortTermPaidInRange,MemberShare:0,OtherShare:0
+ }))];
+ const cards=[V('پرونده‌های کوتاه‌مدت',claims.length,'num','شامل پرونده‌های بدون پرداخت'),
+  V('پرداخت مزایای کوتاه‌مدت',sum(paid,'ShortTermPaidInRange')??(claims.length?0:null),'money','میلیون ریال · تا '+dateLabel(cutoff))];
+ const panels=[chart('پرداخت به تفکیک نوع مزایای کوتاه‌مدت',breakdown.filter(row=>row.ShortTermPaidInRange>0),'BenefitTypeName','bar',[X('پرداخت به تفکیک نوع حمایت','ShortTermPaidInRange')])];
+ const tables=[
+  tab('خلاصهٔ مزایای کوتاه‌مدت به تفکیک نوع',breakdown,[C('BenefitTypeName','نوع حمایت کوتاه‌مدت'),C('ShortTermClaimCount','تعداد پرونده‌ها','num'),C('ShortTermPaymentCount','تعداد پرداخت‌ها','num'),C('ShortTermPaidInRange','مبلغ پرداخت‌شده کوتاه‌مدت','money')]),
+  tab('ریز پرونده‌ها و پرداخت‌های مزایای کوتاه‌مدت',claims.sort((first,second)=>second.ClaimDate.localeCompare(first.ClaimDate)),[
+   C('ShortTermBenefitKey','شناسه پروندهٔ حمایت'),C('BenefitTypeName','نوع حمایت کوتاه‌مدت'),C('ClaimDate','تاریخ درخواست','date'),C('ShortTermStatus','وضعیت ثبت‌شده پرونده'),C('ShortTermPaidDate','تاریخ پرداخت تا مبنا','date'),C('ShortTermPaidInRange','مبلغ پرداخت‌شده کوتاه‌مدت','money'),columns.g,C('ShortTermSource','منشأ پروندهٔ حمایت'),C('LegacyBenefitKey','شناسه ردیف دفتر مزایا','num')
+  ],trace)
+ ];
+ return {cards,panels,tables,history};
+}
 function pview(id){
  if(id==='P-09')return accountInsight();
  if(id==='P-10')return pensionInsight();
@@ -107,10 +149,10 @@ function pview(id){
  const rtTable=tab('سوابق برآورد و نسخه محاسبه',rr,rtcols,trace);
  const rh=[V('مستمری جاری',rt?.CurrentAmount??null,'money','ثبت نمونه'),V('مستمری مشروط',rt?.EstimatedAmount??null,'money','برآورد آزمایشی','P-05'),V('حقوق اکتسابی',rt?.AcquiredPV??null,'money','ارزش فعلی آزمایشی'),V('تعهد آتی',rt?.FuturePV??null,'money','ارزش فعلی آزمایشی')];
  const prtrend=periodAgg(pr,premium);
- const benTrend=periodAgg(be,q=>({Fund:sum(q,'Fund'),Total:sum(q,'Total')}));
+ const paidBenefits=['P-01','P-06'].includes(id)?[...be,...shortTermProfilePayments()]:be;
  if(id==='P-01')return bundle(
-  [V('وضعیت پرونده',p.Status,'text',p.CaseCode,'P-05'),V('روز پوشش یکتا',cv.all,'num','بدون دوباره‌شماری','P-02'),V('پرداخت تجمعی',pm.Collected,'money','مبلغ اسمی','P-03'),V('مزایای سهم صندوق',sum(be,'Fund'),'money','درمان + نقدی + مستمری','P-04')],
-  [chart('مسیر کوتاه پوشش',m,'','timeline'),chart('پرداخت و استفاده از مزایا',mergeMonths(prtrend,benTrend),'PeriodKey','line',[X('حق‌بیمه وصول‌شده','Collected'),X('سهم صندوق','Fund')])],[tp],
+  [V('وضعیت پرونده',p.Status,'text',p.CaseCode,'P-05'),V('روز پوشش یکتا',cv.all,'num','بدون دوباره‌شماری','P-02'),V('پرداخت تجمعی',pm.Collected,'money','مبلغ اسمی','P-03'),V('مزایای سهم صندوق',sum(paidBenefits,'Fund'),'money','درمان، مستمری و مزایای نقدی از جمله کوتاه‌مدت','P-04')],
+  [chart('مسیر کوتاه پوشش',m,'','timeline'),chart('پرداخت و استفاده از مزایا',mergeMonths(prtrend,periodAgg(paidBenefits,q=>({Fund:sum(q,'Fund')}))),'PeriodKey','line',[X('حق‌بیمه وصول‌شده','Collected'),X('سهم صندوق','Fund')])],[tp],
   'وضعیت پرونده آخرین ثبت پرونده است. پرداخت‌ها و مزایا دو جریان مستقل‌اند و تفاضل آنها تراز شخصی نیست.',
   pane('مشخصات و وضعیت حقوقی',mini([['شناسه',p.CaseCode],['شعبه',dim('region',p.RegionKey)],['پوشش‌های فعال',m.filter(x=>!x.EndDate).map(x=>dim('plan',x.PlanKey)).join('، ')||'خارج از پوشش جاری'],['وضعیت حق',rt?.RightStatus||'داده ثبت‌نشده']])+links(['P-02','P-03','P-04','P-05','P-09','P-10'])));
  if(id==='P-02')return bundle([V('روز یکتای پوشش',cv.all,'num'),V('طرح متمایز',cv.spans.length,'num'),V('روز وقفه میان دوره‌ها',cv.gap,'num'),V('روز هم‌پوشانی',cv.overlap,'num')],[
@@ -126,14 +168,17 @@ function pview(id){
    [tab('دفتر ثبت و وصول حق‌بیمه',listed,c,trace),tab('موارد دیرثبت، اصلاح و مانده باز',listed.filter(x=>x.Corrected||!x.Paid||x.Paid>x.Due||x.Debt),[...cols(['k','r','debt','status']),C('Cause','دلیل نمونه'),C('Due','سررسید','date')],trace)],
    'انتساب به ماه تعلق است، مگر اینکه فیلتر تاریخ وصول یا ثبت را انتخاب کنید. انتخاب پرداخت‌کننده فقط ترکیب را محدود می‌کند.');
  }
- if(id==='P-04')return bundle([V('هزینه کل درمان',sum(health,'Total')),V('سهم صندوق از درمان',sum(health,'Fund')),V('مستمری',sum(pension,'Fund')),V('سایر مزایای نقدی',sum(other,'Fund'))],
-  [chart('روند هزینه و سهم صندوق',benTrend,'PeriodKey','line',[X('هزینه کل','Total'),X('سهم صندوق','Fund')]),chart('ترکیب خدمت و سهم پرداخت‌کنندگان',byKey(be,'Service',q=>({Fund:sum(q,'Fund'),MemberShare:sum(q,'MemberShare'),OtherShare:sum(q,'OtherShare')})),'Service','bar',[X('صندوق','Fund'),X('فرد','MemberShare'),X('سایر','OtherShare')],{stack:true})],
-  [tab('دفتر خدمت و مزایا',be,[C('Kind','خانواده مزایا'),C('Service','نوع خدمت'),C('EventDate','وقوع/استحقاق','date'),C('Paid','پرداخت','date'),...cols(['a','p','g','cost','med']),C('MemberShare','فرد','money'),C('OtherShare','سایر','money'),C('Attribution','مبنای انتساب'),...cols(['status','r'])],trace)],
-  'درمان به پوشش معتبر همان زمان متصل است. هزینه کل با مبلغ پرداخت‌شده توسط صندوق یکسان نیست.');
+ if(id==='P-04'){
+  const shortTerm=shortTermProfileReport(be);
+  return bundle([V('هزینه کل درمان',sum(health,'Total')),V('سهم صندوق از درمان',sum(health,'Fund')),V('مستمری',sum(pension,'Fund')),V('سایر مزایای نقدی',sum(other,'Fund'),'money','طبق دفتر مزایا؛ ممکن است شامل بیمه بیکاری باشد'),...shortTerm.cards],
+   [chart('روند هزینه و سهم صندوق',periodAgg(shortTerm.history,q=>({Fund:sum(q,'Fund'),Total:sum(q,'Total')})),'PeriodKey','line',[X('هزینه کل','Total'),X('سهم صندوق','Fund')]),chart('ترکیب خدمت و سهم پرداخت‌کنندگان',byKey(shortTerm.history,'Service',q=>({Fund:sum(q,'Fund'),MemberShare:sum(q,'MemberShare'),OtherShare:sum(q,'OtherShare')})),'Service','bar',[X('صندوق','Fund'),X('فرد','MemberShare'),X('سایر','OtherShare')],{stack:true}),...shortTerm.panels],
+   [...shortTerm.tables,tab('دفتر خدمت و مزایا',be,[C('Kind','خانواده مزایا'),C('Service','نوع خدمت'),C('EventDate','وقوع/استحقاق','date'),C('Paid','پرداخت','date'),...cols(['a','p','g','cost','med']),C('MemberShare','فرد','money'),C('OtherShare','سایر','money'),C('Attribution','مبنای انتساب'),...cols(['status','r'])],trace)],
+   'درمان به پوشش معتبر همان زمان متصل است. در کوتاه‌مدت، «تعلق / وقوع» بر پایهٔ تاریخ درخواست است. فقط وجه پرداخت‌شده تا پایان بازه جمع می‌شود. ردیف کوتاه‌مدتی که مرجع دفتر مزایا دارد، در جمع کل دوباره اضافه نمی‌شود. دادهٔ کوتاه‌مدت نمونه است.');
+ }
  if(id==='P-05')return bundle(rh,[chart('مستمری جاری و برآورد در دوره‌های محاسبه',rr,'PeriodKey','line',[X('جاری','CurrentAmount'),X('مشروط','EstimatedAmount')]),pane('شناسنامه آخرین محاسبه',mini([['نسخه','DEMO-1.0'],['مزد مرجع',fmt(rt?.WageBase,'money')],['سابقه مؤثر',fmt(rt?.CreditedMonths,'num')],['مدل','PAYG']])+para(meta.dims.Rule[0].Assumption)+links(['P-02','P-07']))],[rtTable,tp],
   'مقدار آزمایشی، حکم یا احراز استحقاق نیست. طرح‌ها از سابقه واقعی خوانده می‌شوند و هیچ سهم مستمری به طرح فرض نشده است.');
- if(id==='P-06')return bundle([V('پرداخت اسمی تجمعی',pm.Collected),V('دارایی واقعی',rt?.RealAsset??null,'money','خارج از دامنه PAYG'),V('ارزش فرضی محاسباتی',rt?.Hypothetical??null,'money','قابل برداشت نیست'),V('مزایای دریافت‌شده',sum(be,'Fund'))],[
-  chart('ترکیب مزایای اسمی سهم صندوق',byKey(be,'Kind',x=>({Fund:sum(x,'Fund')})),'Kind','bar',[X('سهم صندوق','Fund')]),
+ if(id==='P-06')return bundle([V('پرداخت اسمی تجمعی',pm.Collected),V('دارایی واقعی',rt?.RealAsset??null,'money','خارج از دامنه PAYG'),V('ارزش فرضی محاسباتی',rt?.Hypothetical??null,'money','قابل برداشت نیست'),V('مزایای دریافت‌شده',sum(paidBenefits,'Fund'),'money','شامل پرداخت‌های نمونهٔ کوتاه‌مدت','P-04')],[
+  chart('ترکیب مزایای اسمی سهم صندوق',byKey(paidBenefits,'Kind',x=>({Fund:sum(x,'Fund')})),'Kind','bar',[X('سهم صندوق','Fund')]),
   pane('معنی و روش ارزش‌گذاری',mini([['اسمی','بدون تعدیل'],['فرضی','۱٫۱۴ × وصول تجمعی نمونه'],['دارایی واقعی','خارج از دامنه PAYG'],['حقوق و تعهد','ارزش فعلی صرفاً آزمایشی']])+links(['P-03','P-04','P-05']))
  ],[tab('ارزش‌ها به تفکیک مبنا',[{Metric:'پرداخت اسمی',Amount:pm.Collected,Range:'سابقه قابل مشاهده'},{Metric:'اندوخته واقعی',Amount:rt?.RealAsset,Range:'خارج از دامنه'},{Metric:'ارزش فرضی',Amount:rt?.Hypothetical,Range:'محاسبه نمایشی'},{Metric:'حقوق اکتسابی',Amount:rt?.AcquiredPV,Range:'نمونه ارزش فعلی'},{Metric:'تعهد آینده',Amount:rt?.FuturePV,Range:'نمونه سناریو'}].filter(x=>!filters.valuation||x.Range===filters.valuation),[C('Metric','مفهوم'),C('Amount','مبلغ','money'),C('Range','مبنا')]),rtTable],
  'این ارقام از یک جنس نیستند؛ با هم جمع نمی‌شوند و موجودی قابل برداشت از آنها به دست نمی‌آید.');
@@ -153,7 +198,32 @@ function pview(id){
  return bundle();
 }
 
+function shortTermMetrics(rows){
+ const paid=sum(rows,'PaidAmount'),count=sum(rows,'PaymentCount');
+ return {PaidAmount:paid,PaymentCount:count,MeanPayment:ratio(paid,count)};
+}
+function shortTermView(rows,health){
+ const totals=shortTermMetrics(rows);
+ const categories=byKey(rows,'BenefitTypeName',shortTermMetrics).map(row=>({...row,PaidShare:ratio(row.PaidAmount,totals.PaidAmount)})).sort((left,right)=>right.PaidAmount-left.PaidAmount);
+ const breakdown=categories.map(row=>'<li><div>'+withHelp('<span>'+esc(row.BenefitTypeName)+'</span>','field','BenefitTypeName',row.BenefitTypeName)+'<b>'+esc(fmt(row.PaidShare,'pct'))+'</b></div><div class="support-share-track" aria-hidden="true"><span style="--share:'+100*row.PaidShare+'%"></span></div></li>').join('');
+ const measures=[C('PaidAmount','مبلغ پرداخت‌شده','money'),C('PaymentCount','تعداد پرداخت','num'),C('MeanPayment','متوسط هر پرداخت','money')];
+ const detail=rows.map(row=>({...row,...shortTermMetrics([row])})).sort((left,right)=>right.PeriodKey-left.PeriodKey||right.PaidAmount-left.PaidAmount);
+ return bundle([
+  V('پرداخت حمایت کوتاه‌مدت',totals.PaidAmount,'money','به‌جز درمان، به تاریخ پرداخت'),
+  V('تعداد پرداخت‌های کوتاه‌مدت',totals.PaymentCount,'num','تعداد تراکنش، نه تعداد افراد'),
+  V('متوسط پرداخت کوتاه‌مدت',totals.MeanPayment,'money','مبلغ پرداخت تقسیم بر تعداد پرداخت'),
+  V('سهم صندوق از درمان در گزارش جدا',sum(health,'Fund'),'money','به ماه خدمت؛ مستقل از فیلتر نوع حمایت','G-06')
+ ],[
+  pane('سهم انواع حمایت از مبلغ پرداخت',categories.length?'<ul class="support-share-list">'+breakdown+'</ul>':emptyPanel()),
+  chart('روند پرداخت حمایت کوتاه‌مدت',byMonth(rows,shortTermMetrics),'PeriodKey','line',[X('مبلغ پرداخت‌شده','PaidAmount')]),
+  pane('دامنه حمایت‌ها و هزینه درمان',para('درمان بیماری، بارداری و حوادث در گزارش درمان به ماه خدمت محاسبه می‌شود. غرامت مزد، وسیلهٔ کمک پزشکی یا هزینهٔ سفر با هزینهٔ خود درمان یکی نیست. سفر و اقامت بیمار و همراه دو زیرگروه تحلیلی‌اند.')+links(['G-06','G-02','G-01'])+'<p><a class="subtle" href="https://tamin.ir/tos/ItemGuide?id=14" target="_blank" rel="noopener noreferrer">راهنمای رسمی خدمات سازمان تأمین اجتماعی ↗</a></p>')
+ ],[
+  tab('خلاصه پرداخت به تفکیک نوع حمایت',categories,[C('BenefitTypeName','نوع حمایت'),...measures,C('PaidShare','سهم از مبلغ انتخاب‌شده','pct')]),
+  tab('ریز تجمیع ماه، طرح و شعبه',detail,[...cols(['k','p','g']),C('BenefitTypeName','نوع حمایت'),...measures])
+ ],'این گزارش پرداخت‌های نمونه را در ماه واریز نشان می‌دهد. «تعداد» شمار پرداخت‌هاست. مزایای درمانی در G-06 جداست و پرداخت‌های طبقه‌بندی‌شدهٔ قدیمی دوباره به هزینه اضافه نمی‌شوند.');
+}
 function gview(id){
+ if(id==='G-13')return shortTermView(filterRows(gov.shortTermBenefit,'shortTermBenefit'),filterRows((gov.benefit||[]).filter(isHealth),'benefit',{ignore:['supportType']}));
  const f=filterRows(gov.finance,'finance'),cash=filterRows(gov.cash,'cash'),q=filterRows(gov.quality,'quality');
  const pr=filterRows(gov.premium,'premium'),b=filterRows(gov.benefit,'benefit'),claim=filterRows(gov.claim,'claim'),comp=filterRows(gov.company,'company'),bud=filterRows(gov.budget,'budget');
  const bh=b.filter(isHealth),bp=b.filter(isPension),popr=filterRows(gov.population,'population');
@@ -175,7 +245,8 @@ function gview(id){
    if(fc.some(x=>x.Low<x.Floor))news.push(['G-02','کران پایین پیش‌بینی زیر آستانه',periodLabel(fc.find(x=>x.Low<x.Floor).PeriodKey)]);
    if(ratio(budget.Actual,budget.Approved)<.98||ratio(budget.Actual,budget.Approved)>1.02)news.push(['G-09','انحراف عملکرد نسبت به مصوب',fmt(ratio(budget.Actual,budget.Approved),'pct')]);
    if(q.filter(x=>x.Severity==='بالا'&&x.State!=='رفع‌شده').length)news.push(['G-12','موارد کیفیت با شدت بالا',fmt(q.filter(x=>x.Severity==='بالا'&&x.State!=='رفع‌شده').length,'num')]);
-   return bundle([...financeCards,V('مانده نقد پایان',ct.closing,'money','کل حساب‌های بانک','G-02')],[
+   const support=shortTermMetrics(filterRows(gov.shortTermBenefit,'shortTermBenefit'));
+   return bundle([...financeCards,V('مانده نقد پایان',ct.closing,'money','کل حساب‌های بانک','G-02'),V('پرداخت حمایت کوتاه‌مدت',support.PaidAmount,'money','به‌جز درمان، به تاریخ پرداخت','G-13')],[
     chart('روند عملکرد مالی',trend,'PeriodKey','line',[X('منابع','Sources'),X('مصارف','Uses'),X('تراز','Balance')]),
     chart('ترکیب منابع و مصارف',account,'Account','bar',[X('منابع','Sources'),X('مصارف','Uses')]),
     pane('بودجه و نقدینگی',mini([['تحقق کل بودجه',fmt(ratio(budget.Actual,budget.Approved),'pct')],['خالص نقد',fmt(diff(ct.inflow,ct.outflow),'money')],['فاصله تا آستانه',fmt(diff(ct.closing,ct.floor),'money')],['تحقق مصارف',fmt(ratio(sum(bud.filter(x=>x.Direction==='مصرف'),'Actual'),sum(bud.filter(x=>x.Direction==='مصرف'),'Approved')),'pct')]])),
@@ -249,7 +320,7 @@ function gview(id){
    chart('ترکیب بیماری در داده نمونه',byKey(bh,'Diagnosis',x=>({Total:sum(x,'Total')})),'Diagnosis','bar',[X('هزینه خدمت','Total')])],
   [tab('هزینه و پرداخت‌کنندگان به تفکیک خدمت',bh,[...cols(['k','g','a','p']),C('Service','خدمت'),C('Diagnosis','گروه بیماری'),...cols(['cost','med','visits']),C('MemberShare','فرد','money'),C('OtherShare','سایر','money')],trace),
    tab('محاسبه عوامل رشد',ef,[...cols(['k','g','a']),C('Service','خدمت'),C('CurrentUnits','حجم جاری'),C('PriorUnits','حجم قبل'),C('PriceEffect','اثر قیمت','money'),C('QuantityEffect','اثر حجم','money'),C('CompositionEffect','تغییر ترکیب','money')],trace)],
-   'اثر قیمت و حجم در سلول قابل مقایسه محاسبه می‌شود؛ خدمت تازه یا حذف‌شده در اثر ترکیب است. درصد رشد بدون مخرج دوره مشابه نمایش داده نمی‌شود.');
+   'اثر قیمت و حجم در سلول قابل مقایسه محاسبه می‌شود؛ خدمت تازه یا حذف‌شده در اثر ترکیب است. درصد رشد بدون مخرج دوره مشابه نمایش داده نمی‌شود.',links(['G-13']));
  }
  if(id==='G-07'){
   const k=last(filterRows(gov.obligation,'obligation')), ob=filterRows(gov.obligation,'obligation').filter(x=>x.PeriodKey===k);

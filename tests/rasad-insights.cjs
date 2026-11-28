@@ -1,6 +1,6 @@
 const test=require('node:test');
 const assert=require('node:assert/strict');
-const {coverageMix,cashRows,revalue,pension}=require('../reports/rasad/profile-math');
+const {coverageMix,shortTermClaims,cashRows,revalue,pension}=require('../reports/rasad/profile-math');
 const cutoff='2026-10-22';
 test('coverage shares total 100% with repeat periods, overlap and inclusive cutoffs',()=>{
  const coverage=coverageMix([
@@ -43,4 +43,26 @@ test('pension takes the last visible wage per employer and applies overrides ind
  assert.equal(pension(profile,calendar,cutoff).observed,1);
  assert.equal(pension(profile,calendar,cutoff,{months:480}).estimated,210e6);
  assert.equal(pension(profile,calendar,cutoff,{wage:0}).estimated,0);
+});
+test('short-term benefit payments count once at their payment date in personal cash and gold',()=>{
+ const legacy={ShortTermBenefitKey:'ST-001',LegacyBenefitKey:7,BenefitTypeName:'بیمه بیکاری',ClaimDate:'2026-09-28',PaymentDate:'2026-10-01',Status:'Paid',PaidAmount:30};
+ const fresh={ShortTermBenefitKey:'ST-002',LegacyBenefitKey:null,BenefitTypeName:'کمک‌هزینه ازدواج',ClaimDate:'2026-09-30',PaymentDate:cutoff,Status:'Paid',PaidAmount:20};
+ const profile={
+  benefit:[{BenefitKey:7,SourceRef:'BEN-7',Paid:'2026-10-01',Fund:30},{BenefitKey:9,SourceRef:'BEN-9',Paid:'2026-10-02',Fund:12}],
+  premium:[{SourceRef:'PRE-1',Paid:'2026-10-05',Collected:100}],
+  household:{dependentBenefits:[{DependentBenefitKey:'F-001',BenefitDate:'2026-10-06',FamilyPaid:10}]},
+  shortTermBenefits:[legacy,fresh,{...fresh},
+   {...fresh,ShortTermBenefitKey:'ST-003',Status:'Pending',PaymentDate:null,PaidAmount:0},
+   {...fresh,ShortTermBenefitKey:'ST-004',Status:'Rejected',PaymentDate:null,PaidAmount:0},
+   {...fresh,ShortTermBenefitKey:'ST-005',PaymentDate:'2026-10-23'},
+   {...fresh,ShortTermBenefitKey:'ST-006',ClaimDate:'2026-10-25',PaymentDate:'2026-10-26'}]
+ };
+ const claims=shortTermClaims(profile,cutoff);
+ assert.equal(claims.length,5);
+ assert.deepEqual(claims.filter(row=>row.PaidInScope).map(row=>row.ShortTermBenefitKey),['ST-001','ST-002']);
+ const cash=cashRows(profile,cutoff,date=>date.startsWith('2026-10')?140507:140506);
+ assert.deepEqual([cash.gross,cash.direct,cash.family,cash.shortTermPaid,cash.net],[100,62,10,50,28]);
+ assert.deepEqual(cash.rows.filter(row=>row.IsShortTerm).map(row=>[row.CashReference,row.NominalRials,row.PeriodKey]),[['BEN-7',30,140507],['ST-002',20,140507]]);
+ const priced=revalue(cash.rows,{140507:{rials:10}},50);
+ assert.deepEqual([priced.direct,priced.shortTermPaid,priced.family,priced.missing],[310,250,50,0]);
 });
