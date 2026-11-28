@@ -450,10 +450,9 @@ const helpDialog=$('#help-dialog');
 let helpTrigger;
 function showHelp(kind,key,label,context,trigger){
  const entry=window.rasadGuide.entry(active,kind,key,label,context);
- const topics=entry.sections;
- if(!topics)return;
+ if(!entry.sections)return;
  $('#help-title').textContent=label;
- $('#help-content').innerHTML=topics.map(({title,text})=>'<section><h3>'+esc(title)+'</h3><p>'+esc(text)+'</p></section>').join('');
+ $('#help-content').replaceChildren(window.rasadAudience.buildReader(entry));
  $('#help-book-link').href=window.rasadGuide.href(entry);
  helpTrigger=trigger;
  helpDialog.showModal();

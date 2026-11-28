@@ -1,0 +1,22 @@
+.page { min-height: 100vh; padding: clamp(16px, 4vw, 56px); background: #f1f6f9; color: #17364b; }
+.inner { width: min(100%, 1200px); margin: auto; }
+.head { display: grid; gap: 8px; margin-block-end: 22px; }
+.head > * { margin: 0; }
+.head span { font-size: .83rem; color: #0a7368; }
+.head a, .panel a { color: #07695f; text-decoration: underline; text-underline-offset: 3px; }
+.panel { padding: clamp(14px, 3vw, 26px); background: #fff; border: 1px solid #d5e3ea; border-radius: 18px; }
+.filters { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px; }
+.filters label { display: grid; flex: 1 1 180px; gap: 4px; }
+.filters input, .filters select { width: 100%; min-height: 40px; border: 1px solid #9bb2c0; border-radius: 8px; padding: 7px 9px; background: #fff; color: #17364b; font: inherit; }
+.filters a { padding-block: 9px; }
+.info { color: #3a5261; }
+.notice { color: #7c3911; padding: 10px 14px; background: #fff6e9; border-radius: 8px; }
+.scroll { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; text-align: start; }
+.caption { padding: 8px 0; text-align: start; color: #426170; }
+.table th, .table td { padding: 8px 12px; text-align: start; vertical-align: top; border-bottom: 1px solid #e2ebf0; }
+.table th { white-space: nowrap; background: #edf5f8; }
+.table small { display: block; color: #4c6270; }
+.table time, .table bdi { white-space: nowrap; }
+.table strong[data-outcome="accepted"] { color: #086253; }
+.table strong[data-outcome="rejected"], .table strong[data-outcome="blocked"] { color: #a13428; }

@@ -13,6 +13,7 @@ data/contact.jsonl
 data/collaboration.jsonl
 data/elderly-care-survey.jsonl
 data/didban/
+data/rasad-audit/
 didban/data/
 **/__pycache__/
 *.sqlite3*

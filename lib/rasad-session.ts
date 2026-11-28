@@ -1,6 +1,7 @@
 import {createHash, createHmac, timingSafeEqual} from "node:crypto";
 import {cookies} from "next/headers";
 import {NextResponse} from "next/server";
+import {rasadAdminName, rasadAdminSession} from "@/lib/rasad-admin";
 import demoAccount from "@/reports/rasad/viewer.json";
 
 const cookieName = "rasad_session";
@@ -32,25 +33,27 @@ function account(name: string): string | undefined {
 }
 
 export function checkViewer(name: string, password: string) {
-  if (!/^[a-z0-9][a-z0-9._-]{0,40}$/.test(name) || !/^[a-zA-Z0-9_-]{32,96}$/.test(password)) return false;
-  const verifier = account(name);
+  const verifier = /^[a-z0-9][a-z0-9._-]{0,40}$/.test(name) ? account(name) : undefined;
   const [salt, digest] = (verifier ?? demoAccount.verifier).split(":");
   const actual = createHash("sha256").update(salt + ":" + password).digest("hex");
-  return equal(actual, digest) && !!verifier;
+  const match = equal(actual, digest);
+  return !verifier ? "unknown_account" : match && /^[a-zA-Z0-9_-]{32,96}$/.test(password) ? "accepted" : "wrong_password";
+}
+
+export function rasadIdentity(): {username: string; admin: boolean} | null {
+  if (rasadAdminSession()) return {username: rasadAdminName, admin: true};
+  const raw = cookies().get(cookieName)?.value;
+  const parts = raw?.split("~") ?? [];
+  if (parts.length !== 3) return null;
+  const [name, expiry, mac] = parts;
+  if (!/^\d{10}$/.test(expiry) || Number(expiry) <= Date.now() / 1000) return null;
+  const verifier = account(name);
+  const expected = verifier && signature(`${name}.${expiry}:${verifier}`);
+  return expected && equal(mac, expected) ? {username: name, admin: false} : null;
 }
 
 export function viewSession() {
-  const admin = cookies().get("admin_session")?.value;
-  const secret = process.env.ADMIN_SECRET;
-  if (secret && admin && equal(admin, secret)) return true;
-  const raw = cookies().get(cookieName)?.value;
-  const parts = raw?.split("~") ?? [];
-  if (parts.length !== 3) return false;
-  const [name, expiry, mac] = parts;
-  if (!/^\d{10}$/.test(expiry) || Number(expiry) <= Date.now() / 1000) return false;
-  const verifier = account(name);
-  const expected = verifier && signature(`${name}.${expiry}:${verifier}`);
-  return !!expected && equal(mac, expected);
+  return !!rasadIdentity();
 }
 
 export function configuredOrigin(request: Request) {

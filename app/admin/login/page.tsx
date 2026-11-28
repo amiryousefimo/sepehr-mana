@@ -17,17 +17,22 @@ function LoginForm() {
     setLoading(true);
     setError("");
 
-    const res = await fetch("/api/admin/auth", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({password})
-    });
-
-    if (res.ok) {
-      router.push(params.get("from") ?? "/admin");
-    } else {
-      const data = await res.json() as {error?: string};
-      setError(data.error ?? "Login failed.");
+    try {
+      const res = await fetch("/api/admin/auth", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({password})
+      });
+      if (res.ok) {
+        const next = params.get("from");
+        router.push(next && /^\/admin(?:\/[\w/-]*)?$/.test(next) ? next : "/admin");
+        return;
+      }
+      const data = await res.json() as {error?: string; ref?: string};
+      setError((data.error ?? "Login failed.") + (data.ref ? " Reference: " + data.ref : ""));
+    } catch {
+      setError("Could not reach the login service. Try again.");
+    } finally {
       setLoading(false);
     }
   }

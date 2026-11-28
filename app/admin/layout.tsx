@@ -20,6 +20,10 @@ export default function AdminLayout({children}: {children: ReactNode}) {
             <LayoutDashboard aria-hidden="true" />
             گزارش‌های دیدبان
           </Link>
+          <Link href="/dashboard_2/access-log" className="admin__nav-link">
+            <LayoutDashboard aria-hidden="true" />
+            گزارش ورودهای رصد
+          </Link>
           <Link href="/admin" className="admin__nav-link">
             <LayoutDashboard aria-hidden="true" />
             Dashboard

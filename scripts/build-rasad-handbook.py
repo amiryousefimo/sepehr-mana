@@ -1,4 +1,5 @@
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -9,184 +10,182 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 
-
 root = Path(__file__).resolve().parents[1]
 node, output = sys.argv[1:3]
-visual_dir = Path(sys.argv[3]) if len(sys.argv) > 3 else None
-visual_pages = [
-    ("family-charts.png", "سهم انواع سابقه و پل مالی", "بالا، هر رنگ نوعی از سابقه را نشان می‌دهد. پایین، از وصول شروع کنید و هزینهٔ شخص و فرزندان را کم کنید تا به ستون خالص برسید."),
-    ("pension-result.png", "نتیجه برآورد مستمری", "کادر اول حاصل ماهانه را نشان می‌دهد. کادرهای بعدی می‌گویند کدام مزد و چند ماه سابقه در فرمول گذاشته شده است."),
-    ("column-guide.png", "راهنمای یک ستون", "علامت سؤال کنار «ریال با نرخ مرجع» را بزنید. مثال عددی را بخوانید و برای ادامه، همان موضوع را در دفترچه باز کنید."),
-]
-visual_pages = [(name, title, caption) for name, title, caption in visual_pages if visual_dir and (visual_dir / name).is_file()]
-index = json.loads(subprocess.check_output([node, str(root / "scripts/rasad-handbook-index.cjs")], encoding="utf-8"))
-document = Document()
-section = document.sections[0]
-section.page_width, section.page_height = Inches(8.5), Inches(11)
-section.left_margin = section.right_margin = section.top_margin = section.bottom_margin = Inches(1)
+model = json.loads(subprocess.check_output(
+    [node, str(root / "scripts/rasad-handbook-index.cjs")], encoding="utf-8"))
+doc = Document()
+page = doc.sections[0]
+page.page_width, page.page_height = Inches(8.27), Inches(11.7)
+page.left_margin = page.right_margin = Inches(.8)
+page.top_margin = page.bottom_margin = Inches(.75)
+doc.core_properties.title = "دفترچهٔ رصد | سه شیوهٔ خواندن هر گزارش"
+doc.core_properties.author = "Amir"
 
 
-def element(parent, name, attrs=None):
-    item = OxmlElement(f"w:{name}")
-    for key, value in (attrs or {}).items():
-        item.set(qn(f"w:{key}"), str(value))
-    parent.append(item)
-    return item
+def xml(parent, tag, attributes=None):
+    child = OxmlElement(f"w:{tag}")
+    for key, value in (attributes or {}).items():
+        child.set(qn(f"w:{key}"), str(value))
+    parent.append(child)
+    return child
 
 
 def style(name, size, color, before, after, bold=False):
-    entry = document.styles[name]
-    entry.font.name = "Tahoma"
-    entry.font.size = Pt(size)
-    entry.font.bold = bold
-    entry.font.color.rgb = RGBColor.from_string(color)
-    props = entry._element.get_or_add_rPr()
-    element(props, "lang", {"val": "fa-IR", "bidi": "fa-IR"})
-    element(props, "szCs", {"val": size * 2})
+    current = doc.styles[name]
+    current.font.name, current.font.size = "Tahoma", Pt(size)
+    current.font.color.rgb = RGBColor.from_string(color)
+    current.font.bold = bold
+    props = current._element.get_or_add_rPr()
+    for key in ("ascii", "hAnsi", "cs", "eastAsia"):
+        props.rFonts.set(qn(f"w:{key}"), "Tahoma")
+    xml(props, "lang", {"val": "fa-IR", "bidi": "fa-IR"})
+    xml(props, "szCs", {"val": size * 2})
     if bold:
-        element(props, "bCs")
-    for attr in ("ascii", "hAnsi", "cs", "eastAsia"):
-        props.rFonts.set(qn(f"w:{attr}"), "Tahoma")
-    config = entry.paragraph_format
+        xml(props, "bCs")
+    config = current.paragraph_format
     config.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     config.space_before, config.space_after = Pt(before), Pt(after)
     config.line_spacing = 1.25
-    config.keep_with_next = name.startswith("Heading")
-    element(entry._element.get_or_add_pPr(), "bidi")
+    xml(current._element.get_or_add_pPr(), "bidi", {"val": 1})
 
 
-style("Normal", 11, "173447", 0, 6)
-style("Heading 1", 16, "2E74B5", 18, 10, True)
-style("Heading 2", 13, "2E74B5", 14, 7, True)
-style("Heading 3", 12, "1F4D78", 10, 5, True)
-style("Title", 30, "133A53", 14, 10, True)
-style("Subtitle", 12, "126B64", 2, 12, True)
-document.core_properties.title = "دفترچه راهنمای رصد | داشبورد ۲"
-document.core_properties.author = "Amir"
+style("Normal", 10, "18374A", 0, 7)
+style("Title", 30, "142F4C", 16, 10, True)
+style("Subtitle", 12, "126659", 5, 14, True)
+style("Heading 1", 16, "164872", 12, 7, True)
+style("Heading 2", 12, "126659", 7, 5, True)
+style("Heading 3", 10, "164872", 5, 3, True)
 
 
-def paragraph(value, name=None):
-    item = document.add_paragraph(value, style=name)
-    item.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    return item
+def paragraph(text="", kind=None, parent=None):
+    target = (parent if parent is not None else doc).add_paragraph(text, style=kind)
+    target.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    return target
 
 
-def labeled(label, value):
-    item = paragraph("")
-    first = item.add_run(label + " | ")
-    first.bold = True
-    element(first._element.get_or_add_rPr(), "bCs")
-    item.add_run(value)
+def anchor(target, name, index):
+    xml(target._p, "bookmarkStart", {"id": index, "name": name})
+    xml(target._p, "bookmarkEnd", {"id": index})
 
 
-def add_bookmark(item, name, number):
-    element(item._p, "bookmarkStart", {"id": number, "name": name})
-    element(item._p, "bookmarkEnd", {"id": number})
+def toc_link(key, title):
+    target = paragraph()
+    target.paragraph_format.space_after = Pt(4)
+    link = xml(target._p, "hyperlink", {"anchor": key})
+    run = xml(link, "r")
+    xml(xml(run, "rPr"), "color", {"val": "14665D"})
+    xml(run, "t").text = title
 
 
-def toc_link(name, title):
-    item = paragraph("")
-    link = element(item._p, "hyperlink", {"anchor": name})
-    run = element(link, "r")
-    properties = element(run, "rPr")
-    element(properties, "color", {"val": "126B64"})
-    element(run, "t").text = title
+def named(label, value):
+    target = paragraph()
+    bold = target.add_run(label + " | ")
+    bold.bold = True
+    xml(bold._element.get_or_add_rPr(), "bCs")
+    target.add_run(value)
+    return target
 
 
-def heading(text, replace_key, number):
-    add_bookmark(paragraph(text, "Heading 1"), replace_key, number)
+def flow(nodes):
+    if not nodes:
+        return
+    table = doc.add_table(rows=1, cols=len(nodes))
+    table.autofit = False
+    xml(table._tbl.tblPr, "bidiVisual")
+    for number, (cell, node_text) in enumerate(zip(table.rows[0].cells, nodes)):
+        xml(cell._tc.get_or_add_tcPr(), "shd", {"fill": "E2F2EF" if number % 2 == 0 else "EFF5FA"})
+        label = cell.paragraphs[0]
+        xml(label._p.get_or_add_pPr(), "bidi")
+        label.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        label.add_run(f"{number + 1}. {node_text}")
 
 
-def report(code, detailed=False):
-    book = index["books"][code]
-    paragraph(index["titles"][code] + " | " + code, "Heading 2")
-    labeled("به چه درد می‌خورد؟", book["سؤال"])
-    labeled("عدد چطور ساخته می‌شود؟", book["مسیر داده"])
-    labeled("مثال", book["مثال"])
-    labeled("از کجا شروع کنم؟", book["کار با صفحه"])
-    if detailed:
-        for name, description in book.items():
-            if name not in {"سؤال", "مسیر داده", "مثال", "کار با صفحه"}:
-                paragraph(name, "Heading 3")
-                paragraph(description)
+def track(data):
+    for key, label in (("plain", "۱. توضیح ساده"), ("finance", "۲. برای مدیر مالی"), ("engineering", "۳. برای مهندس نرم‌افزار")):
+        paragraph(label, "Heading 2")
+        for entry in data[key]:
+            named(entry["title"], entry["text"])
+        if key == "engineering":
+            flow(data["flow"])
 
 
-footer = section.footer.paragraphs[0]
+footer = page.footer.paragraphs[0]
 footer.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-element(footer._p.get_or_add_pPr(), "bidi")
-footer.add_run("دفترچه راهنمای رصد   |   ")
-field = element(footer._p, "fldSimple", {"instr": "PAGE"})
-element(element(field, "r"), "t").text = "۱"
+xml(footer._p.get_or_add_pPr(), "bidi")
+footer.add_run("راهنمای رصد    •    ")
+xml(footer._p, "fldSimple", {"instr": "PAGE"})
 
-paragraph("تکاپوگران سپهر مانا   |   سازمان تأمین اجتماعی", "Subtitle")
-paragraph("دفترچه راهنمای رصد", "Title")
-paragraph("داشبورد ۲ | راهنمای خواندن گزارش‌ها و دنبال‌کردن مسیر هر عدد", "Subtitle")
-paragraph("برای اولین بار که وارد رصد می‌شوید، یا وقتی می‌خواهید به یک سؤال درباره یک عدد جواب بدهید، از همین دفترچه شروع کنید. در سایت نیز از علامت سؤال کنار همان ابزار می‌توانید مستقیم به ادامهٔ راهنما بروید.")
-paragraph("فهرست موضوعی", "Heading 1")
-chapters = [
-    ("start", "شروع کار: ورود، جست‌وجو و دو حالت راهنما"),
-    ("family", "پوشش و حساب مالی فرد و خانواده"),
-    ("pension", "سناریوی «اگر امروز بازنشسته شوم»"),
-    ("fields", "ستون‌های جدید؛ از کلید ردیف تا قیمت مرجع"),
-    ("profile", "فهرست گزارش‌های پروفایل بیمه‌ای"),
-    ("gov", "فهرست گزارش‌های حکمرانی و پایداری مالی"),
-    ("review", "مسیر کنترل عدد و رفع مشکل"),
-]
-if visual_pages:
-    chapters.append(("illustrated", "راهنمای تصویری گزارش‌های جدید"))
-for key, title in chapters:
-    toc_link(key, title)
-paragraph("نسخهٔ نمایشی | داده‌ها ساختگی‌اند. نرخ مرجع در خود گزارش همراه تاریخ نمایش داده می‌شود.")
-document.add_page_break()
+paragraph("تأمین اجتماعی  |  تکاپوگران سپهر مانا", "Subtitle")
+paragraph("دفترچهٔ راهنمای رصد", "Title")
+paragraph("از یک مثال ساده تا جدول و فرمول", "Subtitle")
+paragraph("اگر می‌خواهید یک عدد را بفهمید، با توضیح ساده شروع کنید. اگر برای تصمیم مالی می‌خوانید، به بخش مدیر مالی بروید. برای بازسازی عدد، بخش مهندس و شکل مرحله‌های داده را ببینید. همهٔ پرونده‌های این نسخه نمونه‌اند.")
+paragraph("سه عدد که نباید با هم اشتباه شوند", "Heading 2")
+paragraph("مورد انتظار یعنی عددی که با یک مبنا حساب کرده‌ایم. تشخیص‌شده یعنی عددی که پس از بررسی ثبت شده است. پیش‌بینی یعنی برآورد آینده با یک‌سری فرض. وصول یعنی پولی که رسیده است. فصل حق‌بیمه با یک مثال تفاوت را نشان می‌دهد.")
+paragraph("در خود داشبورد", "Heading 2")
+paragraph("«نیاز به راهنمایی دارم» را بزنید، علامت سؤال کنار ستون را باز کنید و سطح خواندن را انتخاب کنید. برای دنبال کردن یک پرونده، DEMO-0001 را در «پروفایل فرد» پیدا کنید.")
+doc.add_page_break()
+paragraph("فهرست قابل کلیک", "Heading 1")
+toc_link("terms", "سه اصطلاح پرکاربرد: مورد انتظار، تشخیص‌شده و پیش‌بینی")
+toc_link("erd", "ERD فیزیکی، کلیدهای خارجی و مسیر دادهٔ سایت")
+toc_link("reference", "واژه‌نامهٔ تکمیلی نمودارها، شاخص‌ها و ستون‌ها")
+for report, title in model["titles"].items():
+    toc_link(report.replace("-", "_"), f"{report}  |  {title}")
 
-heading(chapters[0][1], "start", 1)
-labeled("۱. وارد شوید", "از صفحهٔ داشبورد ۲ با حساب سایت وارد شوید. برای این گزارش ورود جداگانهٔ Power BI لازم نیست.")
-labeled("۲. یک پرونده را باز کنید", "«پروفایل فرد» را بزنید. شناسهٔ DEMO-0001 را جست‌وجو کنید و «انتخاب پرونده» را بزنید. این پرونده ده عضو تبعی ساختگی و سه نوع سابقه دارد. برای یک پروندهٔ دیگر DEMO-0005 را امتحان کنید.")
-labeled("۳. حالت راهنما را روشن کنید", "دکمهٔ «نیاز به راهنمایی دارم» در بالای گزارش علامت‌های سؤال را نشان می‌دهد. دیالوگ چهار بخش دارد: معنی، مسیر داده، مثال و شیوه استفاده. دکمهٔ «پنهان‌کردن راهنما» منوها را به حالت خلوت برمی‌گرداند.")
-labeled("۴. توضیح تکمیلی را باز کنید", "زیر توضیح «دفترچه راهنمای رصد» را بزنید. مرورگر یک زبانهٔ جدا دقیقاً روی موضوع باز می‌کند. در دفترچه می‌توانید از فهرست گزارش‌ها یا کادر جست‌وجو استفاده کنید.")
-labeled("۵. نمودار و ریز را کنار هم ببینید", "پس از دیدن شکل نمودار، جدول پایین آن را بررسی کنید: عنوان ستون ممکن است کوتاه باشد، اما علامت سؤال واحد، منبع و مثال همان ستون را دارد. روی عنوان خود ستون بزنید تا مرتب شود.")
-document.add_page_break()
-
-heading(chapters[1][1], "family", 2)
-report("P-09", True)
-document.add_page_break()
-
-heading(chapters[2][1], "pension", 3)
-report("P-10", True)
-document.add_page_break()
-
-heading(chapters[3][1], "fields", 4)
-for key, (title, definition, source, example) in index["fields"].items():
-    paragraph(title, "Heading 3")
-    labeled("تعریف", definition)
-    labeled("روش", source)
-    labeled("مثال", example)
-document.add_page_break()
-
-heading(chapters[4][1], "profile", 5)
-for code in index["titles"]:
-    if code.startswith("P-") and code not in {"P-09", "P-10"}:
-        report(code)
-document.add_page_break()
-
-heading(chapters[5][1], "gov", 6)
-for code in index["titles"]:
-    if code.startswith("G-"):
-        report(code)
-document.add_page_break()
-
-heading(chapters[6][1], "review", 7)
-labeled("از رقم تا رکورد", "اول تاریخ، مبلغ و فیلتر را یادداشت کنید. بعد جدول ریز را باز کنید. مرجع ثبت را دنبال کنید؛ در گزارش مالی خانواده، وصول و هزینهٔ شخص و تبعی‌ها کلیدهای متفاوت دارند.")
-labeled("اگر همه چیز صفر یا خالی شد", "بازه، شعبه و طرح را بررسی کنید. خط تیره یعنی مقدار قابل محاسبه نیست. اگر برای یکی از پرداخت‌ها نرخ ماه موجود نباشد، کل برآورد معادل طلا پنهان می‌شود ولی مبلغ اسمی پابرجاست.")
-labeled("جدا کردن سه عدد", "وصول سازمان، هزینه صندوق و مستمری فرضی سه مفهوم جدا هستند. تراز پرونده سود کل سازمان یا بدهی شخص نیست. طلای معادل یعنی سنجش تغییر قیمت بر اساس طلا، نه سپرده یا دارایی فرد.")
-labeled("اگر قیمت مرجع تازه نبود", "تاریخ نرخ را بخوانید. می‌توانید نرخ مرجع را در فرم با واحد ریال برای هر گرم تغییر دهید. مقایسه فقط برای تاریخ و مبنای یکسان معنی دارد.")
-labeled("اگر نتیجه مستمری با انتظار فرق داشت", "تعداد ماه‌های دارای مزد را در صفحه P-10 ببینید. اول همان مثال ۱۸۰ میلیون ریال و ۳۰۰ ماه را امتحان کنید. این ابزار آموزشی حداقل حقوق، سقف مزد و شروط بازنشستگی را تعیین نمی‌کند.")
-for number, (name, title, caption) in enumerate(visual_pages):
-    document.add_page_break()
-    if number == 0:
-        heading(chapters[-1][1], "illustrated", 8)
+doc.add_page_break()
+anchor(paragraph("سه اصطلاح پرکاربرد", "Heading 1"), "terms", 1)
+gov = model["terms"][0]
+for key, title in (("Expected", "مورد انتظار"), ("Assessed", "تشخیص‌شده"), ("G-02:Forecast", "پیش‌بینی")):
+    data = gov.get(key) or gov.get(key.split(":")[-1])
+    if not data:
+        raise ValueError(f"Missing glossary entry: {key}")
     paragraph(title, "Heading 2")
-    paragraph(caption)
-    document.add_picture(str(visual_dir / name), width=Inches(5.25))
-    document.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
-document.save(output)
+    named("ساده", data["plain"])
+    named("مثال", data["example"])
+    named("مالی", data["finance"])
+    named("فنی", data["engineering"])
+
+for index, (key, title) in enumerate(model["titles"].items(), start=10):
+    doc.add_page_break()
+    anchor(paragraph(f"{title}  |  {key}", "Heading 1"), key.replace("-", "_"), index)
+    track(model["guides"][key])
+
+doc.add_page_break()
+anchor(paragraph("ERD و مسیر داده", "Heading 1"), "erd", 2)
+paragraph("در شکل، ترتیب از راست به چپ است و شماره‌ها مسیر را مشخص می‌کنند. در پیوندهای فیزیکی ۱ به چند، طرف فرزند می‌تواند صفر یا چند ردیف داشته باشد. ۰..۱ در سمت مرجع یعنی کلید خارجی فرزند قابل خالی بودن است. PK کلید اصلی و FK کلید خارجی است.")
+paragraph("شکل ۱ | از جغرافیا و پرونده تا رخداد", "Heading 2")
+flow(["ref.Province → ref.City → ref.Branch", "dw.Region → dw.Person → dw.Membership", "dw.Premium / dw.Benefit"])
+paragraph("شکل ۲ | از SQL تا نمایش در سایت", "Heading 2")
+flow(["dw.Ledger / dw.Premium / dw.Benefit", "Viewهای bi و سرویس نمونهٔ محلی", "بسته فشرده → API محافظت‌شده → گزارش"])
+paragraph("شکل ۳ | دادهٔ تکمیلی خانواده در سایت", "Heading 2")
+flow(["پروندهٔ موجود در بستهٔ پروفایل", "ساخت عضو و ردیف پرداخت از lib/rasad-family.ts", "گزارش P-09؛ این داده در ERD فیزیکی SQL نیست"])
+diagram = model["erd"]
+paragraph(f"مدل فیزیکی انبار: {len(diagram['tables'])} جدول و {len(diagram['relationships'])} پیوند", "Heading 2")
+for title, tables in diagram["groups"]:
+    paragraph(title, "Heading 2")
+    for name in tables:
+        description, columns = diagram["tables"][name]
+        paragraph(name, "Heading 3")
+        named("هر ردیف چیست؟", description).paragraph_format.keep_with_next = True
+        keys = [f"{column} ({role[0]})" for _, column, *role in columns if role]
+        links = [f"{field} ← {parent} ({'الزامی' if required else 'اختیاری'})"
+                 for parent, child, field, required in diagram["relationships"] if child == name]
+        named("ستون کلیدی", "، ".join(keys) if keys else "در قرارداد کلیدی ثبت نشده است.").paragraph_format.keep_with_next = bool(links)
+        if links:
+            named("مرجع کلیدها", "؛ ".join(links))
+paragraph("مشخصات همهٔ ستون‌ها و نوع دادهٔ آنها در بخش بازشوندهٔ ERD دفترچهٔ آنلاین هم در دسترس است.")
+
+for book_number, (group, entries) in enumerate(zip(("حکمرانی و مالی", "پروفایل فرد"), model["reference"])):
+    title = paragraph(f"واژه‌نامهٔ تکمیلی | {group}", "Heading 1")
+    title.paragraph_format.page_break_before = True
+    if book_number == 0:
+        anchor(title, "reference", 3)
+        paragraph("اگر دنبال نام یک ستون هستید، عنوان فارسی یا نام فنی آن را در Word جست‌وجو کنید. کد کنار برخی از عنوان‌ها یعنی تعریف به همان گزارش اختصاص دارد.")
+    for item in entries:
+        keys, data = item["keys"], item["data"]
+        local_name = next((key for key in keys if re.search(r"[\u0600-\u06ff]", key)), keys[0])
+        title = f"{local_name} | {keys[0]}" if keys[0] != local_name else local_name
+        paragraph(title, "Heading 3")
+        for key, label in (("plain", "ساده"), ("example", "مثال"), ("finance", "مالی"), ("decision", "کاربرد و احتیاط"), ("engineering", "فنی")):
+            named(label, data[key]).paragraph_format.keep_with_next = key != "engineering"
+doc.save(output)

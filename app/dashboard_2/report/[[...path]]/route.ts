@@ -3,7 +3,8 @@ import {createReadStream} from "node:fs";
 import {join} from "node:path";
 import {Readable} from "node:stream";
 import {gunzipSync} from "node:zlib";
-import {noStore, viewSession} from "@/lib/rasad-session";
+import {noStore, rasadIdentity} from "@/lib/rasad-session";
+import {recordLogin} from "@/lib/rasad-login-audit";
 import {demoCoverage, demoHousehold} from "@/lib/rasad-family";
 import {readGoldCalendar} from "@/lib/rasad-gold";
 
@@ -23,6 +24,11 @@ const files = new Map(Object.entries({
   "help-topics.js": "text/javascript; charset=utf-8",
   "guide.html": "text/html; charset=utf-8",
   "guide.js": "text/javascript; charset=utf-8",
+  "guide-tracks.js": "text/javascript; charset=utf-8",
+  "guide-governance.js": "text/javascript; charset=utf-8",
+  "guide-profiles.js": "text/javascript; charset=utf-8",
+  "guide-erd.js": "text/javascript; charset=utf-8",
+  "guide-erd-view.js": "text/javascript; charset=utf-8",
   "app.css": "text/css; charset=utf-8",
   "rasad.css": "text/css; charset=utf-8",
   "Vazirmatn-Regular.ttf": "font/ttf",
@@ -45,12 +51,20 @@ async function file(name: string, type: string, extra = {}) {
 }
 
 export async function GET(request: Request, {params}: {params: {path?: string[]}}) {
-  if (!viewSession()) return reply({error: "برای مشاهده گزارش وارد حساب سایت شوید."}, 401);
+  const identity = rasadIdentity();
+  if (!identity) return reply({error: "برای مشاهده گزارش وارد حساب سایت شوید."}, 401);
   const path = params.path?.join("/") || "index.html";
   const url = new URL(request.url);
   try {
     const type = files.get(path);
-    if (type) return await file(path, type, {"Content-Security-Policy": contentPolicy});
+    if (type) {
+      const response = await file(path, type, {"Content-Security-Policy": contentPolicy});
+      if (path === "index.html") {
+        const ref = await recordLogin(request, "rasad", "report_open", "report_loaded", identity.username);
+        response.headers.set("X-Rasad-Event", ref);
+      }
+      return response;
+    }
     if (path === "api/meta") {
       const meta = await readJson("meta.json.gz");
       return reply({...meta, authenticated: true, role: "viewer", roles: {

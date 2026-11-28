@@ -4,7 +4,7 @@ import json
 from http.cookiejar import CookieJar
 from pathlib import Path
 from urllib.error import HTTPError
-from urllib.parse import urlencode
+from urllib.parse import parse_qs, urlencode, urlsplit
 from urllib.request import HTTPCookieProcessor, HTTPRedirectHandler, Request, build_opener
 
 
@@ -38,7 +38,8 @@ def smoke(origin, credentials):
     login_headers = {"Origin": origin}
     request("/session", 403, credentials, {"Origin": "https://invalid.example"})
     _, headers = request("/session", 303, {**credentials, "password": "A" * 32}, login_headers)
-    assert headers["Location"].endswith("?status=invalid") and not headers.get("Set-Cookie")
+    failure = parse_qs(urlsplit(headers["Location"]).query)
+    assert failure["status"] == ["invalid"] and failure["ref"] == [headers["X-Rasad-Event"]] and not headers.get("Set-Cookie")
     _, headers = request("/session", 303, credentials, login_headers)
     cookie = headers["Set-Cookie"].lower()
     assert "httponly" in cookie and "samesite=strict" in cookie and "path=/dashboard_2" in cookie
@@ -90,4 +91,4 @@ if __name__ == "__main__":
     parser.add_argument("origin", choices=["http://127.0.0.1:3012", "http://127.0.0.1:3022", "https://tgsepma.com"])
     parser.add_argument("credentials", type=Path)
     args = parser.parse_args()
-    smoke(args.origin, json.loads(args.credentials.read_text(encoding="utf-8")))
+    smoke(args.origin, json.loads(args.credentials.read_text(encoding="utf-8-sig")))

@@ -58,10 +58,33 @@ const target=window.rasadGuide.entry('P-09','field','CurrentRials','ریال ب�
 assert.match(window.rasadGuide.href(target),/#topic-P-09~field~CurrentRials/);
 assert.match(target.sections[2].text,/۶۰۰ میلیون/);
 assert.deepEqual([...missing],[]);
+for(const page of Object.keys(titles)){
+ const record=window.rasadAudience.resolve(window.rasadGuide.entry(page,'page',page,titles[page]));
+ assert.equal(record.specific,true,page);
+ assert.equal(record.plain.length,2,page);
+ assert.equal(record.finance.length,2,page);
+ assert.equal(record.engineering.length,1,page);
+ assert.ok(record.flow.length>=3,page);
+ assert.notEqual(record.plain[0].text,record.finance[0].text,page);
+}
+const financeField=(page,key,label)=>window.rasadAudience.resolve(window.rasadGuide.entry(page,'field',key,label,'money'));
+const expected=financeField('G-05','Expected','مورد انتظار'),assessed=financeField('G-05','Assessed','تشخیص‌شده');
+assert.ok(expected.specific&&assessed.specific);
+assert.notEqual(expected.engineering[0].text,assessed.engineering[0].text);
+const cash=financeField('G-02','Forecast','پیش‌بینی'),budget=financeField('G-09','Forecast','پیش‌بینی');
+assert.ok(cash.specific&&budget.specific);
+assert.notEqual(cash.engineering[0].text,budget.engineering[0].text);
+const erd=window.rasadGuideErd;
+assert.equal(new Set(erd.groups.flatMap(group=>group[1])).size,27);
+assert.equal(erd.relationships.length,65);
+for(const [parent,child,key] of erd.relationships){
+ assert.ok(erd.tables[parent]&&erd.tables[child],parent+' → '+child);
+ assert.ok(erd.tables[child][1].some(([,column,role])=>column===key&&role?.includes('FK')),child+'.'+key);
+}
 return {pages:Object.keys(titles).length,topics:topics.size};
 `;
 const app=read('app.js').replace(/\binitGuideMode\(\);\s*init\(\);\s*$/,'');
 const result=Function('document','window','fixture','assert','source',[
- read('pages.js'),read('help-reports.js'),read('help.js'),read('help-topics.js'),read('profile-math.js'),read('profile-insights.js'),app,run
+ read('pages.js'),read('help-reports.js'),read('help.js'),read('help-topics.js'),read('guide-governance.js'),read('guide-profiles.js'),read('guide-tracks.js'),read('guide-erd.js'),read('profile-math.js'),read('profile-insights.js'),app,run
 ].join('\n'))(document,window,fixture,assert,read('index.html'));
 console.log('Help verified for',result.pages,'reports and',result.topics,'distinct topics.');

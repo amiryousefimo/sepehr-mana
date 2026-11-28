@@ -1,41 +1,62 @@
 import {NextResponse} from "next/server";
+import {checkAdminPassword, rasadAdminName, setRasadAdminSession} from "@/lib/rasad-admin";
+import {readAuthBody} from "@/lib/rasad-auth-forms";
+import {recordLogin, type AuditReason, type AuditResult} from "@/lib/rasad-login-audit";
 import {checkViewer, configuredOrigin, noStore, setViewSession} from "@/lib/rasad-session";
 
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
+  const audit = (result: AuditResult, reason: AuditReason, account: string | null = null) => recordLogin(request, "rasad", result, reason, account);
   const origin = configuredOrigin(request);
-  if (!origin) return new Response("درخواست از مبدأ نامعتبر است.", {status: 403, headers: noStore});
-  if (!request.headers.get("content-type")?.startsWith("application/x-www-form-urlencoded")) {
-    return new Response("فرم ورود نامعتبر است.", {status: 415, headers: noStore});
+  if (!origin) {
+    const ref = await audit("blocked", "invalid_origin");
+    return new Response("درخواست از مبدأ نامعتبر است.", {status: 403, headers: {...noStore, "X-Rasad-Event": ref}});
   }
-  const reader = request.body?.getReader();
-  const decoder = new TextDecoder();
-  let body = "";
-  let bytes = 0;
-  if (reader) {
-    for (let part = await reader.read(); !part.done; part = await reader.read()) {
-      bytes += part.value.byteLength;
-      if (bytes > 1024) {
-        await reader.cancel();
-        return new Response("فرم ورود نامعتبر است.", {status: 413, headers: noStore});
-      }
-      body += decoder.decode(part.value, {stream: true});
+  const parsed = await readAuthBody(request, "application/x-www-form-urlencoded");
+  if (parsed.status !== 200) {
+    const ref = await audit("blocked", "invalid_form");
+    return new Response("فرم ورود نامعتبر است.", {status: parsed.status, headers: {...noStore, "X-Rasad-Event": ref}});
+  }
+  const fields = new URLSearchParams(parsed.body);
+  const redirect = (status?: "invalid" | "unavailable", ref?: string) => {
+    const target = new URL("/dashboard_2", origin);
+    if (status && ref) {
+      target.searchParams.set("status", status);
+      target.searchParams.set("ref", ref);
     }
-    body += decoder.decode();
-  }
-  const fields = new URLSearchParams(body);
-  const redirect = (suffix = "") => NextResponse.redirect(origin + "/dashboard_2" + suffix, {status: 303, headers: noStore});
+    return NextResponse.redirect(target, {status: 303, headers: {...noStore, ...(ref ? {"X-Rasad-Event": ref} : {})}});
+  };
+  const secure = origin.startsWith("https:");
   if (fields.get("action") === "logout") {
     const response = redirect();
     setViewSession(response, origin);
-    response.cookies.set("admin_session", "", {path: "/", maxAge: 0, httpOnly: true, secure: origin.startsWith("https:")});
+    setRasadAdminSession(response, secure, false);
+    response.cookies.set("admin_session", "", {path: "/", maxAge: 0, httpOnly: true, secure});
     return response;
   }
   const username = (fields.get("username") ?? "").trim().toLowerCase();
   const password = fields.get("password") ?? "";
-  if (!checkViewer(username, password)) return redirect("?status=invalid");
+  const account = /^[a-z0-9][a-z0-9._-]{0,40}$/.test(username) ? username : null;
+  const admin = username === rasadAdminName;
+  const outcome = admin ? checkAdminPassword(password) : checkViewer(username, password);
+  if (outcome === "unavailable") {
+    const ref = await audit("unavailable", "server_not_configured", account);
+    return redirect("unavailable", ref);
+  }
+  if (outcome !== "accepted") {
+    const ref = await audit("rejected", outcome, account);
+    return redirect("invalid", ref);
+  }
   const response = redirect();
-  if (!setViewSession(response, origin, username)) return redirect("?status=unavailable");
+  const issued = admin ? setRasadAdminSession(response, secure, true) : setViewSession(response, origin, username);
+  if (!issued) {
+    const ref = await audit("unavailable", "session_error", account);
+    return redirect("unavailable", ref);
+  }
+  if (admin) setViewSession(response, origin);
+  else setRasadAdminSession(response, secure, false);
+  const ref = await audit("accepted", "credentials_verified", account);
+  response.headers.set("X-Rasad-Event", ref);
   return response;
 }
